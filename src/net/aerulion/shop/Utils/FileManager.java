@@ -48,7 +48,7 @@ public class FileManager {
 	@SuppressWarnings("unchecked")
 	public static void loadSpecificShopFromFile(File shopToLoad) {
 		FileConfiguration cfg = YamlConfiguration.loadConfiguration(shopToLoad);
-		Main.LoadedShops.put(shopToLoad.getName().substring(0, shopToLoad.getName().length() - 4), new Shop(deserializeTransactionDates(cfg.getStringList("TransactionDates")), (List<ItemStack>) cfg.getList("ItemsForSale"), cfg.getDouble("Price"), cfg.getLong("Cooldown"), cfg.getBoolean("Enabled") ? null : new Location(Bukkit.getWorld(cfg.getString("Location.World")), cfg.getDouble("Location.X"), cfg.getDouble("Location.Y"), cfg.getDouble("Location.Z")), shopToLoad.getName().substring(0, shopToLoad.getName().length() - 4), cfg.getString("ShopName"), cfg.getString("ShopPermission"), cfg.getInt("timesUsed"), cfg.getStringList("ExecutedCommands"), cfg.getBoolean("Enabled"), cfg.getBoolean("Virtual"), cfg.getString("Question"), cfg.getString("QuestionAnswer")));
+		Main.LoadedShops.put(shopToLoad.getName().substring(0, shopToLoad.getName().length() - 4), new Shop(deserializeTransactionDates(cfg.getStringList("TransactionDates")), (List<ItemStack>) cfg.getList("ItemsForSale"), cfg.getDouble("Price"), cfg.getLong("Cooldown"), cfg.getBoolean("Virtual") ? null : new Location(Bukkit.getWorld(cfg.getString("Location.World")), cfg.getDouble("Location.X"), cfg.getDouble("Location.Y"), cfg.getDouble("Location.Z")), shopToLoad.getName().substring(0, shopToLoad.getName().length() - 4), cfg.getString("ShopName"), cfg.getString("ShopPermission"), cfg.getInt("timesUsed"), cfg.getStringList("ExecutedCommands"), cfg.getBoolean("Enabled"), cfg.getBoolean("Virtual"), cfg.getString("Question"), cfg.getString("QuestionAnswer")));
 	}
 
 	public static void loadAllShopFiles() {
