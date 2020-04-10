@@ -33,5 +33,4 @@ public enum DefaultFontInfo {
 		}
 		return DefaultFontInfo.DEFAULT;
 	}
-
 }

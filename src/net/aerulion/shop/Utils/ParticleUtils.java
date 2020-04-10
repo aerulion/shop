@@ -19,5 +19,4 @@ public class ParticleUtils {
 		}
 		return locations;
 	}
-
 }

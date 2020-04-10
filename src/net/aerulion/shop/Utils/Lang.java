@@ -39,5 +39,4 @@ public class Lang {
 	public static final String NewQuestionAnswer = ChatPluginPrefix + "Die neue Antwort lautet: ";
 	public static final String QuestionReset = ChatPluginPrefix + "Die Passwortabfrage wurde deaktiviert.";
 	public static final String ActionEscaped = ChatPluginPrefix + "Vorgang abgebrochen.";
-
 }

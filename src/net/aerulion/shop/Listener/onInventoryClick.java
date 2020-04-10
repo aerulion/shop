@@ -167,5 +167,4 @@ public class onInventoryClick implements Listener {
 			}
 		}
 	}
-
 }

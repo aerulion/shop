@@ -31,5 +31,4 @@ public class CooldownConversation extends ValidatingPrompt {
 			return true;
 		return false;
 	}
-
 }

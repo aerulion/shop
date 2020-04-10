@@ -212,5 +212,4 @@ public class Shop {
 		this.Question = null;
 		this.QuestionAnswer = null;
 	}
-
 }

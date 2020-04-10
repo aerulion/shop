@@ -7,8 +7,8 @@ import org.bukkit.entity.Player;
 
 import net.aerulion.shop.Utils.Utils;
 
-public class PermissionConversation extends ValidatingPrompt{
-	
+public class PermissionConversation extends ValidatingPrompt {
+
 	@Override
 	public String getPromptText(ConversationContext con) {
 		return "Tippe die neue Permission in den Chat. Das 'shop.' wird automatisch an den Anfang hinzugefügt. Schreibe 'stop' um den Vorgang abzubrechen.";
@@ -31,5 +31,4 @@ public class PermissionConversation extends ValidatingPrompt{
 			return true;
 		return false;
 	}
-
 }

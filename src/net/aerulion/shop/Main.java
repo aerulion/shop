@@ -27,7 +27,7 @@ public class Main extends JavaPlugin {
 	public static HashMap<String, String> BuyingPlayers = new HashMap<String, String>();
 	public static HashMap<String, String> AdminPanelUser = new HashMap<String, String>();
 	public static HashMap<String, String> LoadedPrefixes = new HashMap<String, String>();
-	public static List<String> ActiveQuestionConversations = new ArrayList<String>(); 
+	public static List<String> ActiveQuestionConversations = new ArrayList<String>();
 
 	@Override
 	public void onEnable() {
@@ -66,5 +66,4 @@ public class Main extends JavaPlugin {
 		economy = rsp.getProvider();
 		return economy != null;
 	}
-
 }

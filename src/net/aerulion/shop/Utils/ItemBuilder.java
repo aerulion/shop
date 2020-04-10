@@ -124,5 +124,4 @@ public class ItemBuilder {
 			return buildSimpleItem(Material.BARRIER, "§c§l\u2716 Bereits genutzt", reason);
 		}
 	}
-
 }

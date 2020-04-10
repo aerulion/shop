@@ -156,5 +156,4 @@ public class FileManager {
 			Main.LoadedPrefixes.put(s, cfg.getString(s));
 		}
 	}
-
 }

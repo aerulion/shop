@@ -29,5 +29,4 @@ public class QuestionConversation extends ValidatingPrompt {
 	protected boolean isInputValid(ConversationContext context, String input) {
 		return true;
 	}
-
 }

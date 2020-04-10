@@ -34,5 +34,4 @@ public class PriceConversation extends ValidatingPrompt {
 			return false;
 		}
 	}
-
 }

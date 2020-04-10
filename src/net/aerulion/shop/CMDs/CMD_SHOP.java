@@ -106,7 +106,6 @@ public class CMD_SHOP implements CommandExecutor, TabCompleter {
 		if (args.length < 2) {
 			return Utils.filterForTabcomplete(new ArrayList<String>(Arrays.asList("create", "list", "reload", "help")), args[0]);
 		}
-
 		if (args[0].equalsIgnoreCase("create")) {
 			if (args.length == 2) {
 				return Utils.filterForTabcomplete(new ArrayList<String>(Arrays.asList("<Name>")), args[1]);
@@ -126,7 +125,6 @@ public class CMD_SHOP implements CommandExecutor, TabCompleter {
 
 			return Arrays.asList();
 		}
-
 		if (args[0].equalsIgnoreCase("list")) {
 			if (args.length == 2) {
 				return Utils.filterForTabcomplete(new ArrayList<String>(Arrays.asList("[Seite]")), args[1]);
@@ -138,8 +136,6 @@ public class CMD_SHOP implements CommandExecutor, TabCompleter {
 		if (args[0].equalsIgnoreCase("help")) {
 			return Arrays.asList();
 		}
-
 		return Arrays.asList();
 	}
-
 }

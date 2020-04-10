@@ -28,7 +28,7 @@ public class Inventories {
 		inv.setItem(22, ItemBuilder.createStatisticItem(shop));
 		return inv;
 	}
-	
+
 	public static Inventory UserPanel(Shop shop, Player player) {
 		int size = Utils.calculateInventorySlotSize(shop);
 		int[] LineSlots = { size - 18, size - 17, size - 16, size - 15, size - 14, size - 13, size - 12, size - 11, size - 10 };
@@ -49,5 +49,4 @@ public class Inventories {
 		inv.setItem(size - 5, ItemBuilder.createBuyButton(shop, player));
 		return inv;
 	}
-
 }

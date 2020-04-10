@@ -30,5 +30,4 @@ public class WhiteSpiralTask extends BukkitRunnable {
 	public void stop() {
 		this.cancel();
 	}
-
 }

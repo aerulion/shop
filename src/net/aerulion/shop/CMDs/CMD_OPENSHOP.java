@@ -33,5 +33,4 @@ public class CMD_OPENSHOP implements CommandExecutor {
 
 		return true;
 	}
-
 }
