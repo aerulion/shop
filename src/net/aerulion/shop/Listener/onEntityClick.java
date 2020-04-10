@@ -25,9 +25,6 @@ public class onEntityClick implements Listener {
 				return;
 			}
 			Utils.openShopToPlayer(player, shop);
-
 		}
-
 	}
-
 }
