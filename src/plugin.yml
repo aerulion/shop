@@ -1,5 +1,5 @@
 name: Shop
-main: net.aerulion.Shop.Main
+main: net.aerulion.shop.Main
 version: 0.2
 author: aerulion
 depend: [Vault]
