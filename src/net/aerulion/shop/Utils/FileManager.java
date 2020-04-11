@@ -52,6 +52,7 @@ public class FileManager {
 	}
 
 	public static void loadAllShopFiles() {
+		long start = System.currentTimeMillis();
 		File folder = new File("plugins/Shop/Shops");
 		File[] listOfFiles = folder.listFiles();
 		if (listOfFiles != null) {
@@ -61,6 +62,7 @@ public class FileManager {
 				}
 			}
 		}
+		Utils.sendColoredConsoleMessage(Lang.CHAT_PREFIX + "§e" + Main.LoadedShops.size() + Lang.CONSOLE_SHOPS_LOADED + (System.currentTimeMillis() - start) + "ms");
 	}
 
 	public static List<String> serializeTransactionDates(HashMap<String, String> transactionDates) {

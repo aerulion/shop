@@ -14,7 +14,9 @@ import net.aerulion.shop.Listener.onChunkUnload;
 import net.aerulion.shop.Listener.onEntityClick;
 import net.aerulion.shop.Listener.onInventoryClick;
 import net.aerulion.shop.Utils.FileManager;
+import net.aerulion.shop.Utils.Lang;
 import net.aerulion.shop.Utils.Shop;
+import net.aerulion.shop.Utils.Utils;
 import net.milkbowl.vault.economy.Economy;
 
 public class Main extends JavaPlugin {
@@ -30,6 +32,7 @@ public class Main extends JavaPlugin {
 
 	@Override
 	public void onEnable() {
+		Utils.sendColoredConsoleMessage(Lang.CONSOLE_ENABLING);
 		plugin = this;
 		if (!setupEconomy()) {
 			log.severe(String.format("[%s] - Disabled due to no Vault dependency found!", getDescription().getName()));
@@ -47,12 +50,13 @@ public class Main extends JavaPlugin {
 		FileManager.loadAllShopFiles();
 		FileManager.copyDefaultPrefix();
 		FileManager.loadPrefixes();
-
+		Utils.sendColoredConsoleMessage(Lang.CONSOLE_PLUGIN_ENABLED);
 	}
 
 	@Override
 	public void onDisable() {
-
+		Utils.sendColoredConsoleMessage(Lang.CONSOLE_DISABLING);
+		Utils.sendColoredConsoleMessage(Lang.CONSOLE_PLUGIN_DISABLED);
 	}
 
 	private boolean setupEconomy() {

@@ -68,7 +68,7 @@ public class onInventoryClick implements Listener {
 						if (e.getCurrentItem().getType().equals(Material.GOLD_INGOT)) {
 							e.getWhoClicked().closeInventory();
 							ConversationFactory cf = new ConversationFactory(Main.plugin);
-							ConversationPrefix cp = prefix -> Lang.ChatPluginPrefix;
+							ConversationPrefix cp = prefix -> Lang.CHAT_PREFIX;
 							Conversation c = cf.withFirstPrompt(new PriceConversation()).withEscapeSequence("stop").withModality(false).withLocalEcho(false).withPrefix(cp).buildConversation((Player) e.getWhoClicked());
 							c.begin();
 						}
@@ -79,7 +79,7 @@ public class onInventoryClick implements Listener {
 						if (e.getCurrentItem().getType().equals(Material.CLOCK)) {
 							e.getWhoClicked().closeInventory();
 							ConversationFactory cf = new ConversationFactory(Main.plugin);
-							ConversationPrefix cp = prefix -> Lang.ChatPluginPrefix;
+							ConversationPrefix cp = prefix -> Lang.CHAT_PREFIX;
 							Conversation c = cf.withFirstPrompt(new CooldownConversation()).withEscapeSequence("stop").withModality(false).withLocalEcho(false).withPrefix(cp).buildConversation((Player) e.getWhoClicked());
 							c.begin();
 						}
@@ -100,14 +100,14 @@ public class onInventoryClick implements Listener {
 						if (e.getCurrentItem().getType().equals(Material.ENCHANTED_BOOK)) {
 							e.getWhoClicked().closeInventory();
 							ConversationFactory cf = new ConversationFactory(Main.plugin);
-							ConversationPrefix cp = prefix -> Lang.ChatPluginPrefix;
+							ConversationPrefix cp = prefix -> Lang.CHAT_PREFIX;
 							Conversation c = cf.withFirstPrompt(new PermissionConversation()).withEscapeSequence("stop").withModality(false).withLocalEcho(false).withPrefix(cp).buildConversation((Player) e.getWhoClicked());
 							c.begin();
 						}
 						if (e.getCurrentItem().getType().equals(Material.SIGN)) {
 							e.getWhoClicked().closeInventory();
 							ConversationFactory cf = new ConversationFactory(Main.plugin);
-							ConversationPrefix cp = prefix -> Lang.ChatPluginPrefix;
+							ConversationPrefix cp = prefix -> Lang.CHAT_PREFIX;
 							Conversation c = cf.withFirstPrompt(new NameConversation()).withEscapeSequence("stop").withModality(false).withLocalEcho(false).withPrefix(cp).buildConversation((Player) e.getWhoClicked());
 							c.begin();
 						}
@@ -127,7 +127,7 @@ public class onInventoryClick implements Listener {
 								Utils.finishAdminSession(((Player) e.getWhoClicked()).getName());
 							} else {
 								ConversationFactory cf = new ConversationFactory(Main.plugin);
-								ConversationPrefix cp = prefix -> Lang.ChatPluginPrefix;
+								ConversationPrefix cp = prefix -> Lang.CHAT_PREFIX;
 								Conversation c = cf.withFirstPrompt(new CommandConversation()).withEscapeSequence("stop").withModality(false).withLocalEcho(false).withPrefix(cp).buildConversation((Player) e.getWhoClicked());
 								c.begin();
 							}
@@ -152,12 +152,12 @@ public class onInventoryClick implements Listener {
 								Utils.resetShopQuestion((Player) e.getWhoClicked());
 							} else if (e.getClick().equals(ClickType.RIGHT)) {
 								ConversationFactory cf = new ConversationFactory(Main.plugin);
-								ConversationPrefix cp = prefix -> Lang.ChatPluginPrefix;
+								ConversationPrefix cp = prefix -> Lang.CHAT_PREFIX;
 								Conversation c = cf.withFirstPrompt(new QuestionAnswerConversation()).withEscapeSequence("stop").withModality(false).withLocalEcho(false).withPrefix(cp).buildConversation((Player) e.getWhoClicked());
 								c.begin();
 							} else {
 								ConversationFactory cf = new ConversationFactory(Main.plugin);
-								ConversationPrefix cp = prefix -> Lang.ChatPluginPrefix;
+								ConversationPrefix cp = prefix -> Lang.CHAT_PREFIX;
 								Conversation c = cf.withFirstPrompt(new QuestionConversation()).withEscapeSequence("stop").withModality(false).withLocalEcho(false).withPrefix(cp).buildConversation((Player) e.getWhoClicked());
 								c.begin();
 							}

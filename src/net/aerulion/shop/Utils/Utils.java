@@ -15,6 +15,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.conversations.Conversation;
 import org.bukkit.conversations.ConversationFactory;
 import org.bukkit.conversations.ConversationPrefix;
@@ -47,7 +48,7 @@ public class Utils {
 					Main.BuyingPlayers.put(player.getName(), shop.getID());
 					player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 0.5F, 1.3F);
 					ConversationFactory cf = new ConversationFactory(Main.plugin);
-					ConversationPrefix cp = prefix -> Lang.ChatPluginPrefix;
+					ConversationPrefix cp = prefix -> Lang.CHAT_PREFIX;
 					Conversation c = cf.withFirstPrompt(new QuestionAskConversation()).withModality(false).withLocalEcho(false).withPrefix(cp).buildConversation(player);
 					c.begin();
 					Main.ActiveQuestionConversations.put(player.getUniqueId().toString(), c);
@@ -352,6 +353,11 @@ public class Utils {
 	public static String[] splitTransactionDates(String input) {
 		return input.split("@@@");
 	}
+	
+	public static void sendColoredConsoleMessage(final String msg) {
+		final ConsoleCommandSender sender = Bukkit.getConsoleSender();
+		sender.sendMessage(msg);
+	}
 
 	private final static int CENTER_PX = 154;
 
@@ -397,7 +403,7 @@ public class Utils {
 	public static void sendAllShopsMessage(Player player, int page) {
 		int Page = page;
 		int count = 0;
-		player.sendMessage(Lang.ChatPluginPrefix + "Eine Liste aller aktuell geladenen Shops:");
+		player.sendMessage(Lang.CHAT_PREFIX + "Eine Liste aller aktuell geladenen Shops:");
 		player.sendMessage("§9§m                                                                               ");
 		List<String> SortedNames = new ArrayList<String>();
 		HashMap<String, TextComponent> Messages = new HashMap<String, TextComponent>();
@@ -544,7 +550,7 @@ public class Utils {
 	}
 
 	public static void sendHelpMenu(Player player) {
-		player.sendMessage(Lang.ChatPluginPrefix + "Liste aller Commands:");
+		player.sendMessage(Lang.CHAT_PREFIX + "Liste aller Commands:");
 		player.sendMessage("§9§m                                                                               ");
 		player.sendMessage(" §8§l>> §7/shop create <Name> <Preis> <Limit> <Permission>");
 		player.sendMessage(" §8§l   §7Eingabeformat Limit: §7§oTage:Stunden §7ODER §c§l§o-§7§oAnzahl");

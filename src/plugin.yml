@@ -1,6 +1,6 @@
 name: Shop
 main: net.aerulion.shop.Main
-version: 0.2
+version: 1.0
 author: aerulion
 depend: [Vault]
 api-version: 1.13
