@@ -31,7 +31,7 @@ public class FileManager {
 		cfg.addDefault("TransactionDates", serializeTransactionDates(transactionDates));
 		cfg.addDefault("Cooldown", cooldown);
 		cfg.addDefault("Price", price);
-		cfg.addDefault("ItemsForSale", soldItems);
+		cfg.addDefault("ItemsForSale", Base64Utils.EncodeItems(soldItems));
 		cfg.addDefault("timesUsed", 0);
 		cfg.addDefault("Enabled", true);
 		cfg.addDefault("Virtual", virtual);
@@ -45,10 +45,9 @@ public class FileManager {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	public static void loadSpecificShopFromFile(File shopToLoad) {
 		FileConfiguration cfg = YamlConfiguration.loadConfiguration(shopToLoad);
-		Main.LoadedShops.put(shopToLoad.getName().substring(0, shopToLoad.getName().length() - 4), new Shop(deserializeTransactionDates(cfg.getStringList("TransactionDates")), (List<ItemStack>) cfg.getList("ItemsForSale"), cfg.getDouble("Price"), cfg.getLong("Cooldown"), cfg.getBoolean("Virtual") ? null : new Location(Bukkit.getWorld(cfg.getString("Location.World")), cfg.getDouble("Location.X"), cfg.getDouble("Location.Y"), cfg.getDouble("Location.Z")), shopToLoad.getName().substring(0, shopToLoad.getName().length() - 4), cfg.getString("ShopName"), cfg.getString("ShopPermission"), cfg.getInt("timesUsed"), cfg.getStringList("ExecutedCommands"), cfg.getBoolean("Enabled"), cfg.getBoolean("Virtual"), cfg.getString("Question"), cfg.getString("QuestionAnswer")));
+		Main.LoadedShops.put(shopToLoad.getName().substring(0, shopToLoad.getName().length() - 4), new Shop(deserializeTransactionDates(cfg.getStringList("TransactionDates")), Base64Utils.DecodeItems(cfg.getStringList("ItemsForSale")), cfg.getDouble("Price"), cfg.getLong("Cooldown"), cfg.getBoolean("Virtual") ? null : new Location(Bukkit.getWorld(cfg.getString("Location.World")), cfg.getDouble("Location.X"), cfg.getDouble("Location.Y"), cfg.getDouble("Location.Z")), shopToLoad.getName().substring(0, shopToLoad.getName().length() - 4), cfg.getString("ShopName"), cfg.getString("ShopPermission"), cfg.getInt("timesUsed"), cfg.getStringList("ExecutedCommands"), cfg.getBoolean("Enabled"), cfg.getBoolean("Virtual"), cfg.getString("Question"), cfg.getString("QuestionAnswer")));
 	}
 
 	public static void loadAllShopFiles() {
@@ -103,7 +102,7 @@ public class FileManager {
 			cfg.set("TransactionDates", serializeTransactionDates(shop.getTransactionDates()));
 			cfg.set("Cooldown", shop.getCooldown());
 			cfg.set("Price", shop.getPrice());
-			cfg.set("ItemsForSale", shop.getSoldItems());
+			cfg.set("ItemsForSale", Base64Utils.EncodeItems(shop.getSoldItems()));
 			cfg.set("timesUsed", shop.getTimesUsed());
 			cfg.set("Enabled", shop.isEnabled());
 			cfg.set("Virtual", shop.isVirtual());
