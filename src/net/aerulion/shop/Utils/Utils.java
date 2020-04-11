@@ -40,15 +40,18 @@ public class Utils {
 		if (player.hasPermission("shop." + shop.getShopPermission())) {
 			if (shop.isEnabled()) {
 				if (shop.getQuestion() != null && shop.getQuestionAnswer() != null) {
-					if (!Main.ActiveQuestionConversations.contains(player.getName())) {
-						Main.BuyingPlayers.put(player.getName(), shop.getID());
-						Main.ActiveQuestionConversations.add(player.getName());
-						player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 0.5F, 1.3F);
-						ConversationFactory cf = new ConversationFactory(Main.plugin);
-						ConversationPrefix cp = prefix -> Lang.ChatPluginPrefix;
-						Conversation c = cf.withFirstPrompt(new QuestionAskConversation()).withModality(false).withLocalEcho(false).withPrefix(cp).buildConversation(player);
-						c.begin();
+					if (Main.ActiveQuestionConversations.containsKey(player.getUniqueId().toString())) {
+						Conversation conversation = Main.ActiveQuestionConversations.get(player.getUniqueId().toString());
+						conversation.abandon();
 					}
+					Main.BuyingPlayers.put(player.getName(), shop.getID());
+					player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 0.5F, 1.3F);
+					ConversationFactory cf = new ConversationFactory(Main.plugin);
+					ConversationPrefix cp = prefix -> Lang.ChatPluginPrefix;
+					Conversation c = cf.withFirstPrompt(new QuestionAskConversation()).withModality(false).withLocalEcho(false).withPrefix(cp).buildConversation(player);
+					c.begin();
+					Main.ActiveQuestionConversations.put(player.getUniqueId().toString(), c);
+
 				} else {
 					player.openInventory(Inventories.UserPanel(shop, player));
 					Main.BuyingPlayers.put(player.getName(), shop.getID());

@@ -1,10 +1,9 @@
 package net.aerulion.shop;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.logging.Logger;
 
+import org.bukkit.conversations.Conversation;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -27,7 +26,7 @@ public class Main extends JavaPlugin {
 	public static HashMap<String, String> BuyingPlayers = new HashMap<String, String>();
 	public static HashMap<String, String> AdminPanelUser = new HashMap<String, String>();
 	public static HashMap<String, String> LoadedPrefixes = new HashMap<String, String>();
-	public static List<String> ActiveQuestionConversations = new ArrayList<String>();
+	public static HashMap<String, Conversation> ActiveQuestionConversations = new HashMap<String, Conversation>();
 
 	@Override
 	public void onEnable() {
