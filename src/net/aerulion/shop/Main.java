@@ -43,6 +43,7 @@ public class Main extends JavaPlugin {
 		getCommand("shop").setExecutor(new CMD_SHOP());
 		getCommand("shop").setTabCompleter(new CMD_SHOP());
 		getCommand("openshop").setExecutor(new CMD_OPENSHOP());
+		getCommand("openshop").setTabCompleter(new CMD_OPENSHOP());
 		FileManager.loadAllShopFiles();
 		FileManager.copyDefaultPrefix();
 		FileManager.loadPrefixes();
