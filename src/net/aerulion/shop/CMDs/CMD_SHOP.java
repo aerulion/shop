@@ -103,32 +103,24 @@ public class CMD_SHOP implements CommandExecutor, TabCompleter {
 
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
-		if (args.length < 2) {
+		if (args.length < 2)
 			return Utils.filterForTabcomplete(new ArrayList<String>(Arrays.asList("create", "list", "reload", "help")), args[0]);
-		}
 		if (args[0].equalsIgnoreCase("create")) {
-			if (args.length == 2) {
+			if (args.length == 2)
 				return Utils.filterForTabcomplete(new ArrayList<String>(Arrays.asList("<Name>")), args[1]);
-			}
-
-			if (args.length == 3) {
+			if (args.length == 3)
 				return Utils.filterForTabcomplete(new ArrayList<String>(Arrays.asList("<Preis>")), args[2]);
-			}
-
-			if (args.length == 4) {
+			if (args.length == 4)
 				return Utils.filterForTabcomplete(new ArrayList<String>(Arrays.asList("<Limit>")), args[3]);
-			}
-
-			if (args.length == 5) {
+			if (args.length == 5)
 				return Utils.filterForTabcomplete(new ArrayList<String>(Arrays.asList("<Permission>")), args[4]);
-			}
-
+			if (args.length == 6)
+				return Utils.filterForTabcomplete(new ArrayList<String>(Arrays.asList("[Virtuell]", "true", "false")), args[5]);
 			return Arrays.asList();
 		}
 		if (args[0].equalsIgnoreCase("list")) {
-			if (args.length == 2) {
+			if (args.length == 2)
 				return Utils.filterForTabcomplete(new ArrayList<String>(Arrays.asList("[Seite]")), args[1]);
-			}
 		}
 		if (args[0].equalsIgnoreCase("reload")) {
 			return Arrays.asList();
