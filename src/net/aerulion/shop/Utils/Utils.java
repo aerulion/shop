@@ -100,7 +100,7 @@ public class Utils {
 		}
 		HashMap<String, String> transactionDates = new HashMap<String, String>();
 		Main.LoadedShops.put(ID, new Shop(transactionDates, items, price, cooldown, location, ID, shopName, shopPermission, 0, new ArrayList<String>(), true, virtual, null, null));
-		FileManager.addNewShopFile(ID, shopName, shopPermission, location, transactionDates, cooldown, price, items, virtual);
+		FileManager.saveSpecificShopToFile(ID);
 		player.sendMessage(Lang.ShopAdded);
 	}
 
@@ -142,7 +142,7 @@ public class Utils {
 		double roundedprice = round(price);
 		Shop shop = Main.LoadedShops.get(Main.AdminPanelUser.get(player.getName()));
 		shop.setPrice(roundedprice);
-		FileManager.saveSpecificShop(Main.AdminPanelUser.get(player.getName()));
+		FileManager.saveSpecificShopToFile(Main.AdminPanelUser.get(player.getName()));
 		finishAdminSession(player.getName());
 		player.sendMessage(Lang.NewPrice + roundedprice);
 	}
@@ -150,7 +150,7 @@ public class Utils {
 	public static void setNewShopQuestion(Player player, String question) {
 		Shop shop = Main.LoadedShops.get(Main.AdminPanelUser.get(player.getName()));
 		shop.setQuestion(question);
-		FileManager.saveSpecificShop(Main.AdminPanelUser.get(player.getName()));
+		FileManager.saveSpecificShopToFile(Main.AdminPanelUser.get(player.getName()));
 		finishAdminSession(player.getName());
 		player.sendMessage(Lang.NewQuestion + question);
 	}
@@ -176,7 +176,7 @@ public class Utils {
 	public static void setNewShopQuestionAnswer(Player player, String answer) {
 		Shop shop = Main.LoadedShops.get(Main.AdminPanelUser.get(player.getName()));
 		shop.setQuestionAnswer(answer);
-		FileManager.saveSpecificShop(Main.AdminPanelUser.get(player.getName()));
+		FileManager.saveSpecificShopToFile(Main.AdminPanelUser.get(player.getName()));
 		finishAdminSession(player.getName());
 		player.sendMessage(Lang.NewQuestionAnswer + answer);
 	}
@@ -184,7 +184,7 @@ public class Utils {
 	public static void toggleEnabled(Player player) {
 		Shop shop = Main.LoadedShops.get(Main.AdminPanelUser.get(player.getName()));
 		shop.toggleEnabled();
-		FileManager.saveSpecificShop(Main.AdminPanelUser.get(player.getName()));
+		FileManager.saveSpecificShopToFile(Main.AdminPanelUser.get(player.getName()));
 		finishAdminSession(player.getName());
 		player.sendMessage(Lang.ToggledEnabled);
 	}
@@ -202,7 +202,7 @@ public class Utils {
 		}
 		Shop shop = Main.LoadedShops.get(Main.AdminPanelUser.get(player.getName()));
 		shop.setSoldItem(items);
-		FileManager.saveSpecificShop(Main.AdminPanelUser.get(player.getName()));
+		FileManager.saveSpecificShopToFile(Main.AdminPanelUser.get(player.getName()));
 		finishAdminSession(player.getName());
 		player.sendMessage(Lang.NewShopItems);
 	}
@@ -210,7 +210,7 @@ public class Utils {
 	public static void setNewShopCooldown(Player player, String cooldown) {
 		Shop shop = Main.LoadedShops.get(Main.AdminPanelUser.get(player.getName()));
 		shop.setCooldown(convertCooldownPattern(cooldown));
-		FileManager.saveSpecificShop(Main.AdminPanelUser.get(player.getName()));
+		FileManager.saveSpecificShopToFile(Main.AdminPanelUser.get(player.getName()));
 		finishAdminSession(player.getName());
 		player.sendMessage(Lang.NewLimit + cooldownStringBuilder(convertCooldownPattern(cooldown), "e", "f"));
 	}
@@ -218,7 +218,7 @@ public class Utils {
 	public static void setNewShopPermission(Player player, String permission) {
 		Shop shop = Main.LoadedShops.get(Main.AdminPanelUser.get(player.getName()));
 		shop.setPermission(permission);
-		FileManager.saveSpecificShop(Main.AdminPanelUser.get(player.getName()));
+		FileManager.saveSpecificShopToFile(Main.AdminPanelUser.get(player.getName()));
 		finishAdminSession(player.getName());
 		player.sendMessage(Lang.NewPermission + permission);
 	}
@@ -226,7 +226,7 @@ public class Utils {
 	public static void setNewShopName(Player player, String Name) {
 		Shop shop = Main.LoadedShops.get(Main.AdminPanelUser.get(player.getName()));
 		shop.setName(Name);
-		FileManager.saveSpecificShop(Main.AdminPanelUser.get(player.getName()));
+		FileManager.saveSpecificShopToFile(Main.AdminPanelUser.get(player.getName()));
 		finishAdminSession(player.getName());
 		player.sendMessage(Lang.NewName + ChatColor.translateAlternateColorCodes('&', Name));
 	}
@@ -234,7 +234,7 @@ public class Utils {
 	public static void setNewShopCommands(Player player, String Command) {
 		Shop shop = Main.LoadedShops.get(Main.AdminPanelUser.get(player.getName()));
 		shop.addCommand(Command);
-		FileManager.saveSpecificShop(Main.AdminPanelUser.get(player.getName()));
+		FileManager.saveSpecificShopToFile(Main.AdminPanelUser.get(player.getName()));
 		finishAdminSession(player.getName());
 		player.sendMessage(Lang.CommandAdded + Command);
 	}
@@ -242,7 +242,7 @@ public class Utils {
 	public static void resetShopCommands(Player player) {
 		Shop shop = Main.LoadedShops.get(Main.AdminPanelUser.get(player.getName()));
 		shop.resetCommands();
-		FileManager.saveSpecificShop(Main.AdminPanelUser.get(player.getName()));
+		FileManager.saveSpecificShopToFile(Main.AdminPanelUser.get(player.getName()));
 		finishAdminSession(player.getName());
 		player.sendMessage(Lang.AllCommandsDeleted);
 	}
@@ -250,7 +250,7 @@ public class Utils {
 	public static void resetShopQuestion(Player player) {
 		Shop shop = Main.LoadedShops.get(Main.AdminPanelUser.get(player.getName()));
 		shop.resetQuestion();
-		FileManager.saveSpecificShop(Main.AdminPanelUser.get(player.getName()));
+		FileManager.saveSpecificShopToFile(Main.AdminPanelUser.get(player.getName()));
 		finishAdminSession(player.getName());
 		player.sendMessage(Lang.QuestionReset);
 	}
@@ -258,7 +258,7 @@ public class Utils {
 	public static void resetShopTransactions(Player player) {
 		Shop shop = Main.LoadedShops.get(Main.AdminPanelUser.get(player.getName()));
 		shop.resetTransactions();
-		FileManager.saveSpecificShop(Main.AdminPanelUser.get(player.getName()));
+		FileManager.saveSpecificShopToFile(Main.AdminPanelUser.get(player.getName()));
 		finishAdminSession(player.getName());
 		player.sendMessage(Lang.AllPlayerdataDeleted);
 	}
@@ -304,7 +304,7 @@ public class Utils {
 			}
 		}
 		shop.startParticles();
-		FileManager.saveSpecificShop(shopID);
+		FileManager.saveSpecificShopToFile(shopID);
 	}
 
 	public static void buyItem(Player player) {
@@ -325,7 +325,7 @@ public class Utils {
 			shop.addTransaction(player, shop);
 			shop.addTimesUsed();
 			giveItemToPlayer(shop, player);
-			FileManager.saveSpecificShop(shopID);
+			FileManager.saveSpecificShopToFile(shopID);
 			player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.0F, 1.5F);
 			String NoPrefixShopName = shop.getShopName();
 			for (String s : Main.LoadedPrefixes.keySet()) {
@@ -353,7 +353,7 @@ public class Utils {
 	public static String[] splitTransactionDates(String input) {
 		return input.split("@@@");
 	}
-	
+
 	public static void sendColoredConsoleMessage(final String msg) {
 		final ConsoleCommandSender sender = Bukkit.getConsoleSender();
 		sender.sendMessage(msg);
