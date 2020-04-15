@@ -42,8 +42,6 @@ public class Shop {
 		this.QuestionAnswer = questionAnswer;
 		this.Enabled = enabled;
 		this.virtual = virtual;
-		startParticles();
-
 	}
 
 	public String getShopName() {
