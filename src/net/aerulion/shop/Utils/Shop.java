@@ -153,8 +153,10 @@ public class Shop {
 	}
 
 	public void startParticles() {
-		if (!this.virtual)
+		if (!this.virtual) {
+			stopParticles();
 			this.ParticleTask = new WhiteSpiralTask(this.Location);
+		}
 
 	}
 
