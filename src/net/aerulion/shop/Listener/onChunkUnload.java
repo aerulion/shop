@@ -15,7 +15,7 @@ public class onChunkUnload implements Listener {
     public void onChunkUnloading(ChunkUnloadEvent e) {
         for (Entity entity : e.getChunk().getEntities()) {
             if (entity.getType().equals(EntityType.ARMOR_STAND)) {
-                if (Main.LoadedShops.keySet().contains(entity.getCustomName())) {
+                if (Main.LoadedShops.containsKey(entity.getCustomName())) {
                     Shop shop = Main.LoadedShops.get(entity.getCustomName());
                     shop.stopParticles();
                 }

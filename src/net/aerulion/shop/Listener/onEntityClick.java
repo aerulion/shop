@@ -14,7 +14,7 @@ public class onEntityClick implements Listener {
 
     @EventHandler
     public void onEntityInteraction(PlayerInteractAtEntityEvent e) {
-        if (Main.LoadedShops.keySet().contains(e.getRightClicked().getCustomName())) {
+        if (Main.LoadedShops.containsKey(e.getRightClicked().getCustomName())) {
             e.setCancelled(true);
             Shop shop = Main.LoadedShops.get(e.getRightClicked().getCustomName());
             Player player = e.getPlayer();

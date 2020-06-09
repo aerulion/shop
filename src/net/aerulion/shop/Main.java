@@ -24,11 +24,11 @@ public class Main extends JavaPlugin {
     public static Main plugin;
     public static Economy economy = null;
     private static final Logger log = Logger.getLogger("Minecraft");
-    public static HashMap<String, Shop> LoadedShops = new HashMap<String, Shop>();
-    public static HashMap<String, String> BuyingPlayers = new HashMap<String, String>();
-    public static HashMap<String, String> AdminPanelUser = new HashMap<String, String>();
-    public static HashMap<String, String> LoadedPrefixes = new HashMap<String, String>();
-    public static HashMap<String, Conversation> ActiveQuestionConversations = new HashMap<String, Conversation>();
+    public static HashMap<String, Shop> LoadedShops = new HashMap<>();
+    public static HashMap<String, String> BuyingPlayers = new HashMap<>();
+    public static HashMap<String, String> AdminPanelUser = new HashMap<>();
+    public static HashMap<String, String> LoadedPrefixes = new HashMap<>();
+    public static HashMap<String, Conversation> ActiveQuestionConversations = new HashMap<>();
 
     @Override
     public void onEnable() {
@@ -68,6 +68,6 @@ public class Main extends JavaPlugin {
             return false;
         }
         economy = rsp.getProvider();
-        return economy != null;
+        return true;
     }
 }

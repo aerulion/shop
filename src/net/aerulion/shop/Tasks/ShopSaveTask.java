@@ -14,7 +14,7 @@ import net.aerulion.shop.Utils.Shop;
 
 public class ShopSaveTask extends BukkitRunnable {
 
-    private String uuid;
+    private final String uuid;
 
     public ShopSaveTask(String shopID) {
         this.uuid = shopID;
@@ -46,7 +46,7 @@ public class ShopSaveTask extends BukkitRunnable {
         cfg.set("ExecutedCommands", shop.getExecutedCommands());
         try {
             cfg.save(shopFile);
-        } catch (IOException e) {
+        } catch (IOException ignored) {
         }
     }
 }

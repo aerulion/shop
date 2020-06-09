@@ -27,8 +27,6 @@ public class CooldownConversation extends ValidatingPrompt {
 
     @Override
     protected boolean isInputValid(ConversationContext context, String input) {
-        if (Utils.checkCooldownPattern(input))
-            return true;
-        return false;
+        return Utils.checkCooldownPattern(input);
     }
 }

@@ -13,14 +13,14 @@ import org.bukkit.util.io.BukkitObjectOutputStream;
 public class Base64Utils {
 
     public static List<String> EncodeItems(List<ItemStack> input) {
-        List<String> output = new ArrayList<String>();
+        List<String> output = new ArrayList<>();
         for (ItemStack itemstack : input)
             output.add(ItemStackToBase64(itemstack));
         return output;
     }
 
     public static List<ItemStack> DecodeItems(List<String> input) {
-        List<ItemStack> output = new ArrayList<ItemStack>();
+        List<ItemStack> output = new ArrayList<>();
         for (String string : input)
             output.add(ItemStackFromBase64(string));
         return output;

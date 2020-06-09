@@ -17,7 +17,7 @@ public class Shop {
     private double Price;
     private WhiteSpiralTask ParticleTask;
     private Location Location;
-    private String shopID;
+    private final String shopID;
     private String shopName;
     private String shopPermission;
     private int timesUsed;
@@ -25,7 +25,7 @@ public class Shop {
     private String Question;
     private String QuestionAnswer;
     private boolean Enabled;
-    private boolean virtual;
+    private final boolean virtual;
 
     public Shop(HashMap<String, String> transactionDates, List<ItemStack> items, double price, long cooldown, Location location, String shopID, String shopName, String shopPermission, int timesUsed, List<String> commands, boolean enabled, boolean virtual, String question, String questionAnswer) {
         this.TransactionDates = transactionDates;
@@ -75,14 +75,9 @@ public class Shop {
     public boolean isAllowedToBuy(String UUID) {
         if (this.TransactionDates.containsKey(UUID)) {
             if (this.Cooldown > -1) {
-                if ((Long.parseLong(Utils.splitTransactionDates(this.TransactionDates.get(UUID))[1]) + this.Cooldown) < System.currentTimeMillis()) {
-                    return true;
-                } else
-                    return false;
+                return (Long.parseLong(Utils.splitTransactionDates(this.TransactionDates.get(UUID))[1]) + this.Cooldown) < System.currentTimeMillis();
             } else {
-                if ((Integer.parseInt(Utils.splitTransactionDates(this.TransactionDates.get(UUID))[0])) < Math.abs(this.Cooldown))
-                    return true;
-                return false;
+                return (Integer.parseInt(Utils.splitTransactionDates(this.TransactionDates.get(UUID))[0])) < Math.abs(this.Cooldown);
             }
         } else
             return true;
@@ -129,10 +124,10 @@ public class Shop {
     }
 
     public void resetCommands() {
-        this.executedCommands = new ArrayList<String>();
+        this.executedCommands = new ArrayList<>();
     }
 
-    public void addTransaction(Player player, Shop shop) {
+    public void addTransaction(Player player) {
         if (this.TransactionDates.containsKey(player.getUniqueId().toString()))
             this.TransactionDates.put(player.getUniqueId().toString(), (Integer.parseInt(Utils.splitTransactionDates(this.TransactionDates.get(player.getUniqueId().toString()))[0]) + 1) + "@@@" + System.currentTimeMillis());
         else {
@@ -142,7 +137,7 @@ public class Shop {
     }
 
     public void resetTransactions() {
-        this.TransactionDates = new HashMap<String, String>();
+        this.TransactionDates = new HashMap<>();
         this.timesUsed = 0;
     }
 
@@ -182,10 +177,7 @@ public class Shop {
     }
 
     public void toggleEnabled() {
-        if (this.Enabled)
-            this.Enabled = false;
-        else
-            this.Enabled = true;
+        this.Enabled = !this.Enabled;
     }
 
     public boolean isVirtual() {

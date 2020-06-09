@@ -44,7 +44,7 @@ public class CMD_OPENSHOP implements CommandExecutor, TabCompleter {
         if (args.length == 1)
             return null;
         if (args.length == 2)
-            return Utils.filterForTabcomplete(new ArrayList<String>(Main.LoadedShops.keySet()), args[1]);
+            return Utils.filterForTabcomplete(new ArrayList<>(Main.LoadedShops.keySet()), args[1]);
         return Arrays.asList();
     }
 }

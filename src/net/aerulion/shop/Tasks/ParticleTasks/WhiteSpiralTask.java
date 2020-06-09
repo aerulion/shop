@@ -12,7 +12,7 @@ import net.aerulion.shop.Utils.ParticleUtils;
 public class WhiteSpiralTask extends BukkitRunnable {
 
     private int time;
-    private ArrayList<Location> circleloc;
+    private final ArrayList<Location> circleloc;
 
     public WhiteSpiralTask(Location center) {
         this.circleloc = ParticleUtils.getCircle(center.clone().add(0D, 2D, 0D), 0.45, 25);

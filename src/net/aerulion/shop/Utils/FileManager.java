@@ -39,7 +39,7 @@ public class FileManager {
     }
 
     public static List<String> serializeTransactionDates(HashMap<String, String> transactionDates) {
-        List<String> SerializedData = new ArrayList<String>();
+        List<String> SerializedData = new ArrayList<>();
         for (String s : transactionDates.keySet()) {
             SerializedData.add(s + "###" + transactionDates.get(s));
         }
@@ -47,7 +47,7 @@ public class FileManager {
     }
 
     public static HashMap<String, String> deserializeTransactionDates(List<String> serializedList) {
-        HashMap<String, String> DeSerializedData = new HashMap<String, String>();
+        HashMap<String, String> DeSerializedData = new HashMap<>();
         for (String s : serializedList) {
             String[] SplittedString = s.split("###");
             DeSerializedData.put(SplittedString[0], SplittedString[1]);
@@ -58,12 +58,6 @@ public class FileManager {
     public static void deleteShopFile(String shopID) {
         File newShop = new File("plugins/Shop/Shops", shopID + ".yml");
         newShop.delete();
-    }
-
-    public static void saveAllShops() {
-        for (String ID : Main.LoadedShops.keySet()) {
-            saveSpecificShopToFile(ID);
-        }
     }
 
     public static void reloadAllData() {

@@ -116,15 +116,15 @@ public class onInventoryClick implements Listener {
                             if (e.getClick().equals(ClickType.DROP)) {
                                 Utils.resetShopCommands((Player) e.getWhoClicked());
                             } else if (e.getClick().equals(ClickType.RIGHT)) {
-                                Shop shop = Main.LoadedShops.get(Main.AdminPanelUser.get(((Player) e.getWhoClicked()).getName()));
+                                Shop shop = Main.LoadedShops.get(Main.AdminPanelUser.get(e.getWhoClicked().getName()));
                                 String NoPrefixShopName = shop.getShopName();
                                 for (String s : Main.LoadedPrefixes.keySet()) {
                                     NoPrefixShopName = NoPrefixShopName.replaceAll(s, "");
                                 }
                                 for (String cmd : shop.getExecutedCommands()) {
-                                    Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), cmd.replaceAll("%player%", ((Player) e.getWhoClicked()).getName()).replaceAll("%shopname%", NoPrefixShopName));
+                                    Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), cmd.replaceAll("%player%", e.getWhoClicked().getName()).replaceAll("%shopname%", NoPrefixShopName));
                                 }
-                                Utils.finishAdminSession(((Player) e.getWhoClicked()).getName());
+                                Utils.finishAdminSession(e.getWhoClicked().getName());
                             } else {
                                 ConversationFactory cf = new ConversationFactory(Main.plugin);
                                 ConversationPrefix cp = prefix -> Lang.CHAT_PREFIX;

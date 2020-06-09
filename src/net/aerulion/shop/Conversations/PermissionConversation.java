@@ -27,8 +27,6 @@ public class PermissionConversation extends ValidatingPrompt {
 
     @Override
     protected boolean isInputValid(ConversationContext context, String input) {
-        if (!input.contains(" "))
-            return true;
-        return false;
+        return !input.contains(" ");
     }
 }

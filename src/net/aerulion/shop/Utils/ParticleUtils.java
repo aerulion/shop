@@ -10,7 +10,7 @@ public class ParticleUtils {
     public static ArrayList<Location> getCircle(Location center, double radius, int amount) {
         World world = center.getWorld();
         double increment = 6.283185307179586D / amount;
-        ArrayList<Location> locations = new ArrayList<Location>();
+        ArrayList<Location> locations = new ArrayList<>();
         for (int i = 0; i < amount; i++) {
             double angle = i * increment;
             double x = center.getX() + radius * Math.cos(angle);
