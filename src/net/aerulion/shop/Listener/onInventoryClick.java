@@ -104,7 +104,7 @@ public class onInventoryClick implements Listener {
 							Conversation c = cf.withFirstPrompt(new PermissionConversation()).withEscapeSequence("stop").withModality(false).withLocalEcho(false).withPrefix(cp).buildConversation((Player) e.getWhoClicked());
 							c.begin();
 						}
-						if (e.getCurrentItem().getType().equals(Material.SIGN)) {
+						if (e.getCurrentItem().getType().equals(Material.OAK_SIGN)) {
 							e.getWhoClicked().closeInventory();
 							ConversationFactory cf = new ConversationFactory(Main.plugin);
 							ConversationPrefix cp = prefix -> Lang.CHAT_PREFIX;
@@ -142,7 +142,7 @@ public class onInventoryClick implements Listener {
 							}
 							Utils.finishAdminSession(e.getWhoClicked().getName());
 						}
-						if (e.getCurrentItem().getType().equals(Material.LIME_DYE) || e.getCurrentItem().getType().equals(Material.ROSE_RED)) {
+						if (e.getCurrentItem().getType().equals(Material.LIME_DYE) || e.getCurrentItem().getType().equals(Material.RED_DYE)) {
 							e.getWhoClicked().closeInventory();
 							Utils.toggleEnabled((Player) e.getWhoClicked());
 						}

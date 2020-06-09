@@ -12,11 +12,11 @@ import net.aerulion.shop.Utils.Base64Utils;
 import net.aerulion.shop.Utils.FileManager;
 import net.aerulion.shop.Utils.Shop;
 
-public class SaveTask extends BukkitRunnable {
+public class ShopSaveTask extends BukkitRunnable {
 
 	private String uuid;
 
-	public SaveTask(String shopID) {
+	public ShopSaveTask(String shopID) {
 		this.uuid = shopID;
 		this.runTaskAsynchronously(Main.plugin);
 	}

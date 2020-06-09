@@ -39,7 +39,7 @@ public class Lang {
 	public static final String NewQuestionAnswer = CHAT_PREFIX + "Die neue Antwort lautet: ";
 	public static final String QuestionReset = CHAT_PREFIX + "Die Passwortabfrage wurde deaktiviert.";
 	public static final String ActionEscaped = CHAT_PREFIX + "Vorgang abgebrochen.";
-	
+
 	public static final String CONSOLE_ENABLING = CHAT_PREFIX + "§bAktiviere Plugin...";
 	public static final String CONSOLE_PLUGIN_ENABLED = CHAT_PREFIX + "§bDas Plugin wurde aktiviert.";
 	public static final String CONSOLE_DISABLING = CHAT_PREFIX + "§bDeaktiviere Plugin...";

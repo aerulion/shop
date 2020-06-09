@@ -51,7 +51,7 @@ public class ItemBuilder {
 	}
 
 	public static ItemStack createNewNameSign() {
-		return buildSimpleItem(Material.SIGN, "§e§lNamen ändern", Arrays.asList("§7§oÄndert den Namen des Shops"));
+		return buildSimpleItem(Material.OAK_SIGN, "§e§lNamen ändern", Arrays.asList("§7§oÄndert den Namen des Shops"));
 	}
 
 	public static ItemStack createNewCommandCommandBlock() {
@@ -63,7 +63,7 @@ public class ItemBuilder {
 	}
 
 	public static ItemStack createToggleEnabledDye(Shop shop) {
-		return buildSimpleItem(shop.isEnabled() ? Material.ROSE_RED : Material.LIME_DYE, shop.isEnabled() ? "§e§lShop deaktivieren" : "§e§lShop aktivieren", Arrays.asList("§7§oAktviert/Deaktiviert den Shop"));
+		return buildSimpleItem(shop.isEnabled() ? Material.RED_DYE : Material.LIME_DYE, shop.isEnabled() ? "§e§lShop deaktivieren" : "§e§lShop aktivieren", Arrays.asList("§7§oAktviert/Deaktiviert den Shop"));
 	}
 
 	public static ItemStack createQuestionBook() {

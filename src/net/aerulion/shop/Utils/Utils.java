@@ -91,7 +91,7 @@ public class Utils {
 			ArmorStand armorstand = player.getLocation().getWorld().spawn(location, ArmorStand.class);
 			armorstand.setSilent(true);
 			armorstand.setSmall(false);
-			armorstand.setHelmet(new ItemStack(Material.CHEST));
+			armorstand.getEquipment().setHelmet(new ItemStack(Material.CHEST));
 			armorstand.setGravity(false);
 			armorstand.setVisible(false);
 			armorstand.setCustomName(ID);
@@ -101,12 +101,13 @@ public class Utils {
 		HashMap<String, String> transactionDates = new HashMap<String, String>();
 		Main.LoadedShops.put(ID, new Shop(transactionDates, items, price, cooldown, location, ID, shopName, shopPermission, 0, new ArrayList<String>(), true, virtual, null, null));
 		FileManager.saveSpecificShopToFile(ID);
+		Main.LoadedShops.get(ID).startParticles();
 		player.sendMessage(Lang.ShopAdded);
 	}
 
 	public static void giveItemToPlayer(Shop shop, Player player) {
 		for (ItemStack is : shop.getSoldItems()) {
-			player.getInventory().addItem(is);
+			player.getInventory().addItem(is.clone());
 		}
 	}
 
@@ -286,7 +287,7 @@ public class Utils {
 			if (e.getType().equals(EntityType.ARMOR_STAND)) {
 				if (e.getName().equals(shop.getID())) {
 					ArmorStand as = (ArmorStand) e;
-					as.setHelmet(head);
+					as.getEquipment().setHelmet(head);
 				}
 			}
 		}

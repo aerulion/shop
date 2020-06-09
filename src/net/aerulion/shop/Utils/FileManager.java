@@ -11,7 +11,7 @@ import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import net.aerulion.shop.Main;
-import net.aerulion.shop.Tasks.SaveTask;
+import net.aerulion.shop.Tasks.ShopSaveTask;
 
 public class FileManager {
 
@@ -21,7 +21,7 @@ public class FileManager {
 	}
 
 	public static void saveSpecificShopToFile(String shopID) {
-		new SaveTask(shopID);
+		new ShopSaveTask(shopID);
 	}
 
 	public static void loadAllShopFiles() {
