@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="shop" />
+    </artifacts-to-build>
+  </component>
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="BRANCH:master" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </select>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="28a47cfb-e13d-4f5a-b372-917c4d116679" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1d5t3uVtzZVWCnuJElB8dX7RY4V" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Desktop/Minecraft Server/Spigot1.15/plugins" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="copyright.filetypes.JAVA" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="28a47cfb-e13d-4f5a-b372-917c4d116679" name="Default Changelist" comment="" />
+      <created>1591726585667</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1591726585667</updated>
+    </task>
+    <task id="LOCAL-00001" summary="IntelliJ Conversion">
+      <created>1591734726776</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1591734726776</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Code Optimization">
+      <created>1591737730661</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1591737730661</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="master" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="IntelliJ Conversion" />
+    <MESSAGE value="Code Optimization" />
+    <option name="LAST_COMMIT_MESSAGE" value="Code Optimization" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="440" y="129" key="#Project_Structure" timestamp="1591730141007">
+      <screen x="0" y="30" width="1920" height="1050" />
+    </state>
+    <state x="440" y="129" key="#Project_Structure/0.30.1920.1050/-1920.30.1920.1050/1920.30.1920.1050@0.30.1920.1050" timestamp="1591730141007" />
+    <state x="414" y="210" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1591729555653">
+      <screen x="0" y="30" width="1920" height="1050" />
+    </state>
+    <state x="414" y="210" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.30.1920.1050/-1920.30.1920.1050/1920.30.1920.1050@0.30.1920.1050" timestamp="1591729555653" />
+    <state x="690" y="345" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1591730106376">
+      <screen x="0" y="30" width="1920" height="1050" />
+    </state>
+    <state x="690" y="345" key="#com.intellij.ide.util.TreeClassChooserDialog/0.30.1920.1050/-1920.30.1920.1050/1920.30.1920.1050@0.30.1920.1050" timestamp="1591730106376" />
+    <state x="687" y="367" key="FileChooserDialogImpl" timestamp="1591730194081">
+      <screen x="0" y="30" width="1920" height="1050" />
+    </state>
+    <state x="687" y="367" key="FileChooserDialogImpl/0.30.1920.1050/-1920.30.1920.1050/1920.30.1920.1050@0.30.1920.1050" timestamp="1591730194081" />
+    <state x="461" y="200" key="SettingsEditor" timestamp="1591734490706">
+      <screen x="0" y="30" width="1920" height="1050" />
+    </state>
+    <state x="461" y="200" key="SettingsEditor/0.30.1920.1050/-1920.30.1920.1050/1920.30.1920.1050@0.30.1920.1050" timestamp="1591734490706" />
+    <state x="552" y="288" key="Vcs.Push.Dialog.v2" timestamp="1591737731826">
+      <screen x="0" y="30" width="1920" height="1050" />
+    </state>
+    <state x="552" y="288" key="Vcs.Push.Dialog.v2/0.30.1920.1050/-1920.30.1920.1050/1920.30.1920.1050@0.30.1920.1050" timestamp="1591737731826" />
+    <state x="616" y="258" key="run.anything.popup" timestamp="1591728655204">
+      <screen x="0" y="30" width="1920" height="1050" />
+    </state>
+    <state x="616" y="258" key="run.anything.popup/0.30.1920.1050/-1920.30.1920.1050/1920.30.1920.1050@0.30.1920.1050" timestamp="1591728655204" />
+    <state x="623" y="257" width="672" height="678" key="search.everywhere.popup" timestamp="1591728182427">
+      <screen x="0" y="30" width="1920" height="1050" />
+    </state>
+    <state x="623" y="257" width="672" height="678" key="search.everywhere.popup/0.30.1920.1050/-1920.30.1920.1050/1920.30.1920.1050@0.30.1920.1050" timestamp="1591728182427" />
+  </component>
+</project>
