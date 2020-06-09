@@ -9,24 +9,24 @@ import net.aerulion.shop.Utils.Utils;
 
 public class CommandConversation extends ValidatingPrompt {
 
-	@Override
-	public String getPromptText(ConversationContext con) {
-		return "Tippe den Befehl den du hinzufügen willst in den Chat. Das '/' am Anfang wird automatisch hinzugefügt. Schreibe 'stop' um den Vorgang abzubrechen. Folgende Variablen sind verfügbar: %player% %shopname%";
-	}
+    @Override
+    public String getPromptText(ConversationContext con) {
+        return "Tippe den Befehl den du hinzufÃ¼gen willst in den Chat. Das '/' am Anfang wird automatisch hinzugefÃ¼gt. Schreibe 'stop' um den Vorgang abzubrechen. Folgende Variablen sind verfÃ¼gbar: %player% %shopname%";
+    }
 
-	@Override
-	public String getFailedValidationText(ConversationContext con, String InvalidInput) {
-		return "Fehler: Ungültige Eingabe.";
-	}
+    @Override
+    public String getFailedValidationText(ConversationContext con, String InvalidInput) {
+        return "Fehler: UngÃ¼ltige Eingabe.";
+    }
 
-	@Override
-	protected Prompt acceptValidatedInput(ConversationContext con, String input) {
-		Utils.setNewShopCommands((Player) con.getForWhom(), input);
-		return null;
-	}
+    @Override
+    protected Prompt acceptValidatedInput(ConversationContext con, String input) {
+        Utils.setNewShopCommands((Player) con.getForWhom(), input);
+        return null;
+    }
 
-	@Override
-	protected boolean isInputValid(ConversationContext context, String input) {
-		return true;
-	}
+    @Override
+    protected boolean isInputValid(ConversationContext context, String input) {
+        return true;
+    }
 }

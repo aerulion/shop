@@ -18,33 +18,33 @@ import net.aerulion.shop.Utils.Utils;
 
 public class CMD_OPENSHOP implements CommandExecutor, TabCompleter {
 
-	@Override
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+    @Override
+    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
-		if (!sender.hasPermission("shop.admin")) {
-			sender.sendMessage(Lang.ErrorNoCommandPermission);
-			return true;
-		}
+        if (!sender.hasPermission("shop.admin")) {
+            sender.sendMessage(Lang.ErrorNoCommandPermission);
+            return true;
+        }
 
-		if (args.length != 2) {
-			sender.sendMessage(Lang.ErrorSyntax);
-			return true;
-		}
+        if (args.length != 2) {
+            sender.sendMessage(Lang.ErrorSyntax);
+            return true;
+        }
 
-		Player player = Bukkit.getServer().getPlayer(args[0]);
-		Shop shop = Main.LoadedShops.get(args[1]);
+        Player player = Bukkit.getServer().getPlayer(args[0]);
+        Shop shop = Main.LoadedShops.get(args[1]);
 
-		Utils.openShopToPlayer(player, shop);
+        Utils.openShopToPlayer(player, shop);
 
-		return true;
-	}
+        return true;
+    }
 
-	@Override
-	public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
-		if (args.length == 1)
-			return null;
-		if (args.length == 2)
-			return Utils.filterForTabcomplete(new ArrayList<String>(Main.LoadedShops.keySet()), args[1]);
-		return Arrays.asList();
-	}
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
+        if (args.length == 1)
+            return null;
+        if (args.length == 2)
+            return Utils.filterForTabcomplete(new ArrayList<String>(Main.LoadedShops.keySet()), args[1]);
+        return Arrays.asList();
+    }
 }

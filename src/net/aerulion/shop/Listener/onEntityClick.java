@@ -12,19 +12,19 @@ import net.aerulion.shop.Utils.Utils;
 
 public class onEntityClick implements Listener {
 
-	@EventHandler
-	public void onEntityInteraction(PlayerInteractAtEntityEvent e) {
-		if (Main.LoadedShops.keySet().contains(e.getRightClicked().getCustomName())) {
-			e.setCancelled(true);
-			Shop shop = Main.LoadedShops.get(e.getRightClicked().getCustomName());
-			Player player = e.getPlayer();
-			if (player.isSneaking() && player.hasPermission("shop.admin")) {
-				Main.AdminPanelUser.put(player.getName(), shop.getID());
-				player.openInventory(Inventories.AdminPanel(shop));
-				player.playSound(player.getLocation(), Sound.ITEM_ARMOR_EQUIP_GENERIC, 0.5F, 1.3F);
-				return;
-			}
-			Utils.openShopToPlayer(player, shop);
-		}
-	}
+    @EventHandler
+    public void onEntityInteraction(PlayerInteractAtEntityEvent e) {
+        if (Main.LoadedShops.keySet().contains(e.getRightClicked().getCustomName())) {
+            e.setCancelled(true);
+            Shop shop = Main.LoadedShops.get(e.getRightClicked().getCustomName());
+            Player player = e.getPlayer();
+            if (player.isSneaking() && player.hasPermission("shop.admin")) {
+                Main.AdminPanelUser.put(player.getName(), shop.getID());
+                player.openInventory(Inventories.AdminPanel(shop));
+                player.playSound(player.getLocation(), Sound.ITEM_ARMOR_EQUIP_GENERIC, 0.5F, 1.3F);
+                return;
+            }
+            Utils.openShopToPlayer(player, shop);
+        }
+    }
 }
