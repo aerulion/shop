@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" build-on-make="true" name="shop">
-    <output-path>$USER_HOME$/Desktop/Minecraft Server/Spigot1.15/plugins</output-path>
-    <root id="archive" name="shop.jar">
-      <element id="module-output" name="shop" />
-    </root>
-  </artifact>
-</component>
