@@ -1,5 +1,10 @@
-package net.aerulion.shop.Listener;
+package net.aerulion.shop.listener;
 
+import net.aerulion.shop.conversation.*;
+import net.aerulion.shop.Main;
+import net.aerulion.shop.utils.Lang;
+import net.aerulion.shop.utils.Shop;
+import net.aerulion.shop.utils.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -14,19 +19,7 @@ import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
-import net.aerulion.shop.Main;
-import net.aerulion.shop.Conversations.CommandConversation;
-import net.aerulion.shop.Conversations.CooldownConversation;
-import net.aerulion.shop.Conversations.NameConversation;
-import net.aerulion.shop.Conversations.PermissionConversation;
-import net.aerulion.shop.Conversations.PriceConversation;
-import net.aerulion.shop.Conversations.QuestionAnswerConversation;
-import net.aerulion.shop.Conversations.QuestionConversation;
-import net.aerulion.shop.Utils.Lang;
-import net.aerulion.shop.Utils.Shop;
-import net.aerulion.shop.Utils.Utils;
-
-public class onInventoryClick implements Listener {
+public class ShopGUIListener implements Listener {
 
     @EventHandler
     public void onInvClick(InventoryClickEvent e) {
@@ -53,7 +46,7 @@ public class onInventoryClick implements Listener {
                             e.setCancelled(true);
                         if (e.getCurrentItem().getType().equals(Material.LIME_DYE) && (e.getCurrentItem().getItemMeta().getLore().get(1).equals("§fDie obigen Items kaufen"))) {
                             e.getWhoClicked().closeInventory();
-                            Utils.buyItem((Player) e.getWhoClicked());
+                            Util.buyItem((Player) e.getWhoClicked());
                         }
                         if ((e.getCurrentItem().getType().equals(Material.BARRIER) && (e.getSlot() == (e.getView().getTopInventory().getSize() - 5)))) {
                             ((Player) e.getWhoClicked()).playSound(e.getWhoClicked().getLocation(), Sound.ENTITY_ZOMBIE_ATTACK_IRON_DOOR, 0.2F, 2.0F);
@@ -74,7 +67,7 @@ public class onInventoryClick implements Listener {
                         }
                         if (e.getCurrentItem().getType().equals(Material.CHEST)) {
                             e.getWhoClicked().closeInventory();
-                            Utils.setNewShopItems((Player) e.getWhoClicked());
+                            Util.setNewShopItems((Player) e.getWhoClicked());
                         }
                         if (e.getCurrentItem().getType().equals(Material.CLOCK)) {
                             e.getWhoClicked().closeInventory();
@@ -85,17 +78,17 @@ public class onInventoryClick implements Listener {
                         }
                         if (e.getCurrentItem().getType().equals(Material.STRUCTURE_VOID)) {
                             e.getWhoClicked().closeInventory();
-                            Utils.resetShopTransactions((Player) e.getWhoClicked());
+                            Util.resetShopTransactions((Player) e.getWhoClicked());
                         }
                         if (e.getCurrentItem().getType().equals(Material.BARRIER)) {
                             e.getWhoClicked().closeInventory();
-                            Utils.deleteShop(Main.AdminPanelUser.get(e.getWhoClicked().getName()));
-                            Utils.finishAdminSession(e.getWhoClicked().getName());
+                            Util.deleteShop(Main.AdminPanelUser.get(e.getWhoClicked().getName()));
+                            Util.finishAdminSession(e.getWhoClicked().getName());
                         }
                         if (e.getCurrentItem().getType().equals(Material.TRIPWIRE_HOOK)) {
                             e.getWhoClicked().closeInventory();
-                            Utils.updatePosition(Main.AdminPanelUser.get(e.getWhoClicked().getName()), e.getWhoClicked().getLocation());
-                            Utils.finishAdminSession(e.getWhoClicked().getName());
+                            Util.updatePosition(Main.AdminPanelUser.get(e.getWhoClicked().getName()), e.getWhoClicked().getLocation());
+                            Util.finishAdminSession(e.getWhoClicked().getName());
                         }
                         if (e.getCurrentItem().getType().equals(Material.ENCHANTED_BOOK)) {
                             e.getWhoClicked().closeInventory();
@@ -114,7 +107,7 @@ public class onInventoryClick implements Listener {
                         if (e.getCurrentItem().getType().equals(Material.COMMAND_BLOCK)) {
                             e.getWhoClicked().closeInventory();
                             if (e.getClick().equals(ClickType.DROP)) {
-                                Utils.resetShopCommands((Player) e.getWhoClicked());
+                                Util.resetShopCommands((Player) e.getWhoClicked());
                             } else if (e.getClick().equals(ClickType.RIGHT)) {
                                 Shop shop = Main.LoadedShops.get(Main.AdminPanelUser.get(e.getWhoClicked().getName()));
                                 String NoPrefixShopName = shop.getShopName();
@@ -124,7 +117,7 @@ public class onInventoryClick implements Listener {
                                 for (String cmd : shop.getExecutedCommands()) {
                                     Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), cmd.replaceAll("%player%", e.getWhoClicked().getName()).replaceAll("%shopname%", NoPrefixShopName));
                                 }
-                                Utils.finishAdminSession(e.getWhoClicked().getName());
+                                Util.finishAdminSession(e.getWhoClicked().getName());
                             } else {
                                 ConversationFactory cf = new ConversationFactory(Main.plugin);
                                 ConversationPrefix cp = prefix -> Lang.CHAT_PREFIX;
@@ -137,19 +130,19 @@ public class onInventoryClick implements Listener {
                             if (e.getWhoClicked().getInventory().getItemInMainHand().getType().equals(Material.AIR)) {
                                 e.getWhoClicked().sendMessage(Lang.ERROR_NO_ITEM_IN_HAND);
                             } else {
-                                Utils.updateHead(Main.AdminPanelUser.get(e.getWhoClicked().getName()), e.getWhoClicked().getInventory().getItemInMainHand());
+                                Util.updateHead(Main.AdminPanelUser.get(e.getWhoClicked().getName()), e.getWhoClicked().getInventory().getItemInMainHand());
                                 e.getWhoClicked().sendMessage(Lang.HEAD_UPDATED);
                             }
-                            Utils.finishAdminSession(e.getWhoClicked().getName());
+                            Util.finishAdminSession(e.getWhoClicked().getName());
                         }
                         if (e.getCurrentItem().getType().equals(Material.LIME_DYE) || e.getCurrentItem().getType().equals(Material.RED_DYE)) {
                             e.getWhoClicked().closeInventory();
-                            Utils.toggleEnabled((Player) e.getWhoClicked());
+                            Util.toggleEnabled((Player) e.getWhoClicked());
                         }
                         if (e.getCurrentItem().getType().equals(Material.BOOK)) {
                             e.getWhoClicked().closeInventory();
                             if (e.getClick().equals(ClickType.DROP)) {
-                                Utils.resetShopQuestion((Player) e.getWhoClicked());
+                                Util.resetShopQuestion((Player) e.getWhoClicked());
                             } else if (e.getClick().equals(ClickType.RIGHT)) {
                                 ConversationFactory cf = new ConversationFactory(Main.plugin);
                                 ConversationPrefix cp = prefix -> Lang.CHAT_PREFIX;

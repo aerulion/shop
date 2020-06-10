@@ -1,4 +1,4 @@
-package net.aerulion.shop.Utils;
+package net.aerulion.shop.utils;
 
 public enum DefaultFontInfo {
 

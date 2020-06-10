@@ -1,20 +1,14 @@
-package net.aerulion.shop.Utils;
+package net.aerulion.shop.utils;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.UUID;
-
+import net.aerulion.shop.conversation.QuestionAskConversation;
+import net.aerulion.shop.Main;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
+import net.milkbowl.vault.economy.EconomyResponse;
 import org.apache.commons.lang.WordUtils;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.conversations.Conversation;
 import org.bukkit.conversations.ConversationFactory;
@@ -27,15 +21,11 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.EulerAngle;
 import org.bukkit.util.Vector;
 
-import net.aerulion.shop.Main;
-import net.aerulion.shop.Conversations.QuestionAskConversation;
-import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.ComponentBuilder;
-import net.md_5.bungee.api.chat.HoverEvent;
-import net.md_5.bungee.api.chat.TextComponent;
-import net.milkbowl.vault.economy.EconomyResponse;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.*;
 
-public class Utils {
+public class Util {
 
     public static void openShopToPlayer(Player player, Shop shop) {
         if (player.hasPermission("shop." + shop.getShopPermission())) {
@@ -364,10 +354,7 @@ public class Utils {
                 previousCode = true;
             } else if (previousCode) {
                 previousCode = false;
-                if (c == 'l' || c == 'L') {
-                    isBold = true;
-                } else
-                    isBold = false;
+                isBold = c == 'l' || c == 'L';
             } else {
                 DefaultFontInfo dFI = DefaultFontInfo.getDefaultFontInfo(c);
                 messagePxSize += isBold ? dFI.getBoldLength() : dFI.getLength();
@@ -556,9 +543,7 @@ public class Utils {
     public static List<String> WrapString(String Comment, int width) {
         List<String> WrappedString = new ArrayList<>();
         String wrapped = WordUtils.wrap(Comment, width, "\n", true);
-        for (String s : wrapped.split("\n")) {
-            WrappedString.add(s);
-        }
+        Collections.addAll(WrappedString, wrapped.split("\n"));
         return WrappedString;
     }
 }

@@ -1,16 +1,16 @@
-package net.aerulion.shop.Utils;
+package net.aerulion.shop.utils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
+import net.aerulion.shop.Main;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import net.aerulion.shop.Main;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class ItemBuilder {
 
@@ -24,7 +24,7 @@ public class ItemBuilder {
     }
 
     public static ItemStack createDeleteShopBarrier() {
-        return buildSimpleItem(Material.BARRIER, "§c§l\u2716 Löschen", Arrays.asList("§7§oLöscht den gesamten Shop"));
+        return buildSimpleItem(Material.BARRIER, "§c§l\u2716 Löschen", Collections.singletonList("§7§oLöscht den gesamten Shop"));
     }
 
     public static ItemStack createResetTransactionsStructureVoid() {
@@ -32,7 +32,7 @@ public class ItemBuilder {
     }
 
     public static ItemStack createChangePriceGoldIngot() {
-        return buildSimpleItem(Material.GOLD_INGOT, "§e§lPreis ändern", Arrays.asList("§7§oÄndert den Preis des Shops"));
+        return buildSimpleItem(Material.GOLD_INGOT, "§e§lPreis ändern", Collections.singletonList("§7§oÄndert den Preis des Shops"));
     }
 
     public static ItemStack createNewItemSetChest() {
@@ -40,7 +40,7 @@ public class ItemBuilder {
     }
 
     public static ItemStack createNewCooldownClock() {
-        return buildSimpleItem(Material.CLOCK, "§e§lLimit ändern", Arrays.asList("§7§oändert das Limit des Shops"));
+        return buildSimpleItem(Material.CLOCK, "§e§lLimit ändern", Collections.singletonList("§7§oändert das Limit des Shops"));
     }
 
     public static ItemStack createUpdatePositionTripwireHook() {
@@ -48,11 +48,11 @@ public class ItemBuilder {
     }
 
     public static ItemStack createNewPermissionEnchantedBook() {
-        return buildSimpleItem(Material.ENCHANTED_BOOK, "§e§lPermission ändern", Arrays.asList("§7§oÄndert die Permission des Shops"));
+        return buildSimpleItem(Material.ENCHANTED_BOOK, "§e§lPermission ändern", Collections.singletonList("§7§oÄndert die Permission des Shops"));
     }
 
     public static ItemStack createNewNameSign() {
-        return buildSimpleItem(Material.OAK_SIGN, "§e§lNamen ändern", Arrays.asList("§7§oÄndert den Namen des Shops"));
+        return buildSimpleItem(Material.OAK_SIGN, "§e§lNamen ändern", Collections.singletonList("§7§oÄndert den Namen des Shops"));
     }
 
     public static ItemStack createNewCommandCommandBlock() {
@@ -60,11 +60,11 @@ public class ItemBuilder {
     }
 
     public static ItemStack createNewHeadPlayerHead() {
-        return buildSimpleItem(Material.PLAYER_HEAD, "§e§lKopf ändern", Arrays.asList("§7§oSetzt das Item in der Main-Hand als Kopf"));
+        return buildSimpleItem(Material.PLAYER_HEAD, "§e§lKopf ändern", Collections.singletonList("§7§oSetzt das Item in der Main-Hand als Kopf"));
     }
 
     public static ItemStack createToggleEnabledDye(Shop shop) {
-        return buildSimpleItem(shop.isEnabled() ? Material.RED_DYE : Material.LIME_DYE, shop.isEnabled() ? "§e§lShop deaktivieren" : "§e§lShop aktivieren", Arrays.asList("§7§oAktviert/Deaktiviert den Shop"));
+        return buildSimpleItem(shop.isEnabled() ? Material.RED_DYE : Material.LIME_DYE, shop.isEnabled() ? "§e§lShop deaktivieren" : "§e§lShop aktivieren", Collections.singletonList("§7§oAktviert/Deaktiviert den Shop"));
     }
 
     public static ItemStack createQuestionBook() {
@@ -72,7 +72,7 @@ public class ItemBuilder {
     }
 
     public static ItemStack createStatisticItem(Shop shop) {
-        List<String> Lore = new ArrayList<String>();
+        List<String> Lore = new ArrayList<>();
         Lore.add("§eName: §7" + ChatColor.translateAlternateColorCodes('&', shop.getShopName()));
         Lore.add("§eShop-UUID: §7" + shop.getID());
         Lore.add("§ePermission: §7shop." + shop.getShopPermission());
@@ -91,7 +91,7 @@ public class ItemBuilder {
             Lore.add("§eBefehle: §7");
             for (String cmd : shop.getExecutedCommands()) {
                 boolean first = true;
-                for (String s : Utils.WrapString(cmd, 30)) {
+                for (String s : Util.WrapString(cmd, 30)) {
                     if (first) {
                         Lore.add("§e- §7/" + s);
                         first = false;
@@ -117,11 +117,11 @@ public class ItemBuilder {
                     }
                 }
             }
-            return buildSimpleItem(Material.LIME_DYE, ItemName, Arrays.asList("§f§m                              ", "§fDie obigen Items kaufen", "§f§m                              ", "§6§lPreis§8: §6" + price, "§6§lLimit§8: " + Utils.cooldownStringBuilder(shop.getCooldown(), "6", "7") + Utils.remainingTransactionsString(shop, player, "7", "7"), "§f§m                              "));
+            return buildSimpleItem(Material.LIME_DYE, ItemName, Arrays.asList("§f§m                              ", "§fDie obigen Items kaufen", "§f§m                              ", "§6§lPreis§8: §6" + price, "§6§lLimit§8: " + Util.cooldownStringBuilder(shop.getCooldown(), "6", "7") + Util.remainingTransactionsString(shop, player, "7", "7"), "§f§m                              "));
         } else {
-            List<String> reason = Arrays.asList("§7Du kannst diesen Shop nur " + Math.abs(shop.getCooldown()) + "x benutzen");
+            List<String> reason = Collections.singletonList("§7Du kannst diesen Shop nur " + Math.abs(shop.getCooldown()) + "x benutzen");
             if (shop.getCooldown() > 0)
-                reason = Arrays.asList("§7Du kannst diesen Shop erst wieder in", Utils.cooldownStringBuilder(shop.getTimeRemaining(player.getUniqueId().toString()), "c", "7"), "§7benutzen");
+                reason = Arrays.asList("§7Du kannst diesen Shop erst wieder in", Util.cooldownStringBuilder(shop.getTimeRemaining(player.getUniqueId().toString()), "c", "7"), "§7benutzen");
             return buildSimpleItem(Material.BARRIER, "§c§l\u2716 Bereits genutzt", reason);
         }
     }

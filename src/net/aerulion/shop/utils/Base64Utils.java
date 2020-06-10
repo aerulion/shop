@@ -1,14 +1,14 @@
-package net.aerulion.shop.Utils;
+package net.aerulion.shop.utils;
+
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.io.BukkitObjectInputStream;
+import org.bukkit.util.io.BukkitObjectOutputStream;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
-
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.util.io.BukkitObjectInputStream;
-import org.bukkit.util.io.BukkitObjectOutputStream;
 
 public class Base64Utils {
 
@@ -52,5 +52,4 @@ public class Base64Utils {
         }
         return itemstack;
     }
-
 }

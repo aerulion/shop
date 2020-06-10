@@ -1,17 +1,16 @@
-package net.aerulion.shop.Conversations;
+package net.aerulion.shop.conversation;
 
+import net.aerulion.shop.utils.Util;
 import org.bukkit.conversations.ConversationContext;
 import org.bukkit.conversations.Prompt;
 import org.bukkit.conversations.ValidatingPrompt;
 import org.bukkit.entity.Player;
 
-import net.aerulion.shop.Utils.Utils;
-
-public class QuestionConversation extends ValidatingPrompt {
+public class PriceConversation extends ValidatingPrompt {
 
     @Override
     public String getPromptText(ConversationContext con) {
-        return "Tippe die Frage in den Chat. Schreibe 'stop' um den Vorgang abzubrechen.";
+        return "Tippe den neuen Preis in den Chat. Schreibe 'stop' um den Vorgang abzubrechen.";
     }
 
     @Override
@@ -21,12 +20,17 @@ public class QuestionConversation extends ValidatingPrompt {
 
     @Override
     protected Prompt acceptValidatedInput(ConversationContext con, String input) {
-        Utils.setNewShopQuestion((Player) con.getForWhom(), input);
+        Util.setNewShopPrice((Player) con.getForWhom(), Double.parseDouble(input));
         return null;
     }
 
     @Override
     protected boolean isInputValid(ConversationContext context, String input) {
-        return true;
+        try {
+            Double.parseDouble(input);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 }

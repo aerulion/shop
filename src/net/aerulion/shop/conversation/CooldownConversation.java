@@ -1,11 +1,10 @@
-package net.aerulion.shop.Conversations;
+package net.aerulion.shop.conversation;
 
+import net.aerulion.shop.utils.Util;
 import org.bukkit.conversations.ConversationContext;
 import org.bukkit.conversations.Prompt;
 import org.bukkit.conversations.ValidatingPrompt;
 import org.bukkit.entity.Player;
-
-import net.aerulion.shop.Utils.Utils;
 
 public class CooldownConversation extends ValidatingPrompt {
 
@@ -21,12 +20,12 @@ public class CooldownConversation extends ValidatingPrompt {
 
     @Override
     protected Prompt acceptValidatedInput(ConversationContext con, String input) {
-        Utils.setNewShopCooldown((Player) con.getForWhom(), input);
+        Util.setNewShopCooldown((Player) con.getForWhom(), input);
         return null;
     }
 
     @Override
     protected boolean isInputValid(ConversationContext context, String input) {
-        return Utils.checkCooldownPattern(input);
+        return Util.checkCooldownPattern(input);
     }
 }

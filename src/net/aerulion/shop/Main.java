@@ -1,23 +1,21 @@
 package net.aerulion.shop;
 
-import java.util.HashMap;
-import java.util.logging.Logger;
-
+import net.aerulion.shop.cmd.CMD_openshop;
+import net.aerulion.shop.cmd.CMD_shop;
+import net.aerulion.shop.listener.ChunkLoadListener;
+import net.aerulion.shop.listener.EntityInteractListener;
+import net.aerulion.shop.listener.ShopGUIListener;
+import net.aerulion.shop.utils.FileManager;
+import net.aerulion.shop.utils.Lang;
+import net.aerulion.shop.utils.Shop;
+import net.aerulion.shop.utils.Util;
+import net.milkbowl.vault.economy.Economy;
 import org.bukkit.conversations.Conversation;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import net.aerulion.shop.CMDs.CMD_OPENSHOP;
-import net.aerulion.shop.CMDs.CMD_SHOP;
-import net.aerulion.shop.Listener.onChunkLoad;
-import net.aerulion.shop.Listener.onChunkUnload;
-import net.aerulion.shop.Listener.onEntityClick;
-import net.aerulion.shop.Listener.onInventoryClick;
-import net.aerulion.shop.Utils.FileManager;
-import net.aerulion.shop.Utils.Lang;
-import net.aerulion.shop.Utils.Shop;
-import net.aerulion.shop.Utils.Utils;
-import net.milkbowl.vault.economy.Economy;
+import java.util.HashMap;
+import java.util.logging.Logger;
 
 public class Main extends JavaPlugin {
 
@@ -32,31 +30,30 @@ public class Main extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        Utils.sendColoredConsoleMessage(Lang.CONSOLE_ENABLING);
+        Util.sendColoredConsoleMessage(Lang.CONSOLE_ENABLING);
         plugin = this;
         if (!setupEconomy()) {
             log.severe(String.format("[%s] - Disabled due to no Vault dependency found!", getDescription().getName()));
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
-        getServer().getPluginManager().registerEvents(new onEntityClick(), this);
-        getServer().getPluginManager().registerEvents(new onChunkLoad(), this);
-        getServer().getPluginManager().registerEvents(new onChunkUnload(), this);
-        getServer().getPluginManager().registerEvents(new onInventoryClick(), this);
-        getCommand("shop").setExecutor(new CMD_SHOP());
-        getCommand("shop").setTabCompleter(new CMD_SHOP());
-        getCommand("openshop").setExecutor(new CMD_OPENSHOP());
-        getCommand("openshop").setTabCompleter(new CMD_OPENSHOP());
+        getServer().getPluginManager().registerEvents(new EntityInteractListener(), this);
+        getServer().getPluginManager().registerEvents(new ChunkLoadListener(), this);
+        getServer().getPluginManager().registerEvents(new ShopGUIListener(), this);
+        getCommand("shop").setExecutor(new CMD_shop());
+        getCommand("shop").setTabCompleter(new CMD_shop());
+        getCommand("openshop").setExecutor(new CMD_openshop());
+        getCommand("openshop").setTabCompleter(new CMD_openshop());
         FileManager.loadAllShopFiles();
         FileManager.copyDefaultPrefix();
         FileManager.loadPrefixes();
-        Utils.sendColoredConsoleMessage(Lang.CONSOLE_PLUGIN_ENABLED);
+        Util.sendColoredConsoleMessage(Lang.CONSOLE_PLUGIN_ENABLED);
     }
 
     @Override
     public void onDisable() {
-        Utils.sendColoredConsoleMessage(Lang.CONSOLE_DISABLING);
-        Utils.sendColoredConsoleMessage(Lang.CONSOLE_PLUGIN_DISABLED);
+        Util.sendColoredConsoleMessage(Lang.CONSOLE_DISABLING);
+        Util.sendColoredConsoleMessage(Lang.CONSOLE_PLUGIN_DISABLED);
     }
 
     private boolean setupEconomy() {

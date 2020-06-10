@@ -1,17 +1,17 @@
-package net.aerulion.shop.Utils;
+package net.aerulion.shop.utils;
+
+import net.aerulion.shop.Main;
+import net.aerulion.shop.task.ShopSaveTask;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
-import net.aerulion.shop.Main;
-import net.aerulion.shop.Tasks.ShopSaveTask;
 
 public class FileManager {
 
@@ -35,7 +35,7 @@ public class FileManager {
                 }
             }
         }
-        Utils.sendColoredConsoleMessage(Lang.CHAT_PREFIX + "�e" + Main.LoadedShops.size() + Lang.CONSOLE_SHOPS_LOADED + (System.currentTimeMillis() - start) + "ms");
+        Util.sendColoredConsoleMessage(Lang.CHAT_PREFIX + "�e" + Main.LoadedShops.size() + Lang.CONSOLE_SHOPS_LOADED + (System.currentTimeMillis() - start) + "ms");
     }
 
     public static List<String> serializeTransactionDates(HashMap<String, String> transactionDates) {

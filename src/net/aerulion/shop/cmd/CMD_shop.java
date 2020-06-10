@@ -1,8 +1,8 @@
-package net.aerulion.shop.CMDs;
+package net.aerulion.shop.cmd;
 
-import net.aerulion.shop.Utils.FileManager;
-import net.aerulion.shop.Utils.Lang;
-import net.aerulion.shop.Utils.Utils;
+import net.aerulion.shop.utils.FileManager;
+import net.aerulion.shop.utils.Lang;
+import net.aerulion.shop.utils.Util;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -14,7 +14,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class CMD_SHOP implements CommandExecutor, TabCompleter {
+public class CMD_shop implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -34,7 +34,7 @@ public class CMD_SHOP implements CommandExecutor, TabCompleter {
         if (args.length > 0) {
             if (args.length == 1) {
                 if (args[0].equalsIgnoreCase("list")) {
-                    Utils.sendAllShopsMessage(player, 1);
+                    Util.sendAllShopsMessage(player, 1);
                     return true;
                 }
 
@@ -45,7 +45,7 @@ public class CMD_SHOP implements CommandExecutor, TabCompleter {
                 }
 
                 if (args[0].equalsIgnoreCase("help")) {
-                    Utils.sendHelpMenu(player);
+                    Util.sendHelpMenu(player);
                     return true;
                 }
             }
@@ -62,7 +62,7 @@ public class CMD_SHOP implements CommandExecutor, TabCompleter {
                         player.sendMessage(Lang.ERROR_NUMBER_TOO_SMALL);
                         return true;
                     }
-                    Utils.sendAllShopsMessage(player, Integer.parseInt(args[1]));
+                    Util.sendAllShopsMessage(player, Integer.parseInt(args[1]));
                     return true;
                 }
             }
@@ -75,7 +75,7 @@ public class CMD_SHOP implements CommandExecutor, TabCompleter {
                         player.sendMessage(Lang.ERROR_INVALID_PRICE);
                         return true;
                     }
-                    if (Utils.checkCooldownPattern(args[3])) {
+                    if (Util.checkCooldownPattern(args[3])) {
                         boolean virtual = false;
                         if (args.length == 6) {
                             if (!(args[5].equalsIgnoreCase("true") || args[5].equalsIgnoreCase("false"))) {
@@ -85,7 +85,7 @@ public class CMD_SHOP implements CommandExecutor, TabCompleter {
                             if (args[5].equalsIgnoreCase("true"))
                                 virtual = true;
                         }
-                        Utils.createNewShop(player, Double.parseDouble(args[2]), Utils.convertCooldownPattern(args[3]), args[1].replaceAll("@", " "), args[4], virtual);
+                        Util.createNewShop(player, Double.parseDouble(args[2]), Util.convertCooldownPattern(args[3]), args[1].replaceAll("@", " "), args[4], virtual);
                     } else {
                         player.sendMessage(Lang.ERROR_INVALID_LIMIT);
                     }
@@ -102,23 +102,23 @@ public class CMD_SHOP implements CommandExecutor, TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
         if (args.length < 2)
-            return Utils.filterForTabcomplete(new ArrayList<>(Arrays.asList("create", "list", "reload", "help")), args[0]);
+            return Util.filterForTabcomplete(new ArrayList<>(Arrays.asList("create", "list", "reload", "help")), args[0]);
         if (args[0].equalsIgnoreCase("create")) {
             if (args.length == 2)
-                return Utils.filterForTabcomplete(new ArrayList<>(Collections.singletonList("<Name>")), args[1]);
+                return Util.filterForTabcomplete(new ArrayList<>(Collections.singletonList("<Name>")), args[1]);
             if (args.length == 3)
-                return Utils.filterForTabcomplete(new ArrayList<>(Collections.singletonList("<Preis>")), args[2]);
+                return Util.filterForTabcomplete(new ArrayList<>(Collections.singletonList("<Preis>")), args[2]);
             if (args.length == 4)
-                return Utils.filterForTabcomplete(new ArrayList<>(Collections.singletonList("<Limit>")), args[3]);
+                return Util.filterForTabcomplete(new ArrayList<>(Collections.singletonList("<Limit>")), args[3]);
             if (args.length == 5)
-                return Utils.filterForTabcomplete(new ArrayList<>(Collections.singletonList("<Permission>")), args[4]);
+                return Util.filterForTabcomplete(new ArrayList<>(Collections.singletonList("<Permission>")), args[4]);
             if (args.length == 6)
-                return Utils.filterForTabcomplete(new ArrayList<>(Arrays.asList("[Virtuell]", "true", "false")), args[5]);
+                return Util.filterForTabcomplete(new ArrayList<>(Arrays.asList("[Virtuell]", "true", "false")), args[5]);
             return Collections.emptyList();
         }
         if (args[0].equalsIgnoreCase("list")) {
             if (args.length == 2)
-                return Utils.filterForTabcomplete(new ArrayList<>(Collections.singletonList("[Seite]")), args[1]);
+                return Util.filterForTabcomplete(new ArrayList<>(Collections.singletonList("[Seite]")), args[1]);
         }
         if (args[0].equalsIgnoreCase("reload")) {
             return Collections.emptyList();

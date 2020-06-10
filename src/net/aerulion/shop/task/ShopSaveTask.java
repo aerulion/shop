@@ -1,16 +1,15 @@
-package net.aerulion.shop.Tasks;
+package net.aerulion.shop.task;
 
-import java.io.File;
-import java.io.IOException;
-
+import net.aerulion.shop.Main;
+import net.aerulion.shop.utils.Base64Utils;
+import net.aerulion.shop.utils.FileManager;
+import net.aerulion.shop.utils.Shop;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import net.aerulion.shop.Main;
-import net.aerulion.shop.Utils.Base64Utils;
-import net.aerulion.shop.Utils.FileManager;
-import net.aerulion.shop.Utils.Shop;
+import java.io.File;
+import java.io.IOException;
 
 public class ShopSaveTask extends BukkitRunnable {
 

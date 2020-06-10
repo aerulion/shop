@@ -1,9 +1,9 @@
-package net.aerulion.shop.CMDs;
+package net.aerulion.shop.cmd;
 
 import net.aerulion.shop.Main;
-import net.aerulion.shop.Utils.Lang;
-import net.aerulion.shop.Utils.Shop;
-import net.aerulion.shop.Utils.Utils;
+import net.aerulion.shop.utils.Lang;
+import net.aerulion.shop.utils.Shop;
+import net.aerulion.shop.utils.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class CMD_OPENSHOP implements CommandExecutor, TabCompleter {
+public class CMD_openshop implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -32,8 +32,12 @@ public class CMD_OPENSHOP implements CommandExecutor, TabCompleter {
             sender.sendMessage(Lang.ERROR_PLAYER_NOT_FOUND);
             return true;
         }
+        if (!Main.LoadedShops.containsKey(args[1])) {
+            sender.sendMessage(Lang.ERROR_SHOP_NOT_FOUND);
+            return true;
+        }
         Shop shop = Main.LoadedShops.get(args[1]);
-        Utils.openShopToPlayer(player, shop);
+        Util.openShopToPlayer(player, shop);
         return true;
     }
 
@@ -42,7 +46,7 @@ public class CMD_OPENSHOP implements CommandExecutor, TabCompleter {
         if (args.length == 1)
             return null;
         if (args.length == 2)
-            return Utils.filterForTabcomplete(new ArrayList<>(Main.LoadedShops.keySet()), args[1]);
+            return Util.filterForTabcomplete(new ArrayList<>(Main.LoadedShops.keySet()), args[1]);
         return Collections.emptyList();
     }
 }

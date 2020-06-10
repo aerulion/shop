@@ -1,13 +1,13 @@
-package net.aerulion.shop.Utils;
+package net.aerulion.shop.utils;
+
+import net.aerulion.shop.task.particles.WhiteSpiralTask;
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import org.bukkit.Location;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import net.aerulion.shop.Tasks.ParticleTasks.WhiteSpiralTask;
 
 public class Shop {
 
@@ -75,22 +75,22 @@ public class Shop {
     public boolean isAllowedToBuy(String UUID) {
         if (this.TransactionDates.containsKey(UUID)) {
             if (this.Cooldown > -1) {
-                return (Long.parseLong(Utils.splitTransactionDates(this.TransactionDates.get(UUID))[1]) + this.Cooldown) < System.currentTimeMillis();
+                return (Long.parseLong(Util.splitTransactionDates(this.TransactionDates.get(UUID))[1]) + this.Cooldown) < System.currentTimeMillis();
             } else {
-                return (Integer.parseInt(Utils.splitTransactionDates(this.TransactionDates.get(UUID))[0])) < Math.abs(this.Cooldown);
+                return (Integer.parseInt(Util.splitTransactionDates(this.TransactionDates.get(UUID))[0])) < Math.abs(this.Cooldown);
             }
         } else
             return true;
     }
 
     public long getTimeRemaining(String UUID) {
-        return ((Long.parseLong(Utils.splitTransactionDates(this.TransactionDates.get(UUID))[1])) + this.Cooldown) - System.currentTimeMillis();
+        return ((Long.parseLong(Util.splitTransactionDates(this.TransactionDates.get(UUID))[1])) + this.Cooldown) - System.currentTimeMillis();
     }
 
     public int getRemainingTransactions(String UUID) {
         int max = (int) Math.abs(this.Cooldown);
         if (this.TransactionDates.containsKey(UUID))
-            return max - (Integer.parseInt(Utils.splitTransactionDates(this.TransactionDates.get(UUID))[0]));
+            return max - (Integer.parseInt(Util.splitTransactionDates(this.TransactionDates.get(UUID))[0]));
         else
             return max;
     }
@@ -129,7 +129,7 @@ public class Shop {
 
     public void addTransaction(Player player) {
         if (this.TransactionDates.containsKey(player.getUniqueId().toString()))
-            this.TransactionDates.put(player.getUniqueId().toString(), (Integer.parseInt(Utils.splitTransactionDates(this.TransactionDates.get(player.getUniqueId().toString()))[0]) + 1) + "@@@" + System.currentTimeMillis());
+            this.TransactionDates.put(player.getUniqueId().toString(), (Integer.parseInt(Util.splitTransactionDates(this.TransactionDates.get(player.getUniqueId().toString()))[0]) + 1) + "@@@" + System.currentTimeMillis());
         else {
             this.TransactionDates.put(player.getUniqueId().toString(), "1" + "@@@" + System.currentTimeMillis());
         }

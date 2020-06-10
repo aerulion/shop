@@ -1,32 +1,31 @@
-package net.aerulion.shop.Conversations;
+package net.aerulion.shop.conversation;
 
+import net.aerulion.shop.utils.Util;
 import org.bukkit.conversations.ConversationContext;
 import org.bukkit.conversations.Prompt;
 import org.bukkit.conversations.ValidatingPrompt;
 import org.bukkit.entity.Player;
 
-import net.aerulion.shop.Utils.Utils;
-
-public class QuestionAnswerConversation extends ValidatingPrompt {
+public class PermissionConversation extends ValidatingPrompt {
 
     @Override
     public String getPromptText(ConversationContext con) {
-        return "Tippe die Antwort in den Chat. Schreibe 'stop' um den Vorgang abzubrechen.";
+        return "Tippe die neue Permission in den Chat. Das 'shop.' wird automatisch an den Anfang hinzugefügt. Schreibe 'stop' um den Vorgang abzubrechen.";
     }
 
     @Override
     public String getFailedValidationText(ConversationContext con, String InvalidInput) {
-        return "Fehler: Ungültige Eingabe. Schreibe 'stop' um den Vorgang abzubrechen.";
+        return "Fehler: Ungültige Eingabe, es dürfen keine Leerzeichen enthalten sein.";
     }
 
     @Override
     protected Prompt acceptValidatedInput(ConversationContext con, String input) {
-        Utils.setNewShopQuestionAnswer((Player) con.getForWhom(), input);
+        Util.setNewShopPermission((Player) con.getForWhom(), input);
         return null;
     }
 
     @Override
     protected boolean isInputValid(ConversationContext context, String input) {
-        return true;
+        return !input.contains(" ");
     }
 }

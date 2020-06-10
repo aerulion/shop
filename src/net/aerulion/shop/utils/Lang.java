@@ -1,4 +1,4 @@
-package net.aerulion.shop.Utils;
+package net.aerulion.shop.utils;
 
 public class Lang {
 
@@ -23,6 +23,7 @@ public class Lang {
     public static final String ERROR_SHOP_DISABLED = CHAT_PREFIX + "§cDieser Shop ist deaktiviert.";
     public static final String ERROR_WRONG_QUESTION_ANSWER = CHAT_PREFIX + "§cDas eingegebene Passwort ist nicht korrekt.";
     public static final String ERROR_PLAYER_NOT_FOUND = CHAT_PREFIX + "§cFehler: Spieler nicht gefunden.";
+    public static final String ERROR_SHOP_NOT_FOUND = CHAT_PREFIX + "§cFehler: Shop nicht gefunden.";
 
     public static final String SHOP_ADDED = CHAT_PREFIX + "§aShop erfolgreich hinzugefügt.";
     public static final String NEW_PRICE = CHAT_PREFIX + "Der neue Preis beträgt nun: ";

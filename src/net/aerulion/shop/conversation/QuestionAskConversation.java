@@ -1,14 +1,13 @@
-package net.aerulion.shop.Conversations;
+package net.aerulion.shop.conversation;
 
+import net.aerulion.shop.Main;
+import net.aerulion.shop.utils.Shop;
+import net.aerulion.shop.utils.Util;
 import org.bukkit.ChatColor;
 import org.bukkit.conversations.ConversationContext;
 import org.bukkit.conversations.Prompt;
 import org.bukkit.conversations.ValidatingPrompt;
 import org.bukkit.entity.Player;
-
-import net.aerulion.shop.Main;
-import net.aerulion.shop.Utils.Shop;
-import net.aerulion.shop.Utils.Utils;
 
 public class QuestionAskConversation extends ValidatingPrompt {
 
@@ -25,7 +24,7 @@ public class QuestionAskConversation extends ValidatingPrompt {
 
     @Override
     protected Prompt acceptValidatedInput(ConversationContext con, String input) {
-        Utils.validateQuestion((Player) con.getForWhom(), input);
+        Util.validateQuestion((Player) con.getForWhom(), input);
         return null;
     }
 

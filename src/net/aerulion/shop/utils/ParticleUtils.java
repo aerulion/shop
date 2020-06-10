@@ -1,9 +1,9 @@
-package net.aerulion.shop.Utils;
-
-import java.util.ArrayList;
+package net.aerulion.shop.utils;
 
 import org.bukkit.Location;
 import org.bukkit.World;
+
+import java.util.ArrayList;
 
 public class ParticleUtils {
 
