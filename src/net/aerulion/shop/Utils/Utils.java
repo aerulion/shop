@@ -58,11 +58,11 @@ public class Utils {
                     player.playSound(player.getLocation(), Sound.ITEM_ARMOR_EQUIP_GENERIC, 0.5F, 1.3F);
                 }
             } else {
-                player.sendMessage(Lang.ErrorShopDisabled);
+                player.sendMessage(Lang.ERROR_SHOP_DISABLED);
                 player.playSound(player.getLocation(), Sound.ENTITY_ZOMBIE_ATTACK_IRON_DOOR, 0.2F, 2.0F);
             }
         } else {
-            player.sendMessage(Lang.ErrorNoShopPermission);
+            player.sendMessage(Lang.ERROR_NO_SHOP_PERMISSION);
             player.playSound(player.getLocation(), Sound.ENTITY_ZOMBIE_ATTACK_IRON_DOOR, 0.2F, 2.0F);
         }
     }
@@ -76,7 +76,7 @@ public class Utils {
 
         }
         if (items.size() > 27) {
-            player.sendMessage(Lang.ErrorMaxStackAmount);
+            player.sendMessage(Lang.ERROR_MAX_STACK_AMOUNT);
             return;
         }
 
@@ -98,7 +98,7 @@ public class Utils {
         Main.LoadedShops.put(ID, new Shop(transactionDates, items, price, cooldown, location, ID, shopName, shopPermission, 0, new ArrayList<>(), true, virtual, null, null));
         FileManager.saveSpecificShopToFile(ID);
         Main.LoadedShops.get(ID).startParticles();
-        player.sendMessage(Lang.ShopAdded);
+        player.sendMessage(Lang.SHOP_ADDED);
     }
 
     public static void giveItemToPlayer(Shop shop, Player player) {
@@ -138,7 +138,7 @@ public class Utils {
         shop.setPrice(roundedprice);
         FileManager.saveSpecificShopToFile(Main.AdminPanelUser.get(player.getName()));
         finishAdminSession(player.getName());
-        player.sendMessage(Lang.NewPrice + roundedprice);
+        player.sendMessage(Lang.NEW_PRICE + roundedprice);
     }
 
     public static void setNewShopQuestion(Player player, String question) {
@@ -146,12 +146,12 @@ public class Utils {
         shop.setQuestion(question);
         FileManager.saveSpecificShopToFile(Main.AdminPanelUser.get(player.getName()));
         finishAdminSession(player.getName());
-        player.sendMessage(Lang.NewQuestion + question);
+        player.sendMessage(Lang.NEW_QUESTION + question);
     }
 
     public static void validateQuestion(Player player, String input) {
         if (input.equalsIgnoreCase("stop")) {
-            player.sendMessage(Lang.ActionEscaped);
+            player.sendMessage(Lang.ACTION_ESCAPED);
             finishQuestionSession(player.getName());
             return;
         }
@@ -160,7 +160,7 @@ public class Utils {
             player.openInventory(Inventories.UserPanel(shop, player));
             player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 0.5F, 1.3F);
         } else {
-            player.sendMessage(Lang.ErrorWrongQuestionAnswer);
+            player.sendMessage(Lang.ERROR_WRONG_QUESTION_ANSWER);
             player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 0.5F, 0.8F);
         }
         finishQuestionSession(player.getName());
@@ -171,7 +171,7 @@ public class Utils {
         shop.setQuestionAnswer(answer);
         FileManager.saveSpecificShopToFile(Main.AdminPanelUser.get(player.getName()));
         finishAdminSession(player.getName());
-        player.sendMessage(Lang.NewQuestionAnswer + answer);
+        player.sendMessage(Lang.NEW_QUESTION_ANSWER + answer);
     }
 
     public static void toggleEnabled(Player player) {
@@ -179,7 +179,7 @@ public class Utils {
         shop.toggleEnabled();
         FileManager.saveSpecificShopToFile(Main.AdminPanelUser.get(player.getName()));
         finishAdminSession(player.getName());
-        player.sendMessage(Lang.ToggledEnabled);
+        player.sendMessage(Lang.TOGGLED_ENABLED);
     }
 
     public static void setNewShopItems(Player player) {
@@ -190,14 +190,14 @@ public class Utils {
             }
         }
         if (items.size() > 27) {
-            player.sendMessage(Lang.ErrorMaxStackAmount);
+            player.sendMessage(Lang.ERROR_MAX_STACK_AMOUNT);
             return;
         }
         Shop shop = Main.LoadedShops.get(Main.AdminPanelUser.get(player.getName()));
         shop.setSoldItem(items);
         FileManager.saveSpecificShopToFile(Main.AdminPanelUser.get(player.getName()));
         finishAdminSession(player.getName());
-        player.sendMessage(Lang.NewShopItems);
+        player.sendMessage(Lang.NEW_SHOP_ITEMS);
     }
 
     public static void setNewShopCooldown(Player player, String cooldown) {
@@ -205,7 +205,7 @@ public class Utils {
         shop.setCooldown(convertCooldownPattern(cooldown));
         FileManager.saveSpecificShopToFile(Main.AdminPanelUser.get(player.getName()));
         finishAdminSession(player.getName());
-        player.sendMessage(Lang.NewLimit + cooldownStringBuilder(convertCooldownPattern(cooldown), "e", "f"));
+        player.sendMessage(Lang.NEW_LIMIT + cooldownStringBuilder(convertCooldownPattern(cooldown), "e", "f"));
     }
 
     public static void setNewShopPermission(Player player, String permission) {
@@ -213,7 +213,7 @@ public class Utils {
         shop.setPermission(permission);
         FileManager.saveSpecificShopToFile(Main.AdminPanelUser.get(player.getName()));
         finishAdminSession(player.getName());
-        player.sendMessage(Lang.NewPermission + permission);
+        player.sendMessage(Lang.NEW_PERMISSION + permission);
     }
 
     public static void setNewShopName(Player player, String Name) {
@@ -221,7 +221,7 @@ public class Utils {
         shop.setName(Name);
         FileManager.saveSpecificShopToFile(Main.AdminPanelUser.get(player.getName()));
         finishAdminSession(player.getName());
-        player.sendMessage(Lang.NewName + ChatColor.translateAlternateColorCodes('&', Name));
+        player.sendMessage(Lang.NEW_NAME + ChatColor.translateAlternateColorCodes('&', Name));
     }
 
     public static void setNewShopCommands(Player player, String Command) {
@@ -229,7 +229,7 @@ public class Utils {
         shop.addCommand(Command);
         FileManager.saveSpecificShopToFile(Main.AdminPanelUser.get(player.getName()));
         finishAdminSession(player.getName());
-        player.sendMessage(Lang.CommandAdded + Command);
+        player.sendMessage(Lang.COMMAND_ADDED + Command);
     }
 
     public static void resetShopCommands(Player player) {
@@ -237,7 +237,7 @@ public class Utils {
         shop.resetCommands();
         FileManager.saveSpecificShopToFile(Main.AdminPanelUser.get(player.getName()));
         finishAdminSession(player.getName());
-        player.sendMessage(Lang.AllCommandsDeleted);
+        player.sendMessage(Lang.ALL_COMMANDS_DELETED);
     }
 
     public static void resetShopQuestion(Player player) {
@@ -245,7 +245,7 @@ public class Utils {
         shop.resetQuestion();
         FileManager.saveSpecificShopToFile(Main.AdminPanelUser.get(player.getName()));
         finishAdminSession(player.getName());
-        player.sendMessage(Lang.QuestionReset);
+        player.sendMessage(Lang.QUESTION_RESET);
     }
 
     public static void resetShopTransactions(Player player) {
@@ -253,7 +253,7 @@ public class Utils {
         shop.resetTransactions();
         FileManager.saveSpecificShopToFile(Main.AdminPanelUser.get(player.getName()));
         finishAdminSession(player.getName());
-        player.sendMessage(Lang.AllPlayerdataDeleted);
+        player.sendMessage(Lang.ALL_PLAYERDATA_DELETED);
     }
 
     public static void deleteShop(String shopID) {
@@ -303,12 +303,12 @@ public class Utils {
         String shopID = Main.BuyingPlayers.get(player.getName());
         Shop shop = Main.LoadedShops.get(shopID);
         if (!hasEnoughMoney(shop, player)) {
-            player.sendMessage(Lang.ErrorNotEnoughMoney);
+            player.sendMessage(Lang.ERROR_NOT_ENOUGH_MONEY);
             finishBuySession(player.getName());
             return;
         }
         if (!hasInventorySpaceToBuy(player, shop)) {
-            player.sendMessage(Lang.ErrorInventoryFull);
+            player.sendMessage(Lang.ERROR_INVENTORY_FULL);
             finishBuySession(player.getName());
             return;
         }
@@ -328,7 +328,7 @@ public class Utils {
             }
 
         } else {
-            player.sendMessage(Lang.ErrorTransactionFailed);
+            player.sendMessage(Lang.ERROR_TRANSACTION_FAILED);
         }
         finishBuySession(player.getName());
     }

@@ -12,7 +12,7 @@ import net.aerulion.shop.Main;
 public class Inventories {
 
     public static Inventory AdminPanel(Shop shop) {
-        Inventory inv = Bukkit.createInventory(null, 27, Lang.AdminInventoryName);
+        Inventory inv = Bukkit.createInventory(null, 27, Lang.INVENTORY_NAME_ADMIN);
         inv.addItem(ItemBuilder.createChangePriceGoldIngot());
         inv.addItem(ItemBuilder.createNewItemSetChest());
         inv.addItem(ItemBuilder.createNewCooldownClock());
@@ -37,7 +37,7 @@ public class Inventories {
         for (String s : Main.LoadedPrefixes.keySet()) {
             shopName = shopName.replaceAll(s, "");
         }
-        Inventory inv = Bukkit.createInventory(null, size, Lang.ShopInventoryName + ChatColor.translateAlternateColorCodes('&', shopName));
+        Inventory inv = Bukkit.createInventory(null, size, Lang.INVENTORY_NAME_SHOP + ChatColor.translateAlternateColorCodes('&', shopName));
         for (int i : LineSlots) {
             inv.setItem(i, line);
         }

@@ -61,7 +61,7 @@ public class onInventoryClick implements Listener {
                     }
                 }
             }
-            if (e.getView().getTitle().equals(Lang.AdminInventoryName)) {
+            if (e.getView().getTitle().equals(Lang.INVENTORY_NAME_ADMIN)) {
                 if (e.getCurrentItem() != null && e.getCurrentItem().getType() != Material.AIR) {
                     if ((e.getRawSlot() >= 0 && e.getRawSlot() <= e.getView().getTopInventory().getSize() - 1)) {
                         e.setCancelled(true);
@@ -135,10 +135,10 @@ public class onInventoryClick implements Listener {
                         if (e.getCurrentItem().getType().equals(Material.PLAYER_HEAD)) {
                             e.getWhoClicked().closeInventory();
                             if (e.getWhoClicked().getInventory().getItemInMainHand().getType().equals(Material.AIR)) {
-                                e.getWhoClicked().sendMessage(Lang.ErrorNoItemInHand);
+                                e.getWhoClicked().sendMessage(Lang.ERROR_NO_ITEM_IN_HAND);
                             } else {
                                 Utils.updateHead(Main.AdminPanelUser.get(e.getWhoClicked().getName()), e.getWhoClicked().getInventory().getItemInMainHand());
-                                e.getWhoClicked().sendMessage(Lang.HeadUpdated);
+                                e.getWhoClicked().sendMessage(Lang.HEAD_UPDATED);
                             }
                             Utils.finishAdminSession(e.getWhoClicked().getName());
                         }
