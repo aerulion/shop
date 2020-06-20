@@ -1,7 +1,7 @@
 package net.aerulion.shop.task.particles;
 
+import net.aerulion.nucleus.api.particle.ParticleUtils;
 import net.aerulion.shop.Main;
-import net.aerulion.shop.utils.ParticleUtils;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.scheduler.BukkitRunnable;

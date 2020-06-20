@@ -1,5 +1,7 @@
 package net.aerulion.shop.utils;
 
+import net.aerulion.nucleus.api.base64.Base64Utils;
+import net.aerulion.nucleus.api.console.ConsoleUtils;
 import net.aerulion.shop.Main;
 import net.aerulion.shop.task.ShopSaveTask;
 import org.bukkit.Bukkit;
@@ -17,7 +19,7 @@ public class FileManager {
 
     public static void loadSpecificShopFromFile(File shopToLoad) {
         FileConfiguration cfg = YamlConfiguration.loadConfiguration(shopToLoad);
-        Main.LoadedShops.put(shopToLoad.getName().substring(0, shopToLoad.getName().length() - 4), new Shop(deserializeTransactionDates(cfg.getStringList("TransactionDates")), Base64Utils.DecodeItems(cfg.getStringList("ItemsForSale")), cfg.getDouble("Price"), cfg.getLong("Cooldown"), cfg.getBoolean("Virtual") ? null : new Location(Bukkit.getWorld(cfg.getString("Location.World")), cfg.getDouble("Location.X"), cfg.getDouble("Location.Y"), cfg.getDouble("Location.Z")), shopToLoad.getName().substring(0, shopToLoad.getName().length() - 4), cfg.getString("ShopName"), cfg.getString("ShopPermission"), cfg.getInt("timesUsed"), cfg.getStringList("ExecutedCommands"), cfg.getBoolean("Enabled"), cfg.getBoolean("Virtual"), cfg.getString("Question"), cfg.getString("QuestionAnswer")));
+        Main.LoadedShops.put(shopToLoad.getName().substring(0, shopToLoad.getName().length() - 4), new Shop(deserializeTransactionDates(cfg.getStringList("TransactionDates")), Base64Utils.decodeItemStackList(cfg.getStringList("ItemsForSale")), cfg.getDouble("Price"), cfg.getLong("Cooldown"), cfg.getBoolean("Virtual") ? null : new Location(Bukkit.getWorld(cfg.getString("Location.World")), cfg.getDouble("Location.X"), cfg.getDouble("Location.Y"), cfg.getDouble("Location.Z")), shopToLoad.getName().substring(0, shopToLoad.getName().length() - 4), cfg.getString("ShopName"), cfg.getString("ShopPermission"), cfg.getInt("timesUsed"), cfg.getStringList("ExecutedCommands"), cfg.getBoolean("Enabled"), cfg.getBoolean("Virtual"), cfg.getString("Question"), cfg.getString("QuestionAnswer")));
     }
 
     public static void saveSpecificShopToFile(String shopID) {
@@ -35,7 +37,7 @@ public class FileManager {
                 }
             }
         }
-        Util.sendColoredConsoleMessage(Lang.CHAT_PREFIX + "�e" + Main.LoadedShops.size() + Lang.CONSOLE_SHOPS_LOADED + (System.currentTimeMillis() - start) + "ms");
+        ConsoleUtils.sendColoredConsoleMessage(Lang.CHAT_PREFIX + "§e" + Main.LoadedShops.size() + Lang.CONSOLE_SHOPS_LOADED + (System.currentTimeMillis() - start) + "ms");
     }
 
     public static List<String> serializeTransactionDates(HashMap<String, String> transactionDates) {

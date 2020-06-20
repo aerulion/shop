@@ -1,5 +1,6 @@
 package net.aerulion.shop.cmd;
 
+import net.aerulion.nucleus.api.command.CommandUtils;
 import net.aerulion.shop.Main;
 import net.aerulion.shop.utils.Lang;
 import net.aerulion.shop.utils.Shop;
@@ -46,7 +47,7 @@ public class CMD_openshop implements CommandExecutor, TabCompleter {
         if (args.length == 1)
             return null;
         if (args.length == 2)
-            return Util.filterForTabcomplete(new ArrayList<>(Main.LoadedShops.keySet()), args[1]);
+            return CommandUtils.filterForTabCompleter(new ArrayList<>(Main.LoadedShops.keySet()), args[1]);
         return Collections.emptyList();
     }
 }

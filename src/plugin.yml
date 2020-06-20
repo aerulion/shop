@@ -2,8 +2,8 @@ name: Shop
 main: net.aerulion.shop.Main
 version: 1.0
 author: aerulion
-depend: [Vault]
-api-version: 1.13
+depend: [Nucleus, Vault]
+api-version: 1.15
 commands:
      shop:
        description: Hiermit kann ein Shop erstellt werden.

@@ -1,5 +1,6 @@
 package net.aerulion.shop.utils;
 
+import net.aerulion.nucleus.api.item.ItemUtils;
 import net.aerulion.shop.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -31,7 +32,7 @@ public class Inventories {
     public static Inventory UserPanel(Shop shop, Player player) {
         int size = Util.calculateInventorySlotSize(shop);
         int[] LineSlots = {size - 18, size - 17, size - 16, size - 15, size - 14, size - 13, size - 12, size - 11, size - 10};
-        ItemStack line = ItemBuilder.buildSimpleItem(Material.LIGHT_BLUE_STAINED_GLASS_PANE, "§9§m          ", null);
+        ItemStack line = ItemUtils.buildItemStack(Material.LIGHT_BLUE_STAINED_GLASS_PANE, "§9§m          ", null, false);
         String shopName = shop.getShopName();
         for (String s : Main.LoadedPrefixes.keySet()) {
             shopName = shopName.replaceAll(s, "");

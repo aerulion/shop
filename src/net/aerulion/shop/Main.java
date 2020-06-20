@@ -1,5 +1,6 @@
 package net.aerulion.shop;
 
+import net.aerulion.nucleus.api.console.ConsoleUtils;
 import net.aerulion.shop.cmd.CMD_openshop;
 import net.aerulion.shop.cmd.CMD_shop;
 import net.aerulion.shop.listener.ChunkLoadListener;
@@ -8,7 +9,6 @@ import net.aerulion.shop.listener.ShopGUIListener;
 import net.aerulion.shop.utils.FileManager;
 import net.aerulion.shop.utils.Lang;
 import net.aerulion.shop.utils.Shop;
-import net.aerulion.shop.utils.Util;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.conversations.Conversation;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -30,7 +30,7 @@ public class Main extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        Util.sendColoredConsoleMessage(Lang.CONSOLE_ENABLING);
+        ConsoleUtils.sendColoredConsoleMessage(Lang.CONSOLE_ENABLING);
         plugin = this;
         if (!setupEconomy()) {
             log.severe(String.format("[%s] - Disabled due to no Vault dependency found!", getDescription().getName()));
@@ -47,13 +47,13 @@ public class Main extends JavaPlugin {
         FileManager.loadAllShopFiles();
         FileManager.copyDefaultPrefix();
         FileManager.loadPrefixes();
-        Util.sendColoredConsoleMessage(Lang.CONSOLE_PLUGIN_ENABLED);
+        ConsoleUtils.sendColoredConsoleMessage(Lang.CONSOLE_PLUGIN_ENABLED);
     }
 
     @Override
     public void onDisable() {
-        Util.sendColoredConsoleMessage(Lang.CONSOLE_DISABLING);
-        Util.sendColoredConsoleMessage(Lang.CONSOLE_PLUGIN_DISABLED);
+        ConsoleUtils.sendColoredConsoleMessage(Lang.CONSOLE_DISABLING);
+        ConsoleUtils.sendColoredConsoleMessage(Lang.CONSOLE_PLUGIN_DISABLED);
     }
 
     private boolean setupEconomy() {

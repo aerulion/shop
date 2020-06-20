@@ -1,7 +1,7 @@
 package net.aerulion.shop.task;
 
+import net.aerulion.nucleus.api.base64.Base64Utils;
 import net.aerulion.shop.Main;
-import net.aerulion.shop.utils.Base64Utils;
 import net.aerulion.shop.utils.FileManager;
 import net.aerulion.shop.utils.Shop;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -36,7 +36,7 @@ public class ShopSaveTask extends BukkitRunnable {
         cfg.set("TransactionDates", FileManager.serializeTransactionDates(shop.getTransactionDates()));
         cfg.set("Cooldown", shop.getCooldown());
         cfg.set("Price", shop.getPrice());
-        cfg.set("ItemsForSale", Base64Utils.EncodeItems(shop.getSoldItems()));
+        cfg.set("ItemsForSale", Base64Utils.encodeItemStackList(shop.getSoldItems()));
         cfg.set("timesUsed", shop.getTimesUsed());
         cfg.set("Enabled", shop.isEnabled());
         cfg.set("Virtual", shop.isVirtual());

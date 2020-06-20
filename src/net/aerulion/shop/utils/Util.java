@@ -1,5 +1,6 @@
 package net.aerulion.shop.utils;
 
+import net.aerulion.nucleus.api.chat.ChatUtils;
 import net.aerulion.shop.conversation.QuestionAskConversation;
 import net.aerulion.shop.Main;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -333,47 +334,6 @@ public class Util {
         return input.split("@@@");
     }
 
-    public static void sendColoredConsoleMessage(final String msg) {
-        final ConsoleCommandSender sender = Bukkit.getConsoleSender();
-        sender.sendMessage(msg);
-    }
-
-    private final static int CENTER_PX = 154;
-
-    public static void sendCenteredMessage(Player player, String message) {
-        if (message == null || message.equals(""))
-            player.sendMessage("");
-        message = ChatColor.translateAlternateColorCodes('&', message);
-
-        int messagePxSize = 0;
-        boolean previousCode = false;
-        boolean isBold = false;
-
-        for (char c : message.toCharArray()) {
-            if (c == '§') {
-                previousCode = true;
-            } else if (previousCode) {
-                previousCode = false;
-                isBold = c == 'l' || c == 'L';
-            } else {
-                DefaultFontInfo dFI = DefaultFontInfo.getDefaultFontInfo(c);
-                messagePxSize += isBold ? dFI.getBoldLength() : dFI.getLength();
-                messagePxSize++;
-            }
-        }
-
-        int halvedMessageSize = messagePxSize / 2;
-        int toCompensate = CENTER_PX - halvedMessageSize;
-        int spaceLength = DefaultFontInfo.SPACE.getLength() + 1;
-        int compensated = 0;
-        StringBuilder sb = new StringBuilder();
-        while (compensated < toCompensate) {
-            sb.append(" ");
-            compensated += spaceLength;
-        }
-        player.sendMessage(sb.toString() + message);
-    }
-
     public static void sendAllShopsMessage(Player player, int page) {
         int Page = page;
         int count = 0;
@@ -415,8 +375,8 @@ public class Util {
             player.spigot().sendMessage(Messages.get(msgID));
 
         if (count > 10) {
-            sendCenteredMessage(player, "§9§m                            ");
-            sendCenteredMessage(player, "§7§lSeite §a§l" + Page + "§7/§a§l" + (int) Math.ceil(count / 10D));
+            ChatUtils.sendCenteredChatMessage(player, "§9§m                            ");
+            ChatUtils.sendCenteredChatMessage(player, "§7§lSeite §a§l" + Page + "§7/§a§l" + (int) Math.ceil(count / 10D));
             TextComponent PageButtons = new TextComponent("                           ");
             if (Page == 1) {
                 TextComponent Back = new TextComponent("    ");
@@ -438,11 +398,11 @@ public class Util {
                 PageButtons.addExtra(Forward);
             }
             player.spigot().sendMessage(PageButtons);
-            sendCenteredMessage(player, "§9§m                            ");
+            ChatUtils.sendCenteredChatMessage(player, "§9§m                            ");
             player.sendMessage("");
         }
         player.sendMessage("");
-        sendCenteredMessage(player, "§a§l>> §7Aktuell sind §a" + count + "§7 Shops geladen.");
+        ChatUtils.sendCenteredChatMessage(player, "§a§l>> §7Aktuell sind §a" + count + "§7 Shops geladen.");
         player.sendMessage("§9§m                                                                               ");
     }
 
@@ -524,26 +484,5 @@ public class Util {
         player.sendMessage(" §8§l>> §7/shop reload");
         player.sendMessage(" §8§l>> §7/shop help");
         player.sendMessage("§9§m                                                                               ");
-    }
-
-    public static ArrayList<String> filterForTabcomplete(ArrayList<String> Input, String Filter) {
-        if (Filter != null) {
-            for (Iterator<String> iterator = Input.iterator(); iterator.hasNext(); ) {
-                String value = iterator.next();
-                if (!value.toLowerCase().startsWith(Filter.toLowerCase())) {
-                    {
-                        iterator.remove();
-                    }
-                }
-            }
-        }
-        return Input;
-    }
-
-    public static List<String> WrapString(String Comment, int width) {
-        List<String> WrappedString = new ArrayList<>();
-        String wrapped = WordUtils.wrap(Comment, width, "\n", true);
-        Collections.addAll(WrappedString, wrapped.split("\n"));
-        return WrappedString;
     }
 }
