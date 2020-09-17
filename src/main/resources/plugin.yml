@@ -1,18 +1,19 @@
 name: Shop
 main: net.aerulion.shop.Main
-version: 1.1
+version: '1.2'
 author: aerulion
-depend: [Nucleus, Vault]
-api-version: 1.16
+depend: [ Nucleus, Vault ]
+softdepend: [ Multiverse-Core ]
+api-version: '1.16'
 commands:
-     shop:
-       description: Hiermit kann ein Shop erstellt werden.
-     openshop:
-       description: Hiermit kann ein Shop für einen Spieler geöffnet werden.
+  shop:
+    description: Hiermit kann ein Shop erstellt werden.
+  openshop:
+    description: Hiermit kann ein Shop für einen Spieler geöffnet werden.
 permissions:
-     shop.use:
-       description: Mit dieser Permission koennen Spieler den Shop benutzen.
-       default: op
-     shop.admin:
-       description: Diese Permission ermoeglicht es, Admin Funktionen des Shops zu nutzen.
-       default: op
+  shop.use:
+    description: Mit dieser Permission koennen Spieler den Shop benutzen.
+    default: op
+  shop.admin:
+    description: Diese Permission ermoeglicht es, Admin Funktionen des Shops zu nutzen.
+    default: op

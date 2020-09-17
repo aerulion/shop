@@ -24,6 +24,7 @@ public class Lang {
     public static final String ERROR_WRONG_QUESTION_ANSWER = CHAT_PREFIX + "§cDas eingegebene Passwort ist nicht korrekt.";
     public static final String ERROR_PLAYER_NOT_FOUND = CHAT_PREFIX + "§cFehler: Spieler nicht gefunden.";
     public static final String ERROR_SHOP_NOT_FOUND = CHAT_PREFIX + "§cFehler: Shop nicht gefunden.";
+    public static final String ERROR_SPAWNING_PARTICLE = CHAT_PREFIX + "§cFehler: Die Partikel konnten nicht gespawnt werden. Folgende Location enthält keine gültige Welt: ";
 
     public static final String SHOP_ADDED = CHAT_PREFIX + "§aShop erfolgreich hinzugefügt.";
     public static final String NEW_PRICE = CHAT_PREFIX + "Der neue Preis beträgt nun: ";

@@ -1,9 +1,12 @@
 package net.aerulion.shop.task.particles;
 
+import net.aerulion.nucleus.api.console.ConsoleUtils;
 import net.aerulion.nucleus.api.particle.ParticleUtils;
 import net.aerulion.shop.Main;
+import net.aerulion.shop.utils.Lang;
 import org.bukkit.Location;
 import org.bukkit.Particle;
+import org.bukkit.World;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
@@ -23,7 +26,13 @@ public class WhiteSpiralTask extends BukkitRunnable {
     public void run() {
         if (time > (CIRCLE_LOCATIONS.size() - 1))
             time = 0;
-        CIRCLE_LOCATIONS.get(time).getWorld().spawnParticle(Particle.FIREWORKS_SPARK, CIRCLE_LOCATIONS.get(time), 1, 0, 0, 0, 0);
+        World world = CIRCLE_LOCATIONS.get(time).getWorld();
+        if (world == null) {
+            ConsoleUtils.sendColoredConsoleMessage(Lang.ERROR_SPAWNING_PARTICLE + CIRCLE_LOCATIONS.get(time).toString());
+            this.cancel();
+            return;
+        }
+        world.spawnParticle(Particle.FIREWORKS_SPARK, CIRCLE_LOCATIONS.get(time), 1, 0, 0, 0, 0);
         this.time++;
     }
 
