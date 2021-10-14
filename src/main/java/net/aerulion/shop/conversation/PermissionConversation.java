@@ -8,24 +8,24 @@ import org.bukkit.entity.Player;
 
 public class PermissionConversation extends ValidatingPrompt {
 
-    @Override
-    public String getPromptText(ConversationContext con) {
-        return "Tippe die neue Permission in den Chat. Das 'shop.' wird automatisch an den Anfang hinzugefügt. Schreibe 'stop' um den Vorgang abzubrechen.";
-    }
+  @Override
+  public String getPromptText(ConversationContext con) {
+    return "Tippe die neue Permission in den Chat. Das 'shop.' wird automatisch an den Anfang hinzugefügt. Schreibe 'stop' um den Vorgang abzubrechen.";
+  }
 
-    @Override
-    public String getFailedValidationText(ConversationContext con, String InvalidInput) {
-        return "Fehler: Ungültige Eingabe, es dürfen keine Leerzeichen enthalten sein.";
-    }
+  @Override
+  protected boolean isInputValid(ConversationContext context, String input) {
+    return !input.contains(" ");
+  }
 
-    @Override
-    protected Prompt acceptValidatedInput(ConversationContext con, String input) {
-        Util.setNewShopPermission((Player) con.getForWhom(), input);
-        return null;
-    }
+  @Override
+  protected Prompt acceptValidatedInput(ConversationContext con, String input) {
+    Util.setNewShopPermission((Player) con.getForWhom(), input);
+    return null;
+  }
 
-    @Override
-    protected boolean isInputValid(ConversationContext context, String input) {
-        return !input.contains(" ");
-    }
+  @Override
+  public String getFailedValidationText(ConversationContext con, String InvalidInput) {
+    return "Fehler: Ungültige Eingabe, es dürfen keine Leerzeichen enthalten sein.";
+  }
 }

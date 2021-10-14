@@ -19,9 +19,9 @@ import java.util.logging.Logger;
 
 public class Main extends JavaPlugin {
 
+    private static final Logger log = Logger.getLogger("Minecraft");
     public static Main plugin;
     public static Economy economy = null;
-    private static final Logger log = Logger.getLogger("Minecraft");
     public static HashMap<String, Shop> LoadedShops = new HashMap<>();
     public static HashMap<String, String> BuyingPlayers = new HashMap<>();
     public static HashMap<String, String> AdminPanelUser = new HashMap<>();
