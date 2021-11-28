@@ -82,9 +82,9 @@ public class CMD_shop implements CommandExecutor, TabCompleter {
                 player.sendMessage(Lang.ERROR_INVALID_BOOLEAN);
                 return true;
               }
-                if (args[5].equalsIgnoreCase("true")) {
-                    virtual = true;
-                }
+              if (args[5].equalsIgnoreCase("true")) {
+                virtual = true;
+              }
             }
             Util.createNewShop(player, Double.parseDouble(args[2]),
                 Util.convertCooldownPattern(args[3]), args[1].replaceAll("@", " "), args[4],
@@ -105,38 +105,38 @@ public class CMD_shop implements CommandExecutor, TabCompleter {
   @Override
   public List<String> onTabComplete(CommandSender sender, Command cmd, String label,
       String[] args) {
-      if (args.length < 2) {
-          return CommandUtils.filterForTabCompleter(
-              new ArrayList<>(Arrays.asList("create", "list", "reload", "help")), args[0]);
-      }
+    if (args.length < 2) {
+      return CommandUtils.filterForTabCompleter(
+          new ArrayList<>(Arrays.asList("create", "list", "reload", "help")), args[0]);
+    }
     if (args[0].equalsIgnoreCase("create")) {
-        if (args.length == 2) {
-            return CommandUtils.filterForTabCompleter(
-                new ArrayList<>(Collections.singletonList("<Name>")), args[1]);
-        }
-        if (args.length == 3) {
-            return CommandUtils.filterForTabCompleter(
-                new ArrayList<>(Collections.singletonList("<Preis>")), args[2]);
-        }
-        if (args.length == 4) {
-            return CommandUtils.filterForTabCompleter(
-                new ArrayList<>(Collections.singletonList("<Limit>")), args[3]);
-        }
-        if (args.length == 5) {
-            return CommandUtils.filterForTabCompleter(
-                new ArrayList<>(Collections.singletonList("<Permission>")), args[4]);
-        }
-        if (args.length == 6) {
-            return CommandUtils.filterForTabCompleter(
-                new ArrayList<>(Arrays.asList("[Virtuell]", "true", "false")), args[5]);
-        }
+      if (args.length == 2) {
+        return CommandUtils.filterForTabCompleter(
+            new ArrayList<>(Collections.singletonList("<Name>")), args[1]);
+      }
+      if (args.length == 3) {
+        return CommandUtils.filterForTabCompleter(
+            new ArrayList<>(Collections.singletonList("<Preis>")), args[2]);
+      }
+      if (args.length == 4) {
+        return CommandUtils.filterForTabCompleter(
+            new ArrayList<>(Collections.singletonList("<Limit>")), args[3]);
+      }
+      if (args.length == 5) {
+        return CommandUtils.filterForTabCompleter(
+            new ArrayList<>(Collections.singletonList("<Permission>")), args[4]);
+      }
+      if (args.length == 6) {
+        return CommandUtils.filterForTabCompleter(
+            new ArrayList<>(Arrays.asList("[Virtuell]", "true", "false")), args[5]);
+      }
       return Collections.emptyList();
     }
     if (args[0].equalsIgnoreCase("list")) {
-        if (args.length == 2) {
-            return CommandUtils.filterForTabCompleter(
-                new ArrayList<>(Collections.singletonList("[Seite]")), args[1]);
-        }
+      if (args.length == 2) {
+        return CommandUtils.filterForTabCompleter(
+            new ArrayList<>(Collections.singletonList("[Seite]")), args[1]);
+      }
     }
     if (args[0].equalsIgnoreCase("reload")) {
       return Collections.emptyList();

@@ -53,10 +53,10 @@ public class ShopGUIListener implements Listener {
         if (e.getCurrentItem() != null && e.getCurrentItem().getType() != Material.AIR) {
           if ((e.getRawSlot() >= 0
               && e.getRawSlot() <= e.getView().getTopInventory().getSize() - 1)) {
-              if (!(e.getWhoClicked().hasPermission("shop.admin") && e.getAction()
-                  .equals(InventoryAction.CLONE_STACK))) {
-                  e.setCancelled(true);
-              }
+            if (!(e.getWhoClicked().hasPermission("shop.admin") && e.getAction()
+                .equals(InventoryAction.CLONE_STACK))) {
+              e.setCancelled(true);
+            }
             if (e.getCurrentItem().getType().equals(Material.LIME_DYE) && (e.getCurrentItem()
                 .getItemMeta().getLore().get(1).equals("§fDie obigen Items kaufen"))) {
               e.getWhoClicked().closeInventory();

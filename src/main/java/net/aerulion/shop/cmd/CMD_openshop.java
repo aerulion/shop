@@ -44,13 +44,13 @@ public class CMD_openshop implements CommandExecutor, TabCompleter {
   @Override
   public List<String> onTabComplete(CommandSender sender, Command cmd, String label,
       String[] args) {
-      if (args.length == 1) {
-          return null;
-      }
-      if (args.length == 2) {
-          return CommandUtils.filterForTabCompleter(new ArrayList<>(Main.LoadedShops.keySet()),
-              args[1]);
-      }
+    if (args.length == 1) {
+      return null;
+    }
+    if (args.length == 2) {
+      return CommandUtils.filterForTabCompleter(new ArrayList<>(Main.LoadedShops.keySet()),
+          args[1]);
+    }
     return Collections.emptyList();
   }
 }

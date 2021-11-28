@@ -75,9 +75,9 @@ public class FileManager {
 
   public static void reloadAllData() {
     Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-        for (Shop shop : Main.LoadedShops.values()) {
-            shop.stopParticles();
-        }
+      for (Shop shop : Main.LoadedShops.values()) {
+        shop.stopParticles();
+      }
       Main.LoadedShops.clear();
       Main.AdminPanelUser.clear();
       Main.BuyingPlayers.clear();

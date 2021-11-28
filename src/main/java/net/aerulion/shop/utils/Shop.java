@@ -75,17 +75,17 @@ public class Shop {
   }
 
   public boolean isAllowedToBuy(String UUID) {
-      if (this.TransactionDates.containsKey(UUID)) {
-          if (this.Cooldown > -1) {
-              return (Long.parseLong(Util.splitTransactionDates(this.TransactionDates.get(UUID))[1])
-                  + this.Cooldown) < System.currentTimeMillis();
-          } else {
-              return (Integer.parseInt(Util.splitTransactionDates(this.TransactionDates.get(UUID))[0]))
-                  < Math.abs(this.Cooldown);
-          }
+    if (this.TransactionDates.containsKey(UUID)) {
+      if (this.Cooldown > -1) {
+        return (Long.parseLong(Util.splitTransactionDates(this.TransactionDates.get(UUID))[1])
+            + this.Cooldown) < System.currentTimeMillis();
       } else {
-          return true;
+        return (Integer.parseInt(Util.splitTransactionDates(this.TransactionDates.get(UUID))[0]))
+            < Math.abs(this.Cooldown);
       }
+    } else {
+      return true;
+    }
   }
 
   public long getTimeRemaining(String UUID) {
@@ -95,12 +95,12 @@ public class Shop {
 
   public int getRemainingTransactions(String UUID) {
     int max = (int) Math.abs(this.Cooldown);
-      if (this.TransactionDates.containsKey(UUID)) {
-          return max - (Integer.parseInt(
-              Util.splitTransactionDates(this.TransactionDates.get(UUID))[0]));
-      } else {
-          return max;
-      }
+    if (this.TransactionDates.containsKey(UUID)) {
+      return max - (Integer.parseInt(
+          Util.splitTransactionDates(this.TransactionDates.get(UUID))[0]));
+    } else {
+      return max;
+    }
   }
 
   public double getPrice() {
@@ -136,14 +136,14 @@ public class Shop {
   }
 
   public void addTransaction(Player player) {
-      if (this.TransactionDates.containsKey(player.getUniqueId().toString())) {
-          this.TransactionDates.put(player.getUniqueId().toString(), (Integer.parseInt(
-              Util.splitTransactionDates(
-                  this.TransactionDates.get(player.getUniqueId().toString()))[0]) + 1) + "@@@"
-              + System.currentTimeMillis());
-      } else {
-          this.TransactionDates.put(player.getUniqueId().toString(), "1" + "@@@" + System.currentTimeMillis());
-      }
+    if (this.TransactionDates.containsKey(player.getUniqueId().toString())) {
+      this.TransactionDates.put(player.getUniqueId().toString(), (Integer.parseInt(
+          Util.splitTransactionDates(this.TransactionDates.get(player.getUniqueId().toString()))[0])
+          + 1) + "@@@" + System.currentTimeMillis());
+    } else {
+      this.TransactionDates.put(player.getUniqueId().toString(),
+          "1" + "@@@" + System.currentTimeMillis());
+    }
 
   }
 

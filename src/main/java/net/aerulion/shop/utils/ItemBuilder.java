@@ -136,11 +136,11 @@ public class ItemBuilder {
     } else {
       List<String> reason = Collections.singletonList(
           "§7Du kannst diesen Shop nur " + Math.abs(shop.getCooldown()) + "x benutzen");
-        if (shop.getCooldown() > 0) {
-            reason = Arrays.asList("§7Du kannst diesen Shop erst wieder in",
-                Util.cooldownStringBuilder(shop.getTimeRemaining(player.getUniqueId().toString()),
-                    "c", "7"), "§7benutzen");
-        }
+      if (shop.getCooldown() > 0) {
+        reason = Arrays.asList("§7Du kannst diesen Shop erst wieder in",
+            Util.cooldownStringBuilder(shop.getTimeRemaining(player.getUniqueId().toString()), "c",
+                "7"), "§7benutzen");
+      }
       return ItemUtils.buildItemStack(Material.BARRIER, "§c§l\u2716 Bereits genutzt", reason,
           false);
     }
