@@ -367,7 +367,7 @@ public class Util {
           new ComponentBuilder("§7" + shop.getID()).create()));
       message.addExtra(shopName);
       message.addExtra("§8:   ");
-      if (!shop.isVirtual()) {
+      if (!shop.isVirtual() && shop.getShopLocation().getWorld() != null) {
         @NotNull TextComponent tp = new TextComponent("§a§l> TP <");
         tp.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,
             "/tppos " + player.getName() + " " + shop.getShopLocation().getX() + " " + (
