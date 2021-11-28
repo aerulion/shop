@@ -2,6 +2,7 @@ package net.aerulion.shop.listener;
 
 import net.aerulion.shop.Main;
 import net.aerulion.shop.utils.Shop;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
@@ -14,24 +15,24 @@ public class ChunkLoadListener implements Listener {
 
   @EventHandler
   public void onChunkLoad(@NotNull ChunkLoadEvent event) {
-    for (@NotNull Entity entity : event.getChunk().getEntities()) {
-      if (entity.getType().equals(EntityType.ARMOR_STAND)) {
-        if (Main.loadedShops.containsKey(entity.getCustomName())) {
+    Bukkit.getScheduler().runTaskLater(Main.plugin, () -> {
+      for (@NotNull Entity entity : event.getChunk().getEntities()) {
+        if (entity.getType().equals(EntityType.ARMOR_STAND) && Main.loadedShops.containsKey(
+            entity.getCustomName())) {
           Shop shop = Main.loadedShops.get(entity.getCustomName());
           shop.startParticles();
         }
       }
-    }
+    }, 60L);
   }
 
   @EventHandler
   public void onChunkUnload(@NotNull ChunkUnloadEvent event) {
     for (@NotNull Entity entity : event.getChunk().getEntities()) {
-      if (entity.getType().equals(EntityType.ARMOR_STAND)) {
-        if (Main.loadedShops.containsKey(entity.getCustomName())) {
-          Shop shop = Main.loadedShops.get(entity.getCustomName());
-          shop.stopParticles();
-        }
+      if (entity.getType().equals(EntityType.ARMOR_STAND) && Main.loadedShops.containsKey(
+          entity.getCustomName())) {
+        Shop shop = Main.loadedShops.get(entity.getCustomName());
+        shop.stopParticles();
       }
     }
   }
