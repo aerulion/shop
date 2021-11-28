@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import net.aerulion.nucleus.api.chat.ChatUtils;
 import net.aerulion.shop.Main;
@@ -30,29 +31,31 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.EulerAngle;
 import org.bukkit.util.Vector;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class Util {
 
-  public static void openShopToPlayer(Player player, Shop shop) {
+  public static void openShopToPlayer(@NotNull Player player, @NotNull Shop shop) {
     if (player.hasPermission("shop." + shop.getShopPermission())) {
       if (shop.isEnabled()) {
         if (shop.getQuestion() != null && shop.getQuestionAnswer() != null) {
-          if (Main.ActiveQuestionConversations.containsKey(player.getUniqueId().toString())) {
-            Conversation conversation = Main.ActiveQuestionConversations.get(
+          if (Main.activeQuestionConversations.containsKey(player.getUniqueId().toString())) {
+            Conversation conversation = Main.activeQuestionConversations.get(
                 player.getUniqueId().toString());
             conversation.abandon();
           }
-          Main.BuyingPlayers.put(player.getName(), shop.getID());
+          Main.buyingPlayers.put(player.getName(), shop.getID());
           player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 0.5F, 1.3F);
-          ConversationFactory cf = new ConversationFactory(Main.plugin);
-          ConversationPrefix cp = prefix -> Lang.CHAT_PREFIX;
-          Conversation c = cf.withFirstPrompt(new QuestionAskConversation()).withModality(false)
-              .withLocalEcho(false).withPrefix(cp).buildConversation(player);
+          @NotNull ConversationFactory cf = new ConversationFactory(Main.plugin);
+          @NotNull ConversationPrefix cp = prefix -> Lang.CHAT_PREFIX;
+          @NotNull Conversation c = cf.withFirstPrompt(new QuestionAskConversation())
+              .withModality(false).withLocalEcho(false).withPrefix(cp).buildConversation(player);
           c.begin();
-          Main.ActiveQuestionConversations.put(player.getUniqueId().toString(), c);
+          Main.activeQuestionConversations.put(player.getUniqueId().toString(), c);
         } else {
-          player.openInventory(Inventories.UserPanel(shop, player));
-          Main.BuyingPlayers.put(player.getName(), shop.getID());
+          player.openInventory(Inventories.getUserPanel(shop, player));
+          Main.buyingPlayers.put(player.getName(), shop.getID());
           player.playSound(player.getLocation(), Sound.ITEM_ARMOR_EQUIP_GENERIC, 0.5F, 1.3F);
         }
       } else {
@@ -65,10 +68,10 @@ public class Util {
     }
   }
 
-  public static void createNewShop(Player player, double price, long cooldown, String shopName,
-      String shopPermission, boolean virtual) {
-    List<ItemStack> items = new ArrayList<>();
-    for (ItemStack itemstack : player.getInventory().getStorageContents()) {
+  public static void createNewShop(@NotNull Player player, double price, long cooldown,
+      String shopName, String shopPermission, boolean virtual) {
+    @NotNull List<ItemStack> items = new ArrayList<>();
+    for (@Nullable ItemStack itemstack : player.getInventory().getStorageContents()) {
       if (itemstack != null) {
         items.add(itemstack.clone());
       }
@@ -80,10 +83,11 @@ public class Util {
     }
 
     final String ID = UUID.randomUUID().toString();
-    Location location = null;
+    @Nullable Location location = null;
     if (!virtual) {
       location = player.getLocation().subtract(new Vector(0F, 1.37F, 0F));
-      ArmorStand armorstand = player.getLocation().getWorld().spawn(location, ArmorStand.class);
+      @NotNull ArmorStand armorstand = player.getLocation().getWorld()
+          .spawn(location, ArmorStand.class);
       armorstand.setSilent(true);
       armorstand.setSmall(false);
       armorstand.getEquipment().setHelmet(new ItemStack(Material.CHEST));
@@ -94,73 +98,73 @@ public class Util {
       armorstand.setHeadPose(
           new EulerAngle(Math.toRadians(0), Math.toRadians(0), Math.toRadians(0)));
     }
-    HashMap<String, String> transactionDates = new HashMap<>();
-    Main.LoadedShops.put(ID,
+    @NotNull HashMap<String, String> transactionDates = new HashMap<>();
+    Main.loadedShops.put(ID,
         new Shop(transactionDates, items, price, cooldown, location, ID, shopName, shopPermission,
             0, new ArrayList<>(), true, virtual, null, null));
     FileManager.saveSpecificShopToFile(ID);
-    Main.LoadedShops.get(ID).startParticles();
+    Main.loadedShops.get(ID).startParticles();
     player.sendMessage(Lang.SHOP_ADDED);
   }
 
-  public static void giveItemToPlayer(Shop shop, Player player) {
-    for (ItemStack is : shop.getSoldItems()) {
+  public static void giveItemToPlayer(@NotNull Shop shop, @NotNull Player player) {
+    for (@NotNull ItemStack is : shop.getSoldItems()) {
       player.getInventory().addItem(is.clone());
     }
   }
 
-  public static boolean hasInventorySpaceToBuy(Player player, Shop shop) {
-    int UsedSlotCount = 0;
-    for (ItemStack is : player.getInventory().getStorageContents()) {
+  public static boolean hasInventorySpaceToBuy(@NotNull Player player, @NotNull Shop shop) {
+    int usedSlotCount = 0;
+    for (@Nullable ItemStack is : player.getInventory().getStorageContents()) {
       if (is != null) {
-        UsedSlotCount++;
+        usedSlotCount++;
       }
     }
-    return (36 - UsedSlotCount) >= shop.getSoldItems().size();
+    return (36 - usedSlotCount) >= shop.getSoldItems().size();
   }
 
-  public static int calculateInventorySlotSize(Shop shop) {
+  public static int calculateInventorySlotSize(@NotNull Shop shop) {
     return ((int) (Math.ceil(shop.getSoldItems().size() / 9.0))) * 9 + 27;
   }
 
   public static void finishAdminSession(String name) {
-    Main.AdminPanelUser.remove(name);
+    Main.adminPanelUser.remove(name);
   }
 
   public static void finishBuySession(String name) {
-    Main.BuyingPlayers.remove(name);
+    Main.buyingPlayers.remove(name);
   }
 
   public static void finishQuestionSession(String name) {
-    Main.ActiveQuestionConversations.remove(name);
+    Main.activeQuestionConversations.remove(name);
   }
 
-  public static void setNewShopPrice(Player player, double price) {
+  public static void setNewShopPrice(@NotNull Player player, double price) {
     double roundedprice = round(price);
-    Shop shop = Main.LoadedShops.get(Main.AdminPanelUser.get(player.getName()));
+    Shop shop = Main.loadedShops.get(Main.adminPanelUser.get(player.getName()));
     shop.setPrice(roundedprice);
-    FileManager.saveSpecificShopToFile(Main.AdminPanelUser.get(player.getName()));
+    FileManager.saveSpecificShopToFile(Main.adminPanelUser.get(player.getName()));
     finishAdminSession(player.getName());
     player.sendMessage(Lang.NEW_PRICE + roundedprice);
   }
 
-  public static void setNewShopQuestion(Player player, String question) {
-    Shop shop = Main.LoadedShops.get(Main.AdminPanelUser.get(player.getName()));
+  public static void setNewShopQuestion(@NotNull Player player, String question) {
+    Shop shop = Main.loadedShops.get(Main.adminPanelUser.get(player.getName()));
     shop.setQuestion(question);
-    FileManager.saveSpecificShopToFile(Main.AdminPanelUser.get(player.getName()));
+    FileManager.saveSpecificShopToFile(Main.adminPanelUser.get(player.getName()));
     finishAdminSession(player.getName());
     player.sendMessage(Lang.NEW_QUESTION + question);
   }
 
-  public static void validateQuestion(Player player, String input) {
+  public static void validateQuestion(@NotNull Player player, @NotNull String input) {
     if (input.equalsIgnoreCase("stop")) {
       player.sendMessage(Lang.ACTION_ESCAPED);
       finishQuestionSession(player.getName());
       return;
     }
-    Shop shop = Main.LoadedShops.get(Main.BuyingPlayers.get(player.getName()));
+    Shop shop = Main.loadedShops.get(Main.buyingPlayers.get(player.getName()));
     if (input.equalsIgnoreCase(shop.getQuestionAnswer())) {
-      player.openInventory(Inventories.UserPanel(shop, player));
+      player.openInventory(Inventories.getUserPanel(shop, player));
       player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 0.5F, 1.3F);
     } else {
       player.sendMessage(Lang.ERROR_WRONG_QUESTION_ANSWER);
@@ -169,25 +173,25 @@ public class Util {
     finishQuestionSession(player.getName());
   }
 
-  public static void setNewShopQuestionAnswer(Player player, String answer) {
-    Shop shop = Main.LoadedShops.get(Main.AdminPanelUser.get(player.getName()));
+  public static void setNewShopQuestionAnswer(@NotNull Player player, String answer) {
+    Shop shop = Main.loadedShops.get(Main.adminPanelUser.get(player.getName()));
     shop.setQuestionAnswer(answer);
-    FileManager.saveSpecificShopToFile(Main.AdminPanelUser.get(player.getName()));
+    FileManager.saveSpecificShopToFile(Main.adminPanelUser.get(player.getName()));
     finishAdminSession(player.getName());
     player.sendMessage(Lang.NEW_QUESTION_ANSWER + answer);
   }
 
-  public static void toggleEnabled(Player player) {
-    Shop shop = Main.LoadedShops.get(Main.AdminPanelUser.get(player.getName()));
+  public static void toggleEnabled(@NotNull Player player) {
+    Shop shop = Main.loadedShops.get(Main.adminPanelUser.get(player.getName()));
     shop.toggleEnabled();
-    FileManager.saveSpecificShopToFile(Main.AdminPanelUser.get(player.getName()));
+    FileManager.saveSpecificShopToFile(Main.adminPanelUser.get(player.getName()));
     finishAdminSession(player.getName());
     player.sendMessage(Lang.TOGGLED_ENABLED);
   }
 
-  public static void setNewShopItems(Player player) {
-    List<ItemStack> items = new ArrayList<>();
-    for (ItemStack itemstack : player.getInventory().getStorageContents()) {
+  public static void setNewShopItems(@NotNull Player player) {
+    @NotNull List<ItemStack> items = new ArrayList<>();
+    for (@Nullable ItemStack itemstack : player.getInventory().getStorageContents()) {
       if (itemstack != null) {
         items.add(itemstack.clone());
       }
@@ -196,119 +200,113 @@ public class Util {
       player.sendMessage(Lang.ERROR_MAX_STACK_AMOUNT);
       return;
     }
-    Shop shop = Main.LoadedShops.get(Main.AdminPanelUser.get(player.getName()));
+    Shop shop = Main.loadedShops.get(Main.adminPanelUser.get(player.getName()));
     shop.setSoldItem(items);
-    FileManager.saveSpecificShopToFile(Main.AdminPanelUser.get(player.getName()));
+    FileManager.saveSpecificShopToFile(Main.adminPanelUser.get(player.getName()));
     finishAdminSession(player.getName());
     player.sendMessage(Lang.NEW_SHOP_ITEMS);
   }
 
-  public static void setNewShopCooldown(Player player, String cooldown) {
-    Shop shop = Main.LoadedShops.get(Main.AdminPanelUser.get(player.getName()));
+  public static void setNewShopCooldown(@NotNull Player player, @NotNull String cooldown) {
+    Shop shop = Main.loadedShops.get(Main.adminPanelUser.get(player.getName()));
     shop.setCooldown(convertCooldownPattern(cooldown));
-    FileManager.saveSpecificShopToFile(Main.AdminPanelUser.get(player.getName()));
+    FileManager.saveSpecificShopToFile(Main.adminPanelUser.get(player.getName()));
     finishAdminSession(player.getName());
     player.sendMessage(
         Lang.NEW_LIMIT + cooldownStringBuilder(convertCooldownPattern(cooldown), "e", "f"));
   }
 
-  public static void setNewShopPermission(Player player, String permission) {
-    Shop shop = Main.LoadedShops.get(Main.AdminPanelUser.get(player.getName()));
+  public static void setNewShopPermission(@NotNull Player player, String permission) {
+    Shop shop = Main.loadedShops.get(Main.adminPanelUser.get(player.getName()));
     shop.setPermission(permission);
-    FileManager.saveSpecificShopToFile(Main.AdminPanelUser.get(player.getName()));
+    FileManager.saveSpecificShopToFile(Main.adminPanelUser.get(player.getName()));
     finishAdminSession(player.getName());
     player.sendMessage(Lang.NEW_PERMISSION + permission);
   }
 
-  public static void setNewShopName(Player player, String Name) {
-    Shop shop = Main.LoadedShops.get(Main.AdminPanelUser.get(player.getName()));
-    shop.setName(Name);
-    FileManager.saveSpecificShopToFile(Main.AdminPanelUser.get(player.getName()));
+  public static void setNewShopName(@NotNull Player player, @NotNull String name) {
+    Shop shop = Main.loadedShops.get(Main.adminPanelUser.get(player.getName()));
+    shop.setName(name);
+    FileManager.saveSpecificShopToFile(Main.adminPanelUser.get(player.getName()));
     finishAdminSession(player.getName());
-    player.sendMessage(Lang.NEW_NAME + ChatColor.translateAlternateColorCodes('&', Name));
+    player.sendMessage(Lang.NEW_NAME + ChatColor.translateAlternateColorCodes('&', name));
   }
 
-  public static void setNewShopCommands(Player player, String Command) {
-    Shop shop = Main.LoadedShops.get(Main.AdminPanelUser.get(player.getName()));
-    shop.addCommand(Command);
-    FileManager.saveSpecificShopToFile(Main.AdminPanelUser.get(player.getName()));
+  public static void setNewShopCommands(@NotNull Player player, String command) {
+    Shop shop = Main.loadedShops.get(Main.adminPanelUser.get(player.getName()));
+    shop.addCommand(command);
+    FileManager.saveSpecificShopToFile(Main.adminPanelUser.get(player.getName()));
     finishAdminSession(player.getName());
-    player.sendMessage(Lang.COMMAND_ADDED + Command);
+    player.sendMessage(Lang.COMMAND_ADDED + command);
   }
 
-  public static void resetShopCommands(Player player) {
-    Shop shop = Main.LoadedShops.get(Main.AdminPanelUser.get(player.getName()));
+  public static void resetShopCommands(@NotNull Player player) {
+    Shop shop = Main.loadedShops.get(Main.adminPanelUser.get(player.getName()));
     shop.resetCommands();
-    FileManager.saveSpecificShopToFile(Main.AdminPanelUser.get(player.getName()));
+    FileManager.saveSpecificShopToFile(Main.adminPanelUser.get(player.getName()));
     finishAdminSession(player.getName());
     player.sendMessage(Lang.ALL_COMMANDS_DELETED);
   }
 
-  public static void resetShopQuestion(Player player) {
-    Shop shop = Main.LoadedShops.get(Main.AdminPanelUser.get(player.getName()));
+  public static void resetShopQuestion(@NotNull Player player) {
+    Shop shop = Main.loadedShops.get(Main.adminPanelUser.get(player.getName()));
     shop.resetQuestion();
-    FileManager.saveSpecificShopToFile(Main.AdminPanelUser.get(player.getName()));
+    FileManager.saveSpecificShopToFile(Main.adminPanelUser.get(player.getName()));
     finishAdminSession(player.getName());
     player.sendMessage(Lang.QUESTION_RESET);
   }
 
-  public static void resetShopTransactions(Player player) {
-    Shop shop = Main.LoadedShops.get(Main.AdminPanelUser.get(player.getName()));
+  public static void resetShopTransactions(@NotNull Player player) {
+    Shop shop = Main.loadedShops.get(Main.adminPanelUser.get(player.getName()));
     shop.resetTransactions();
-    FileManager.saveSpecificShopToFile(Main.AdminPanelUser.get(player.getName()));
+    FileManager.saveSpecificShopToFile(Main.adminPanelUser.get(player.getName()));
     finishAdminSession(player.getName());
     player.sendMessage(Lang.ALL_PLAYERDATA_DELETED);
   }
 
   public static void deleteShop(String shopID) {
-    Shop shop = Main.LoadedShops.get(shopID);
+    Shop shop = Main.loadedShops.get(shopID);
     shop.stopParticles();
-    Collection<Entity> entities = shop.getShopLocation().getWorld()
+    @NotNull Collection<Entity> entities = shop.getShopLocation().getWorld()
         .getNearbyEntities(shop.getShopLocation(), 2, 2, 2);
-    for (Entity e : entities) {
-      if (e.getType().equals(EntityType.ARMOR_STAND)) {
-        if (e.getCustomName().equals(shopID)) {
-          e.remove();
-        }
+    for (@NotNull Entity e : entities) {
+      if (e.getType().equals(EntityType.ARMOR_STAND) && e.getName().equals(shopID)) {
+        e.remove();
       }
     }
-    Main.LoadedShops.remove(shopID);
+    Main.loadedShops.remove(shopID);
     FileManager.deleteShopFile(shopID);
   }
 
   public static void updateHead(String shopID, ItemStack head) {
-    Shop shop = Main.LoadedShops.get(shopID);
-    Collection<Entity> entities = shop.getShopLocation().getWorld()
+    Shop shop = Main.loadedShops.get(shopID);
+    @NotNull Collection<Entity> entities = shop.getShopLocation().getWorld()
         .getNearbyEntities(shop.getShopLocation(), 2, 2, 2);
-    for (Entity e : entities) {
-      if (e.getType().equals(EntityType.ARMOR_STAND)) {
-        if (e.getName().equals(shop.getID())) {
-          ArmorStand as = (ArmorStand) e;
-          as.getEquipment().setHelmet(head);
-        }
+    for (@NotNull Entity e : entities) {
+      if (e.getType().equals(EntityType.ARMOR_STAND) && e.getName().equals(shop.getID())) {
+        @NotNull ArmorStand as = (ArmorStand) e;
+        as.getEquipment().setHelmet(head);
       }
     }
   }
 
-  public static void updatePosition(String shopID, Location playerLocation) {
-    Shop shop = Main.LoadedShops.get(shopID);
+  public static void updatePosition(String shopID, @NotNull Location playerLocation) {
+    Shop shop = Main.loadedShops.get(shopID);
     shop.stopParticles();
-    Collection<Entity> entities = playerLocation.getWorld()
+    @NotNull Collection<Entity> entities = playerLocation.getWorld()
         .getNearbyEntities(playerLocation, 10, 10, 10);
-    for (Entity e : entities) {
-      if (e.getType().equals(EntityType.ARMOR_STAND)) {
-        if (e.getName().equals(shopID)) {
-          shop.setLocation(e.getLocation());
-        }
+    for (@NotNull Entity e : entities) {
+      if (e.getType().equals(EntityType.ARMOR_STAND) && e.getName().equals(shopID)) {
+        shop.setLocation(e.getLocation());
       }
     }
     shop.startParticles();
     FileManager.saveSpecificShopToFile(shopID);
   }
 
-  public static void buyItem(Player player) {
-    String shopID = Main.BuyingPlayers.get(player.getName());
-    Shop shop = Main.LoadedShops.get(shopID);
+  public static void buyItem(@NotNull Player player) {
+    String shopID = Main.buyingPlayers.get(player.getName());
+    Shop shop = Main.loadedShops.get(shopID);
     if (!hasEnoughMoney(shop, player)) {
       player.sendMessage(Lang.ERROR_NOT_ENOUGH_MONEY);
       finishBuySession(player.getName());
@@ -326,14 +324,13 @@ public class Util {
       giveItemToPlayer(shop, player);
       FileManager.saveSpecificShopToFile(shopID);
       player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.0F, 1.5F);
-      String NoPrefixShopName = shop.getShopName();
-      for (String s : Main.LoadedPrefixes.keySet()) {
-        NoPrefixShopName = NoPrefixShopName.replaceAll(s, "");
+      String noPrefixShopName = shop.getShopName();
+      for (@NotNull String s : Main.loadedPrefixes.keySet()) {
+        noPrefixShopName = noPrefixShopName.replaceAll(s, "");
       }
-      for (String cmd : shop.getExecutedCommands()) {
+      for (@NotNull String cmd : shop.getExecutedCommands()) {
         Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(),
-            cmd.replaceAll("%player%", player.getName())
-                .replaceAll("%shopname%", NoPrefixShopName));
+            cmd.replace("%player%", player.getName()).replace("%shopname%", noPrefixShopName));
       }
 
     } else {
@@ -343,35 +340,35 @@ public class Util {
   }
 
   private static double round(double value) {
-    BigDecimal bd = new BigDecimal(Double.toString(value));
+    @NotNull BigDecimal bd = new BigDecimal(Double.toString(value));
     bd = bd.setScale(2, RoundingMode.HALF_UP);
     return bd.doubleValue();
   }
 
-  public static String[] splitTransactionDates(String input) {
+  public static String @NotNull [] splitTransactionDates(@NotNull String input) {
     return input.split("@@@");
   }
 
-  public static void sendAllShopsMessage(Player player, int page) {
-    int Page = page;
+  public static void sendAllShopsMessage(@NotNull Player player, int page) {
+    int currentPage = page;
     int count = 0;
     player.sendMessage(Lang.CHAT_PREFIX + "Eine Liste aller aktuell geladenen Shops:");
     player.sendMessage(
         "§9§m                                                                               ");
-    List<String> SortedNames = new ArrayList<>();
-    HashMap<String, TextComponent> Messages = new HashMap<>();
-    for (Shop shop : Main.LoadedShops.values()) {
+    @NotNull List<String> sortedNames = new ArrayList<>();
+    @NotNull Map<String, TextComponent> messages = new HashMap<>();
+    for (@NotNull Shop shop : Main.loadedShops.values()) {
       count++;
-      TextComponent message = new TextComponent(" §8§l>> ");
-      TextComponent ShopName = new TextComponent(
+      @NotNull TextComponent message = new TextComponent(" §8§l>> ");
+      @NotNull TextComponent shopName = new TextComponent(
           "§7" + ChatColor.translateAlternateColorCodes('&', shop.getShopName()));
-      ShopName.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, shop.getID()));
-      ShopName.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+      shopName.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, shop.getID()));
+      shopName.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
           new ComponentBuilder("§7" + shop.getID()).create()));
-      message.addExtra(ShopName);
+      message.addExtra(shopName);
       message.addExtra("§8:   ");
       if (!shop.isVirtual()) {
-        TextComponent tp = new TextComponent("§a§l> TP <");
+        @NotNull TextComponent tp = new TextComponent("§a§l> TP <");
         tp.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,
             "/tppos " + player.getName() + " " + shop.getShopLocation().getX() + " " + (
                 shop.getShopLocation().getY() + 2) + " " + shop.getShopLocation().getZ() + " "
@@ -380,57 +377,57 @@ public class Util {
             new ComponentBuilder("§eZum Shop teleportieren...").create()));
         message.addExtra(tp);
       }
-      if (!SortedNames.contains(shop.getShopName())) {
-        SortedNames.add(shop.getShopName());
-        Messages.put(shop.getShopName(), message);
+      if (!sortedNames.contains(shop.getShopName())) {
+        sortedNames.add(shop.getShopName());
+        messages.put(shop.getShopName(), message);
       } else {
-        SortedNames.add(shop.getShopName().concat("_1"));
-        Messages.put(shop.getShopName().concat("_1"), message);
+        sortedNames.add(shop.getShopName().concat("_1"));
+        messages.put(shop.getShopName().concat("_1"), message);
       }
     }
     if (Math.ceil(count / 10D) < page) {
-      Page = (int) Math.ceil(count / 10D);
+      currentPage = (int) Math.ceil(count / 10D);
     }
-    int from = 10 * Page - 10;
-    int to = 10 * Page;
+    int from = 10 * currentPage - 10;
+    int to = 10 * currentPage;
     if (to > count) {
       to = count;
     }
-    SortedNames.sort(String.CASE_INSENSITIVE_ORDER);
-    List<String> toBeSent = SortedNames.subList(from, to);
+    sortedNames.sort(String.CASE_INSENSITIVE_ORDER);
+    @NotNull List<String> toBeSent = sortedNames.subList(from, to);
     for (String msgID : toBeSent) {
-      player.spigot().sendMessage(Messages.get(msgID));
+      player.spigot().sendMessage(messages.get(msgID));
     }
 
     if (count > 10) {
       ChatUtils.sendCenteredChatMessage(player, "§9§m                            ");
       ChatUtils.sendCenteredChatMessage(player,
-          "§7§lSeite §a§l" + Page + "§7/§a§l" + (int) Math.ceil(count / 10D));
-      TextComponent PageButtons = new TextComponent("                           ");
-      if (Page == 1) {
-        TextComponent Back = new TextComponent("    ");
-        PageButtons.addExtra(Back);
+          "§7§lSeite §a§l" + currentPage + "§7/§a§l" + (int) Math.ceil(count / 10D));
+      @NotNull TextComponent pageButtons = new TextComponent("                           ");
+      if (currentPage == 1) {
+        @NotNull TextComponent back = new TextComponent("    ");
+        pageButtons.addExtra(back);
       } else {
-        TextComponent Back = new TextComponent("§a<<<");
-        Back.setClickEvent(
-            new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/shop:shop list " + (Page - 1)));
-        Back.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+        @NotNull TextComponent back = new TextComponent("§a<<<");
+        back.setClickEvent(
+            new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/shop:shop list " + (currentPage - 1)));
+        back.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
             new ComponentBuilder("§e< Vorherige Seite").create()));
-        PageButtons.addExtra(Back);
+        pageButtons.addExtra(back);
       }
-      PageButtons.addExtra("                ");
-      if (Page == Math.ceil(count / 10D)) {
-        TextComponent Back = new TextComponent("    ");
-        PageButtons.addExtra(Back);
+      pageButtons.addExtra("                ");
+      if (currentPage == Math.ceil(count / 10D)) {
+        @NotNull TextComponent back = new TextComponent("    ");
+        pageButtons.addExtra(back);
       } else {
-        TextComponent Forward = new TextComponent("§a>>>");
-        Forward.setClickEvent(
-            new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/shop:shop list " + (Page + 1)));
-        Forward.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+        @NotNull TextComponent forward = new TextComponent("§a>>>");
+        forward.setClickEvent(
+            new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/shop:shop list " + (currentPage + 1)));
+        forward.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
             new ComponentBuilder("§e> Nächste Seite").create()));
-        PageButtons.addExtra(Forward);
+        pageButtons.addExtra(forward);
       }
-      player.spigot().sendMessage(PageButtons);
+      player.spigot().sendMessage(pageButtons);
       ChatUtils.sendCenteredChatMessage(player, "§9§m                            ");
       player.sendMessage("");
     }
@@ -441,22 +438,21 @@ public class Util {
         "§9§m                                                                               ");
   }
 
-  public static boolean checkCooldownPattern(String toBeChecked) {
+  public static boolean checkCooldownPattern(@NotNull String toBeChecked) {
     return (toBeChecked.matches("\\d+:\\d+")) || (toBeChecked.matches("-\\d+"));
   }
 
-  public static Long convertCooldownPattern(String Pattern) {
-    if (Pattern.contains("-")) {
-      return Long.parseLong(Pattern);
+  public static Long convertCooldownPattern(@NotNull String pattern) {
+    if (pattern.contains("-")) {
+      return Long.parseLong(pattern);
     }
-    String[] Splitted = Pattern.split(":");
-    return (((Long.parseLong(Splitted[0]) * 24L) + Long.parseLong(Splitted[1])) * 60L * 60L
-        * 1000L);
+    String @NotNull [] split = pattern.split(":");
+    return (((Long.parseLong(split[0]) * 24L) + Long.parseLong(split[1])) * 60L * 60L * 1000L);
   }
 
-  public static String remainingTransactionsString(Shop shop, Player player, String primary,
-      String secondary) {
-    String output = "";
+  public static @NotNull String remainingTransactionsString(@NotNull Shop shop,
+      @NotNull Player player, String primary, String secondary) {
+    @NotNull String output = "";
     int remaining = shop.getRemainingTransactions(player.getUniqueId().toString());
     if ((shop.getCooldown() < 0) && (remaining < Math.abs(shop.getCooldown()))) {
       output = output.concat(
@@ -465,60 +461,61 @@ public class Util {
     return output;
   }
 
-  public static String cooldownStringBuilder(long Cooldown, String Primary, String Secondary) {
-    if (Cooldown < 0) {
-      return "§" + Primary + Math.abs(Cooldown) + "§" + Secondary + " Mal";
+  public static @NotNull String cooldownStringBuilder(long cooldown, String primary,
+      String secondary) {
+    if (cooldown < 0) {
+      return "§" + primary + Math.abs(cooldown) + "§" + secondary + " Mal";
     }
-    String output = "";
-    int weeks = (int) (Cooldown / (1000 * 60 * 60 * 24 * 7));
-    int days = (int) ((Cooldown / (1000 * 60 * 60 * 24)) % 7);
-    int hours = (int) ((Cooldown / (1000 * 60 * 60)) % 24);
-    int minutes = (int) ((Cooldown / (1000 * 60)) % 60);
-    int seconds = (int) ((Cooldown / 1000) % 60);
+    @NotNull String output = "";
+    int weeks = (int) (cooldown / (1000 * 60 * 60 * 24 * 7));
+    int days = (int) ((cooldown / (1000 * 60 * 60 * 24)) % 7);
+    int hours = (int) ((cooldown / (1000 * 60 * 60)) % 24);
+    int minutes = (int) ((cooldown / (1000 * 60)) % 60);
+    int seconds = (int) ((cooldown / 1000) % 60);
 
     if (weeks > 0) {
       if (weeks > 1) {
-        output = output.concat("§" + Primary + weeks + "§" + Secondary + " Wochen ");
+        output = output.concat("§" + primary + weeks + "§" + secondary + " Wochen ");
       } else {
-        output = output.concat("§" + Primary + weeks + "§" + Secondary + " Woche ");
+        output = output.concat("§" + primary + weeks + "§" + secondary + " Woche ");
       }
     }
     if (days > 0) {
       if (days > 1) {
-        output = output.concat("§" + Primary + days + "§" + Secondary + " Tage ");
+        output = output.concat("§" + primary + days + "§" + secondary + " Tage ");
       } else {
-        output = output.concat("§" + Primary + days + "§" + Secondary + " Tag ");
+        output = output.concat("§" + primary + days + "§" + secondary + " Tag ");
       }
     }
     if (hours > 0) {
       if (hours > 1) {
-        output = output.concat("§" + Primary + hours + "§" + Secondary + " Stunden ");
+        output = output.concat("§" + primary + hours + "§" + secondary + " Stunden ");
       } else {
-        output = output.concat("§" + Primary + hours + "§" + Secondary + " Stunde ");
+        output = output.concat("§" + primary + hours + "§" + secondary + " Stunde ");
       }
     }
     if (minutes > 0) {
       if (minutes > 1) {
-        output = output.concat("§" + Primary + minutes + "§" + Secondary + " Minuten ");
+        output = output.concat("§" + primary + minutes + "§" + secondary + " Minuten ");
       } else {
-        output = output.concat("§" + Primary + minutes + "§" + Secondary + " Minute ");
+        output = output.concat("§" + primary + minutes + "§" + secondary + " Minute ");
       }
     }
     if (seconds > 0) {
       if (seconds > 1) {
-        output = output.concat("§" + Primary + seconds + "§" + Secondary + " Sekunden ");
+        output = output.concat("§" + primary + seconds + "§" + secondary + " Sekunden ");
       } else {
-        output = output.concat("§" + Primary + seconds + "§" + Secondary + " Sekunde ");
+        output = output.concat("§" + primary + seconds + "§" + secondary + " Sekunde ");
       }
     }
     return output;
   }
 
-  public static boolean hasEnoughMoney(Shop shop, Player player) {
+  public static boolean hasEnoughMoney(@NotNull Shop shop, Player player) {
     return Main.economy.getBalance(player) >= shop.getPrice();
   }
 
-  public static void sendHelpMenu(Player player) {
+  public static void sendHelpMenu(@NotNull Player player) {
     player.sendMessage(Lang.CHAT_PREFIX + "Liste aller Commands:");
     player.sendMessage(
         "§9§m                                                                               ");

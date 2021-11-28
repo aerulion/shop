@@ -8,11 +8,12 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 public class Inventories {
 
-  public static Inventory AdminPanel(Shop shop) {
-    Inventory inv = Bukkit.createInventory(null, 27, Lang.INVENTORY_NAME_ADMIN);
+  public static @NotNull Inventory getAdminPanel(@NotNull Shop shop) {
+    @NotNull Inventory inv = Bukkit.createInventory(null, 27, Lang.INVENTORY_NAME_ADMIN);
     inv.addItem(ItemBuilder.createChangePriceGoldIngot());
     inv.addItem(ItemBuilder.createNewItemSetChest());
     inv.addItem(ItemBuilder.createNewCooldownClock());
@@ -29,19 +30,19 @@ public class Inventories {
     return inv;
   }
 
-  public static Inventory UserPanel(Shop shop, Player player) {
+  public static @NotNull Inventory getUserPanel(@NotNull Shop shop, @NotNull Player player) {
     int size = Util.calculateInventorySlotSize(shop);
-    int[] LineSlots = {size - 18, size - 17, size - 16, size - 15, size - 14, size - 13, size - 12,
-        size - 11, size - 10};
-    ItemStack line = ItemUtils.buildItemStack(Material.LIGHT_BLUE_STAINED_GLASS_PANE,
+    int @NotNull [] lineSlots = {size - 18, size - 17, size - 16, size - 15, size - 14, size - 13,
+        size - 12, size - 11, size - 10};
+    @NotNull ItemStack line = ItemUtils.buildItemStack(Material.LIGHT_BLUE_STAINED_GLASS_PANE,
         "§9§m          ", null, false);
     String shopName = shop.getShopName();
-    for (String s : Main.LoadedPrefixes.keySet()) {
+    for (@NotNull String s : Main.loadedPrefixes.keySet()) {
       shopName = shopName.replaceAll(s, "");
     }
-    Inventory inv = Bukkit.createInventory(null, size,
+    @NotNull Inventory inv = Bukkit.createInventory(null, size,
         Lang.INVENTORY_NAME_SHOP + ChatColor.translateAlternateColorCodes('&', shopName));
-    for (int i : LineSlots) {
+    for (int i : lineSlots) {
       inv.setItem(i, line);
     }
     int slot = 0;

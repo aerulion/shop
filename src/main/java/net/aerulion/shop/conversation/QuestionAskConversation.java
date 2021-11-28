@@ -8,12 +8,13 @@ import org.bukkit.conversations.ConversationContext;
 import org.bukkit.conversations.Prompt;
 import org.bukkit.conversations.ValidatingPrompt;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 public class QuestionAskConversation extends ValidatingPrompt {
 
   @Override
-  public String getPromptText(ConversationContext con) {
-    Shop shop = Main.LoadedShops.get(Main.BuyingPlayers.get(((Player) con.getForWhom()).getName()));
+  public @NotNull String getPromptText(@NotNull ConversationContext con) {
+    Shop shop = Main.loadedShops.get(Main.buyingPlayers.get(((Player) con.getForWhom()).getName()));
     return
         "Um diesen Shop nutzen zu können muss zuerst die untenstehende Frage richtig beantwortet werden. Schreibe die Antwort in den Chat. Groß- und Kleinschreibung wird nicht beachtet. Schreibe 'stop' um den Vorgang abzubrechen. §aFrage: "
             + ChatColor.translateAlternateColorCodes('&', shop.getQuestion());
@@ -25,13 +26,13 @@ public class QuestionAskConversation extends ValidatingPrompt {
   }
 
   @Override
-  protected Prompt acceptValidatedInput(ConversationContext con, String input) {
+  protected Prompt acceptValidatedInput(@NotNull ConversationContext con, @NotNull String input) {
     Util.validateQuestion((Player) con.getForWhom(), input);
     return null;
   }
 
   @Override
-  public String getFailedValidationText(ConversationContext con, String InvalidInput) {
+  public String getFailedValidationText(ConversationContext con, String invalidInput) {
     return "Fehler: Ungültige Eingabe. Schreibe 'stop' um den Vorgang abzubrechen.";
   }
 }

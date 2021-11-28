@@ -1,6 +1,7 @@
 package net.aerulion.shop;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Logger;
 import net.aerulion.nucleus.api.console.ConsoleUtils;
 import net.aerulion.shop.cmd.CMD_openshop;
@@ -15,17 +16,19 @@ import net.milkbowl.vault.economy.Economy;
 import org.bukkit.conversations.Conversation;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class Main extends JavaPlugin {
 
   private static final Logger log = Logger.getLogger("Minecraft");
   public static Main plugin;
-  public static Economy economy = null;
-  public static HashMap<String, Shop> LoadedShops = new HashMap<>();
-  public static HashMap<String, String> BuyingPlayers = new HashMap<>();
-  public static HashMap<String, String> AdminPanelUser = new HashMap<>();
-  public static HashMap<String, String> LoadedPrefixes = new HashMap<>();
-  public static HashMap<String, Conversation> ActiveQuestionConversations = new HashMap<>();
+  public static @Nullable Economy economy = null;
+  public static @NotNull Map<String, Shop> loadedShops = new HashMap<>();
+  public static @NotNull Map<String, String> buyingPlayers = new HashMap<>();
+  public static @NotNull Map<String, String> adminPanelUser = new HashMap<>();
+  public static @NotNull Map<String, String> loadedPrefixes = new HashMap<>();
+  public static @NotNull Map<String, Conversation> activeQuestionConversations = new HashMap<>();
 
   @Override
   public void onDisable() {
@@ -60,7 +63,7 @@ public class Main extends JavaPlugin {
     if (getServer().getPluginManager().getPlugin("Vault") == null) {
       return false;
     }
-    RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager()
+    @Nullable RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager()
         .getRegistration(Economy.class);
     if (rsp == null) {
       return false;

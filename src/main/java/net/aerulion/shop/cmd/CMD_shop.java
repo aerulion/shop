@@ -13,18 +13,20 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 public class CMD_shop implements CommandExecutor, TabCompleter {
 
   @Override
-  public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+  public boolean onCommand(CommandSender sender, Command cmd, String label,
+      String @NotNull [] args) {
 
     if (!(sender instanceof Player)) {
       sender.sendMessage(Lang.ERROR_NO_PLAYER);
       return true;
     }
 
-    Player player = (Player) sender;
+    @NotNull Player player = (Player) sender;
 
     if (!player.hasPermission("shop.admin")) {
       player.sendMessage(Lang.ERROR_NO_COMMAND_PERMISSION);
@@ -104,7 +106,7 @@ public class CMD_shop implements CommandExecutor, TabCompleter {
 
   @Override
   public List<String> onTabComplete(CommandSender sender, Command cmd, String label,
-      String[] args) {
+      String @NotNull [] args) {
     if (args.length < 2) {
       return CommandUtils.filterForTabCompleter(
           new ArrayList<>(Arrays.asList("create", "list", "reload", "help")), args[0]);

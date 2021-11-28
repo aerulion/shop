@@ -8,15 +8,16 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.event.world.ChunkUnloadEvent;
+import org.jetbrains.annotations.NotNull;
 
 public class ChunkLoadListener implements Listener {
 
   @EventHandler
-  public void onChunkLoad(ChunkLoadEvent event) {
-    for (Entity entity : event.getChunk().getEntities()) {
+  public void onChunkLoad(@NotNull ChunkLoadEvent event) {
+    for (@NotNull Entity entity : event.getChunk().getEntities()) {
       if (entity.getType().equals(EntityType.ARMOR_STAND)) {
-        if (Main.LoadedShops.containsKey(entity.getCustomName())) {
-          Shop shop = Main.LoadedShops.get(entity.getCustomName());
+        if (Main.loadedShops.containsKey(entity.getCustomName())) {
+          Shop shop = Main.loadedShops.get(entity.getCustomName());
           shop.startParticles();
         }
       }
@@ -24,11 +25,11 @@ public class ChunkLoadListener implements Listener {
   }
 
   @EventHandler
-  public void onChunkUnload(ChunkUnloadEvent event) {
-    for (Entity entity : event.getChunk().getEntities()) {
+  public void onChunkUnload(@NotNull ChunkUnloadEvent event) {
+    for (@NotNull Entity entity : event.getChunk().getEntities()) {
       if (entity.getType().equals(EntityType.ARMOR_STAND)) {
-        if (Main.LoadedShops.containsKey(entity.getCustomName())) {
-          Shop shop = Main.LoadedShops.get(entity.getCustomName());
+        if (Main.loadedShops.containsKey(entity.getCustomName())) {
+          Shop shop = Main.loadedShops.get(entity.getCustomName());
           shop.stopParticles();
         }
       }

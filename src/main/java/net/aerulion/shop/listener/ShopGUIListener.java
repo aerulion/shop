@@ -24,11 +24,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.jetbrains.annotations.NotNull;
 
 public class ShopGUIListener implements Listener {
 
   @EventHandler
-  public void onInvClick(InventoryClickEvent e) {
+  public void onInvClick(@NotNull InventoryClickEvent e) {
     if (e.getWhoClicked() instanceof Player) {
       if (ChatColor.stripColor(e.getView().getTitle()).startsWith("Shop | ")) {
         if (e.getAction().equals(InventoryAction.MOVE_TO_OTHER_INVENTORY) || e.getAction()
@@ -77,9 +78,9 @@ public class ShopGUIListener implements Listener {
             e.setCancelled(true);
             if (e.getCurrentItem().getType().equals(Material.GOLD_INGOT)) {
               e.getWhoClicked().closeInventory();
-              ConversationFactory cf = new ConversationFactory(Main.plugin);
-              ConversationPrefix cp = prefix -> Lang.CHAT_PREFIX;
-              Conversation c = cf.withFirstPrompt(new PriceConversation())
+              @NotNull ConversationFactory cf = new ConversationFactory(Main.plugin);
+              @NotNull ConversationPrefix cp = prefix -> Lang.CHAT_PREFIX;
+              @NotNull Conversation c = cf.withFirstPrompt(new PriceConversation())
                   .withEscapeSequence("stop").withModality(false).withLocalEcho(false)
                   .withPrefix(cp).buildConversation((Player) e.getWhoClicked());
               c.begin();
@@ -90,9 +91,9 @@ public class ShopGUIListener implements Listener {
             }
             if (e.getCurrentItem().getType().equals(Material.CLOCK)) {
               e.getWhoClicked().closeInventory();
-              ConversationFactory cf = new ConversationFactory(Main.plugin);
-              ConversationPrefix cp = prefix -> Lang.CHAT_PREFIX;
-              Conversation c = cf.withFirstPrompt(new CooldownConversation())
+              @NotNull ConversationFactory cf = new ConversationFactory(Main.plugin);
+              @NotNull ConversationPrefix cp = prefix -> Lang.CHAT_PREFIX;
+              @NotNull Conversation c = cf.withFirstPrompt(new CooldownConversation())
                   .withEscapeSequence("stop").withModality(false).withLocalEcho(false)
                   .withPrefix(cp).buildConversation((Player) e.getWhoClicked());
               c.begin();
@@ -103,31 +104,31 @@ public class ShopGUIListener implements Listener {
             }
             if (e.getCurrentItem().getType().equals(Material.BARRIER)) {
               e.getWhoClicked().closeInventory();
-              Util.deleteShop(Main.AdminPanelUser.get(e.getWhoClicked().getName()));
+              Util.deleteShop(Main.adminPanelUser.get(e.getWhoClicked().getName()));
               Util.finishAdminSession(e.getWhoClicked().getName());
             }
             if (e.getCurrentItem().getType().equals(Material.TRIPWIRE_HOOK)) {
               e.getWhoClicked().closeInventory();
-              Util.updatePosition(Main.AdminPanelUser.get(e.getWhoClicked().getName()),
+              Util.updatePosition(Main.adminPanelUser.get(e.getWhoClicked().getName()),
                   e.getWhoClicked().getLocation());
               Util.finishAdminSession(e.getWhoClicked().getName());
             }
             if (e.getCurrentItem().getType().equals(Material.ENCHANTED_BOOK)) {
               e.getWhoClicked().closeInventory();
-              ConversationFactory cf = new ConversationFactory(Main.plugin);
-              ConversationPrefix cp = prefix -> Lang.CHAT_PREFIX;
-              Conversation c = cf.withFirstPrompt(new PermissionConversation())
+              @NotNull ConversationFactory cf = new ConversationFactory(Main.plugin);
+              @NotNull ConversationPrefix cp = prefix -> Lang.CHAT_PREFIX;
+              @NotNull Conversation c = cf.withFirstPrompt(new PermissionConversation())
                   .withEscapeSequence("stop").withModality(false).withLocalEcho(false)
                   .withPrefix(cp).buildConversation((Player) e.getWhoClicked());
               c.begin();
             }
             if (e.getCurrentItem().getType().equals(Material.OAK_SIGN)) {
               e.getWhoClicked().closeInventory();
-              ConversationFactory cf = new ConversationFactory(Main.plugin);
-              ConversationPrefix cp = prefix -> Lang.CHAT_PREFIX;
-              Conversation c = cf.withFirstPrompt(new NameConversation()).withEscapeSequence("stop")
-                  .withModality(false).withLocalEcho(false).withPrefix(cp)
-                  .buildConversation((Player) e.getWhoClicked());
+              @NotNull ConversationFactory cf = new ConversationFactory(Main.plugin);
+              @NotNull ConversationPrefix cp = prefix -> Lang.CHAT_PREFIX;
+              @NotNull Conversation c = cf.withFirstPrompt(new NameConversation())
+                  .withEscapeSequence("stop").withModality(false).withLocalEcho(false)
+                  .withPrefix(cp).buildConversation((Player) e.getWhoClicked());
               c.begin();
             }
             if (e.getCurrentItem().getType().equals(Material.COMMAND_BLOCK)) {
@@ -135,22 +136,22 @@ public class ShopGUIListener implements Listener {
               if (e.getClick().equals(ClickType.DROP)) {
                 Util.resetShopCommands((Player) e.getWhoClicked());
               } else if (e.getClick().equals(ClickType.RIGHT)) {
-                Shop shop = Main.LoadedShops.get(
-                    Main.AdminPanelUser.get(e.getWhoClicked().getName()));
-                String NoPrefixShopName = shop.getShopName();
-                for (String s : Main.LoadedPrefixes.keySet()) {
-                  NoPrefixShopName = NoPrefixShopName.replaceAll(s, "");
+                Shop shop = Main.loadedShops.get(
+                    Main.adminPanelUser.get(e.getWhoClicked().getName()));
+                String noPrefixShopName = shop.getShopName();
+                for (@NotNull String s : Main.loadedPrefixes.keySet()) {
+                  noPrefixShopName = noPrefixShopName.replaceAll(s, "");
                 }
-                for (String cmd : shop.getExecutedCommands()) {
+                for (@NotNull String cmd : shop.getExecutedCommands()) {
                   Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(),
-                      cmd.replaceAll("%player%", e.getWhoClicked().getName())
-                          .replaceAll("%shopname%", NoPrefixShopName));
+                      cmd.replace("%player%", e.getWhoClicked().getName())
+                          .replace("%shopname%", noPrefixShopName));
                 }
                 Util.finishAdminSession(e.getWhoClicked().getName());
               } else {
-                ConversationFactory cf = new ConversationFactory(Main.plugin);
-                ConversationPrefix cp = prefix -> Lang.CHAT_PREFIX;
-                Conversation c = cf.withFirstPrompt(new CommandConversation())
+                @NotNull ConversationFactory cf = new ConversationFactory(Main.plugin);
+                @NotNull ConversationPrefix cp = prefix -> Lang.CHAT_PREFIX;
+                @NotNull Conversation c = cf.withFirstPrompt(new CommandConversation())
                     .withEscapeSequence("stop").withModality(false).withLocalEcho(false)
                     .withPrefix(cp).buildConversation((Player) e.getWhoClicked());
                 c.begin();
@@ -162,7 +163,7 @@ public class ShopGUIListener implements Listener {
                   .equals(Material.AIR)) {
                 e.getWhoClicked().sendMessage(Lang.ERROR_NO_ITEM_IN_HAND);
               } else {
-                Util.updateHead(Main.AdminPanelUser.get(e.getWhoClicked().getName()),
+                Util.updateHead(Main.adminPanelUser.get(e.getWhoClicked().getName()),
                     e.getWhoClicked().getInventory().getItemInMainHand());
                 e.getWhoClicked().sendMessage(Lang.HEAD_UPDATED);
               }
@@ -178,16 +179,16 @@ public class ShopGUIListener implements Listener {
               if (e.getClick().equals(ClickType.DROP)) {
                 Util.resetShopQuestion((Player) e.getWhoClicked());
               } else if (e.getClick().equals(ClickType.RIGHT)) {
-                ConversationFactory cf = new ConversationFactory(Main.plugin);
-                ConversationPrefix cp = prefix -> Lang.CHAT_PREFIX;
-                Conversation c = cf.withFirstPrompt(new QuestionAnswerConversation())
+                @NotNull ConversationFactory cf = new ConversationFactory(Main.plugin);
+                @NotNull ConversationPrefix cp = prefix -> Lang.CHAT_PREFIX;
+                @NotNull Conversation c = cf.withFirstPrompt(new QuestionAnswerConversation())
                     .withEscapeSequence("stop").withModality(false).withLocalEcho(false)
                     .withPrefix(cp).buildConversation((Player) e.getWhoClicked());
                 c.begin();
               } else {
-                ConversationFactory cf = new ConversationFactory(Main.plugin);
-                ConversationPrefix cp = prefix -> Lang.CHAT_PREFIX;
-                Conversation c = cf.withFirstPrompt(new QuestionConversation())
+                @NotNull ConversationFactory cf = new ConversationFactory(Main.plugin);
+                @NotNull ConversationPrefix cp = prefix -> Lang.CHAT_PREFIX;
+                @NotNull Conversation c = cf.withFirstPrompt(new QuestionConversation())
                     .withEscapeSequence("stop").withModality(false).withLocalEcho(false)
                     .withPrefix(cp).buildConversation((Player) e.getWhoClicked());
                 c.begin();

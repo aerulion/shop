@@ -14,11 +14,14 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class CMD_openshop implements CommandExecutor, TabCompleter {
 
   @Override
-  public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+  public boolean onCommand(@NotNull CommandSender sender, Command cmd, String label,
+      String @NotNull [] args) {
     if (!sender.hasPermission("shop.admin")) {
       sender.sendMessage(Lang.ERROR_NO_COMMAND_PERMISSION);
       return true;
@@ -27,28 +30,28 @@ public class CMD_openshop implements CommandExecutor, TabCompleter {
       sender.sendMessage(Lang.ERROR_SYNTAX);
       return true;
     }
-    Player player = Bukkit.getServer().getPlayer(args[0]);
+    @Nullable Player player = Bukkit.getServer().getPlayer(args[0]);
     if (player == null) {
       sender.sendMessage(Lang.ERROR_PLAYER_NOT_FOUND);
       return true;
     }
-    if (!Main.LoadedShops.containsKey(args[1])) {
+    if (!Main.loadedShops.containsKey(args[1])) {
       sender.sendMessage(Lang.ERROR_SHOP_NOT_FOUND);
       return true;
     }
-    Shop shop = Main.LoadedShops.get(args[1]);
+    Shop shop = Main.loadedShops.get(args[1]);
     Util.openShopToPlayer(player, shop);
     return true;
   }
 
   @Override
   public List<String> onTabComplete(CommandSender sender, Command cmd, String label,
-      String[] args) {
+      String @NotNull [] args) {
     if (args.length == 1) {
       return null;
     }
     if (args.length == 2) {
-      return CommandUtils.filterForTabCompleter(new ArrayList<>(Main.LoadedShops.keySet()),
+      return CommandUtils.filterForTabCompleter(new ArrayList<>(Main.loadedShops.keySet()),
           args[1]);
     }
     return Collections.emptyList();

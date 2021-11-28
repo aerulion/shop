@@ -9,6 +9,7 @@ import net.aerulion.shop.utils.Shop;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.NotNull;
 
 public class ShopSaveTask extends BukkitRunnable {
 
@@ -21,9 +22,9 @@ public class ShopSaveTask extends BukkitRunnable {
 
   @Override
   public void run() {
-    Shop shop = Main.LoadedShops.get(uuid);
-    File shopFile = new File("plugins/Shop/Shops", uuid + ".yml");
-    FileConfiguration cfg = YamlConfiguration.loadConfiguration(shopFile);
+    Shop shop = Main.loadedShops.get(uuid);
+    @NotNull File shopFile = new File("plugins/Shop/Shops", uuid + ".yml");
+    @NotNull FileConfiguration cfg = YamlConfiguration.loadConfiguration(shopFile);
     cfg.set("ShopName", shop.getShopName());
     cfg.set("ShopPermission", shop.getShopPermission());
     if (!shop.isVirtual()) {

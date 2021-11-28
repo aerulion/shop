@@ -3,46 +3,49 @@ package net.aerulion.shop.utils;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import net.aerulion.shop.task.particles.WhiteSpiralTask;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class Shop {
 
   private final String shopID;
   private final boolean virtual;
-  private HashMap<String, String> TransactionDates;
-  private List<ItemStack> ItemsForSale;
-  private long Cooldown;
-  private double Price;
-  private WhiteSpiralTask ParticleTask;
-  private Location Location;
+  private Map<String, String> transactionDates;
+  private List<ItemStack> itemsForSale;
+  private long cooldown;
+  private double price;
+  private @Nullable WhiteSpiralTask particleTask;
+  private Location location;
   private String shopName;
   private String shopPermission;
   private int timesUsed;
   private List<String> executedCommands;
-  private String Question;
-  private String QuestionAnswer;
-  private boolean Enabled;
+  private @Nullable String question;
+  private @Nullable String questionAnswer;
+  private boolean enabled;
 
-  public Shop(HashMap<String, String> transactionDates, List<ItemStack> items, double price,
+  public Shop(Map<String, String> transactionDates, List<ItemStack> items, double price,
       long cooldown, Location location, String shopID, String shopName, String shopPermission,
       int timesUsed, List<String> commands, boolean enabled, boolean virtual, String question,
       String questionAnswer) {
-    this.TransactionDates = transactionDates;
-    this.ItemsForSale = items;
-    this.Price = price;
-    this.Cooldown = cooldown;
-    this.Location = location;
+    this.transactionDates = transactionDates;
+    this.itemsForSale = items;
+    this.price = price;
+    this.cooldown = cooldown;
+    this.location = location;
     this.shopID = shopID;
     this.shopName = shopName;
     this.shopPermission = shopPermission;
     this.timesUsed = timesUsed;
     this.executedCommands = commands;
-    this.Question = question;
-    this.QuestionAnswer = questionAnswer;
-    this.Enabled = enabled;
+    this.question = question;
+    this.questionAnswer = questionAnswer;
+    this.enabled = enabled;
     this.virtual = virtual;
   }
 
@@ -71,44 +74,44 @@ public class Shop {
   }
 
   public List<ItemStack> getSoldItems() {
-    return this.ItemsForSale;
+    return this.itemsForSale;
   }
 
-  public boolean isAllowedToBuy(String UUID) {
-    if (this.TransactionDates.containsKey(UUID)) {
-      if (this.Cooldown > -1) {
-        return (Long.parseLong(Util.splitTransactionDates(this.TransactionDates.get(UUID))[1])
-            + this.Cooldown) < System.currentTimeMillis();
+  public boolean isAllowedToBuy(String uuid) {
+    if (this.transactionDates.containsKey(uuid)) {
+      if (this.cooldown > -1) {
+        return (Long.parseLong(Util.splitTransactionDates(this.transactionDates.get(uuid))[1])
+            + this.cooldown) < System.currentTimeMillis();
       } else {
-        return (Integer.parseInt(Util.splitTransactionDates(this.TransactionDates.get(UUID))[0]))
-            < Math.abs(this.Cooldown);
+        return (Integer.parseInt(Util.splitTransactionDates(this.transactionDates.get(uuid))[0]))
+            < Math.abs(this.cooldown);
       }
     } else {
       return true;
     }
   }
 
-  public long getTimeRemaining(String UUID) {
-    return ((Long.parseLong(Util.splitTransactionDates(this.TransactionDates.get(UUID))[1]))
-        + this.Cooldown) - System.currentTimeMillis();
+  public long getTimeRemaining(String uuid) {
+    return ((Long.parseLong(Util.splitTransactionDates(this.transactionDates.get(uuid))[1]))
+        + this.cooldown) - System.currentTimeMillis();
   }
 
-  public int getRemainingTransactions(String UUID) {
-    int max = (int) Math.abs(this.Cooldown);
-    if (this.TransactionDates.containsKey(UUID)) {
+  public int getRemainingTransactions(String uuid) {
+    int max = (int) Math.abs(this.cooldown);
+    if (this.transactionDates.containsKey(uuid)) {
       return max - (Integer.parseInt(
-          Util.splitTransactionDates(this.TransactionDates.get(UUID))[0]));
+          Util.splitTransactionDates(this.transactionDates.get(uuid))[0]));
     } else {
       return max;
     }
   }
 
   public double getPrice() {
-    return this.Price;
+    return this.price;
   }
 
   public void setPrice(double price) {
-    this.Price = price;
+    this.price = price;
   }
 
   public void setPermission(String permission) {
@@ -120,11 +123,11 @@ public class Shop {
   }
 
   public long getCooldown() {
-    return this.Cooldown;
+    return this.cooldown;
   }
 
   public void setCooldown(long cooldown) {
-    this.Cooldown = cooldown;
+    this.cooldown = cooldown;
   }
 
   public void addCommand(String command) {
@@ -135,84 +138,84 @@ public class Shop {
     this.executedCommands = new ArrayList<>();
   }
 
-  public void addTransaction(Player player) {
-    if (this.TransactionDates.containsKey(player.getUniqueId().toString())) {
-      this.TransactionDates.put(player.getUniqueId().toString(), (Integer.parseInt(
-          Util.splitTransactionDates(this.TransactionDates.get(player.getUniqueId().toString()))[0])
+  public void addTransaction(@NotNull Player player) {
+    if (this.transactionDates.containsKey(player.getUniqueId().toString())) {
+      this.transactionDates.put(player.getUniqueId().toString(), (Integer.parseInt(
+          Util.splitTransactionDates(this.transactionDates.get(player.getUniqueId().toString()))[0])
           + 1) + "@@@" + System.currentTimeMillis());
     } else {
-      this.TransactionDates.put(player.getUniqueId().toString(),
+      this.transactionDates.put(player.getUniqueId().toString(),
           "1" + "@@@" + System.currentTimeMillis());
     }
 
   }
 
   public void resetTransactions() {
-    this.TransactionDates = new HashMap<>();
+    this.transactionDates = new HashMap<>();
     this.timesUsed = 0;
   }
 
-  public HashMap<String, String> getTransactionDates() {
-    return this.TransactionDates;
+  public Map<String, String> getTransactionDates() {
+    return this.transactionDates;
   }
 
   public void startParticles() {
     if (!this.virtual) {
       stopParticles();
-      this.ParticleTask = new WhiteSpiralTask(this.Location);
+      this.particleTask = new WhiteSpiralTask(this.location);
     }
 
   }
 
   public void stopParticles() {
-    if (this.ParticleTask != null) {
-      this.ParticleTask.stop();
-      this.ParticleTask = null;
+    if (this.particleTask != null) {
+      this.particleTask.stop();
+      this.particleTask = null;
     }
   }
 
   public Location getShopLocation() {
-    return this.Location;
+    return this.location;
   }
 
   public void setLocation(Location location) {
-    this.Location = location;
+    this.location = location;
   }
 
   public void setSoldItem(List<ItemStack> items) {
-    this.ItemsForSale = items;
+    this.itemsForSale = items;
   }
 
   public boolean isEnabled() {
-    return this.Enabled;
+    return this.enabled;
   }
 
   public void toggleEnabled() {
-    this.Enabled = !this.Enabled;
+    this.enabled = !this.enabled;
   }
 
   public boolean isVirtual() {
     return this.virtual;
   }
 
-  public String getQuestion() {
-    return this.Question;
+  public @Nullable String getQuestion() {
+    return this.question;
   }
 
   public void setQuestion(String question) {
-    this.Question = question;
+    this.question = question;
   }
 
-  public String getQuestionAnswer() {
-    return this.QuestionAnswer;
+  public @Nullable String getQuestionAnswer() {
+    return this.questionAnswer;
   }
 
   public void setQuestionAnswer(String answer) {
-    this.QuestionAnswer = answer;
+    this.questionAnswer = answer;
   }
 
   public void resetQuestion() {
-    this.Question = null;
-    this.QuestionAnswer = null;
+    this.question = null;
+    this.questionAnswer = null;
   }
 }
