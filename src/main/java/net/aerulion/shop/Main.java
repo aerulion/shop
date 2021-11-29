@@ -6,8 +6,8 @@ import java.util.logging.Logger;
 import net.aerulion.nucleus.api.console.ConsoleUtils;
 import net.aerulion.shop.cmd.CMD_openshop;
 import net.aerulion.shop.cmd.CMD_shop;
-import net.aerulion.shop.listener.ChunkLoadListener;
 import net.aerulion.shop.listener.EntityInteractListener;
+import net.aerulion.shop.listener.EntityLoadListener;
 import net.aerulion.shop.listener.ShopGUIListener;
 import net.aerulion.shop.utils.FileManager;
 import net.aerulion.shop.utils.Lang;
@@ -47,7 +47,7 @@ public class Main extends JavaPlugin {
       return;
     }
     getServer().getPluginManager().registerEvents(new EntityInteractListener(), this);
-    getServer().getPluginManager().registerEvents(new ChunkLoadListener(), this);
+    getServer().getPluginManager().registerEvents(new EntityLoadListener(), this);
     getServer().getPluginManager().registerEvents(new ShopGUIListener(), this);
     getCommand("shop").setExecutor(new CMD_shop());
     getCommand("shop").setTabCompleter(new CMD_shop());
