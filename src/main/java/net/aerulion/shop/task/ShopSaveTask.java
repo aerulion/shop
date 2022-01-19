@@ -15,16 +15,16 @@ public class ShopSaveTask extends BukkitRunnable {
 
   private final String uuid;
 
-  public ShopSaveTask(String shopID) {
+  public ShopSaveTask(final String shopID) {
     this.uuid = shopID;
     this.runTaskAsynchronously(Main.plugin);
   }
 
   @Override
   public void run() {
-    Shop shop = Main.loadedShops.get(uuid);
-    @NotNull File shopFile = new File("plugins/Shop/Shops", uuid + ".yml");
-    @NotNull FileConfiguration cfg = YamlConfiguration.loadConfiguration(shopFile);
+    final Shop shop = Main.LOADED_SHOPS.get(uuid);
+    final @NotNull File shopFile = new File("plugins/Shop/Shops", uuid + ".yml");
+    final @NotNull FileConfiguration cfg = YamlConfiguration.loadConfiguration(shopFile);
     cfg.set("ShopName", shop.getShopName());
     cfg.set("ShopPermission", shop.getShopPermission());
     if (!shop.isVirtual()) {
@@ -45,7 +45,7 @@ public class ShopSaveTask extends BukkitRunnable {
     cfg.set("ExecutedCommands", shop.getExecutedCommands());
     try {
       cfg.save(shopFile);
-    } catch (IOException ignored) {
+    } catch (final IOException ignored) {
     }
   }
 }

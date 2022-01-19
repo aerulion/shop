@@ -12,8 +12,8 @@ import org.jetbrains.annotations.NotNull;
 
 public class Inventories {
 
-  public static @NotNull Inventory getAdminPanel(@NotNull Shop shop) {
-    @NotNull Inventory inv = Bukkit.createInventory(null, 27, Lang.INVENTORY_NAME_ADMIN);
+  public static @NotNull Inventory getAdminPanel(final @NotNull Shop shop) {
+    final @NotNull Inventory inv = Bukkit.createInventory(null, 27, Lang.INVENTORY_NAME_ADMIN);
     inv.addItem(ItemBuilder.createChangePriceGoldIngot());
     inv.addItem(ItemBuilder.createNewItemSetChest());
     inv.addItem(ItemBuilder.createNewCooldownClock());
@@ -30,23 +30,23 @@ public class Inventories {
     return inv;
   }
 
-  public static @NotNull Inventory getUserPanel(@NotNull Shop shop, @NotNull Player player) {
-    int size = Util.calculateInventorySlotSize(shop);
-    int @NotNull [] lineSlots = {size - 18, size - 17, size - 16, size - 15, size - 14, size - 13,
+  public static @NotNull Inventory getUserPanel(final @NotNull Shop shop, final @NotNull Player player) {
+    final int size = Util.calculateInventorySlotSize(shop);
+    final int @NotNull [] lineSlots = {size - 18, size - 17, size - 16, size - 15, size - 14, size - 13,
         size - 12, size - 11, size - 10};
-    @NotNull ItemStack line = ItemUtils.buildItemStack(Material.LIGHT_BLUE_STAINED_GLASS_PANE,
+    final @NotNull ItemStack line = ItemUtils.buildItemStack(Material.LIGHT_BLUE_STAINED_GLASS_PANE,
         "§9§m          ", null, false);
     String shopName = shop.getShopName();
-    for (@NotNull String s : Main.loadedPrefixes.keySet()) {
+    for (final @NotNull String s : Main.LOADED_PREFIXES.keySet()) {
       shopName = shopName.replaceAll(s, "");
     }
-    @NotNull Inventory inv = Bukkit.createInventory(null, size,
+    final @NotNull Inventory inv = Bukkit.createInventory(null, size,
         Lang.INVENTORY_NAME_SHOP + ChatColor.translateAlternateColorCodes('&', shopName));
-    for (int i : lineSlots) {
+    for (final int i : lineSlots) {
       inv.setItem(i, line);
     }
     int slot = 0;
-    for (ItemStack is : shop.getSoldItems()) {
+    for (final ItemStack is : shop.getSoldItems()) {
       inv.setItem(slot, is);
       slot++;
     }

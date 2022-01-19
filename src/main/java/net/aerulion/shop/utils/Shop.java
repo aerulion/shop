@@ -29,10 +29,10 @@ public class Shop {
   private @Nullable String questionAnswer;
   private boolean enabled;
 
-  public Shop(Map<String, String> transactionDates, List<ItemStack> items, double price,
-      long cooldown, Location location, String shopID, String shopName, String shopPermission,
-      int timesUsed, List<String> commands, boolean enabled, boolean virtual, String question,
-      String questionAnswer) {
+  public Shop(final Map<String, String> transactionDates, final List<ItemStack> items, final double price,
+      final long cooldown, final Location location, final String shopID, final String shopName, final String shopPermission,
+      final int timesUsed, final List<String> commands, final boolean enabled, final boolean virtual, final @Nullable String question,
+      final @Nullable String questionAnswer) {
     this.transactionDates = transactionDates;
     this.itemsForSale = items;
     this.price = price;
@@ -77,7 +77,7 @@ public class Shop {
     return this.itemsForSale;
   }
 
-  public boolean isAllowedToBuy(String uuid) {
+  public boolean isAllowedToBuy(final String uuid) {
     if (this.transactionDates.containsKey(uuid)) {
       if (this.cooldown > -1) {
         return (Long.parseLong(Util.splitTransactionDates(this.transactionDates.get(uuid))[1])
@@ -91,13 +91,13 @@ public class Shop {
     }
   }
 
-  public long getTimeRemaining(String uuid) {
+  public long getTimeRemaining(final String uuid) {
     return ((Long.parseLong(Util.splitTransactionDates(this.transactionDates.get(uuid))[1]))
         + this.cooldown) - System.currentTimeMillis();
   }
 
-  public int getRemainingTransactions(String uuid) {
-    int max = (int) Math.abs(this.cooldown);
+  public int getRemainingTransactions(final String uuid) {
+    final int max = (int) Math.abs(this.cooldown);
     if (this.transactionDates.containsKey(uuid)) {
       return max - (Integer.parseInt(
           Util.splitTransactionDates(this.transactionDates.get(uuid))[0]));
@@ -110,15 +110,15 @@ public class Shop {
     return this.price;
   }
 
-  public void setPrice(double price) {
+  public void setPrice(final double price) {
     this.price = price;
   }
 
-  public void setPermission(String permission) {
+  public void setPermission(final String permission) {
     this.shopPermission = permission;
   }
 
-  public void setName(String name) {
+  public void setName(final String name) {
     this.shopName = name;
   }
 
@@ -126,11 +126,11 @@ public class Shop {
     return this.cooldown;
   }
 
-  public void setCooldown(long cooldown) {
+  public void setCooldown(final long cooldown) {
     this.cooldown = cooldown;
   }
 
-  public void addCommand(String command) {
+  public void addCommand(final String command) {
     this.executedCommands.add(command);
   }
 
@@ -138,7 +138,7 @@ public class Shop {
     this.executedCommands = new ArrayList<>();
   }
 
-  public void addTransaction(@NotNull Player player) {
+  public void addTransaction(final @NotNull Player player) {
     if (this.transactionDates.containsKey(player.getUniqueId().toString())) {
       this.transactionDates.put(player.getUniqueId().toString(), (Integer.parseInt(
           Util.splitTransactionDates(this.transactionDates.get(player.getUniqueId().toString()))[0])
@@ -178,11 +178,11 @@ public class Shop {
     return this.location;
   }
 
-  public void setLocation(Location location) {
+  public void setLocation(final Location location) {
     this.location = location;
   }
 
-  public void setSoldItem(List<ItemStack> items) {
+  public void setSoldItem(final List<ItemStack> items) {
     this.itemsForSale = items;
   }
 
@@ -202,7 +202,7 @@ public class Shop {
     return this.question;
   }
 
-  public void setQuestion(String question) {
+  public void setQuestion(final @Nullable String question) {
     this.question = question;
   }
 
@@ -210,7 +210,7 @@ public class Shop {
     return this.questionAnswer;
   }
 
-  public void setQuestionAnswer(String answer) {
+  public void setQuestionAnswer(final @Nullable String answer) {
     this.questionAnswer = answer;
   }
 

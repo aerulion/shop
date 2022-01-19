@@ -2,7 +2,6 @@ package net.aerulion.shop;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
 import net.aerulion.nucleus.api.console.ConsoleUtils;
 import net.aerulion.shop.cmd.CMD_openshop;
 import net.aerulion.shop.cmd.CMD_shop;
@@ -21,14 +20,13 @@ import org.jetbrains.annotations.Nullable;
 
 public class Main extends JavaPlugin {
 
-  private static final Logger log = Logger.getLogger("Minecraft");
   public static Main plugin;
   public static @Nullable Economy economy = null;
-  public static @NotNull Map<String, Shop> loadedShops = new HashMap<>();
-  public static @NotNull Map<String, String> buyingPlayers = new HashMap<>();
-  public static @NotNull Map<String, String> adminPanelUser = new HashMap<>();
-  public static @NotNull Map<String, String> loadedPrefixes = new HashMap<>();
-  public static @NotNull Map<String, Conversation> activeQuestionConversations = new HashMap<>();
+  public static final @NotNull Map<String, Shop> LOADED_SHOPS = new HashMap<>();
+  public static final @NotNull Map<String, String> BUYING_PLAYERS = new HashMap<>();
+  public static final @NotNull Map<String, String> ADMIN_PANEL_USER = new HashMap<>();
+  public static final @NotNull Map<String, String> LOADED_PREFIXES = new HashMap<>();
+  public static final @NotNull Map<String, Conversation> ACTIVE_QUESTION_CONVERSATIONS = new HashMap<>();
 
   @Override
   public void onDisable() {
@@ -41,7 +39,7 @@ public class Main extends JavaPlugin {
     ConsoleUtils.sendColoredConsoleMessage(Lang.CONSOLE_ENABLING);
     plugin = this;
     if (!setupEconomy()) {
-      log.severe(String.format("[%s] - Disabled due to no Vault dependency found!",
+      getLogger().severe(String.format("[%s] - Disabled due to no Vault dependency found!",
           getDescription().getName()));
       getServer().getPluginManager().disablePlugin(this);
       return;
@@ -63,7 +61,7 @@ public class Main extends JavaPlugin {
     if (getServer().getPluginManager().getPlugin("Vault") == null) {
       return false;
     }
-    @Nullable RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager()
+    final @Nullable RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager()
         .getRegistration(Economy.class);
     if (rsp == null) {
       return false;

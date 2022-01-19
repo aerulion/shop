@@ -10,23 +10,23 @@ import org.jetbrains.annotations.NotNull;
 public class CommandConversation extends ValidatingPrompt {
 
   @Override
-  public @NotNull String getPromptText(ConversationContext con) {
+  public @NotNull String getPromptText(final @NotNull ConversationContext context) {
     return "Tippe den Befehl den du hinzufügen willst in den Chat. Das '/' am Anfang wird automatisch hinzugefügt. Schreibe 'stop' um den Vorgang abzubrechen. Folgende Variablen sind verfügbar: %player% %shopname%";
   }
 
   @Override
-  protected boolean isInputValid(ConversationContext context, String input) {
+  protected boolean isInputValid(final @NotNull ConversationContext context, final @NotNull String input) {
     return true;
   }
 
   @Override
-  protected Prompt acceptValidatedInput(@NotNull ConversationContext con, String input) {
-    Util.setNewShopCommands((Player) con.getForWhom(), input);
+  protected Prompt acceptValidatedInput(final @NotNull ConversationContext context, final @NotNull String input) {
+    Util.setNewShopCommands((Player) context.getForWhom(), input);
     return null;
   }
 
   @Override
-  public String getFailedValidationText(ConversationContext con, String invalidInput) {
+  public String getFailedValidationText(final @NotNull ConversationContext context, final @NotNull String invalidInput) {
     return "Fehler: Ungültige Eingabe.";
   }
 }

@@ -18,15 +18,13 @@ import org.jetbrains.annotations.NotNull;
 public class CMD_shop implements CommandExecutor, TabCompleter {
 
   @Override
-  public boolean onCommand(CommandSender sender, Command cmd, String label,
-      String @NotNull [] args) {
+  public boolean onCommand(final @NotNull CommandSender sender, final @NotNull Command command,
+      final @NotNull String label, final String @NotNull [] args) {
 
-    if (!(sender instanceof Player)) {
+    if (!(sender instanceof final @NotNull Player player)) {
       sender.sendMessage(Lang.ERROR_NO_PLAYER);
       return true;
     }
-
-    @NotNull Player player = (Player) sender;
 
     if (!player.hasPermission("shop.admin")) {
       player.sendMessage(Lang.ERROR_NO_COMMAND_PERMISSION);
@@ -56,7 +54,7 @@ public class CMD_shop implements CommandExecutor, TabCompleter {
         if (args[0].equalsIgnoreCase("list")) {
           try {
             Integer.parseInt(args[1]);
-          } catch (NumberFormatException e) {
+          } catch (final NumberFormatException e) {
             player.sendMessage(Lang.ERROR_INVALID_NUMBER);
             return true;
           }
@@ -73,7 +71,7 @@ public class CMD_shop implements CommandExecutor, TabCompleter {
         if (args[0].equalsIgnoreCase("create")) {
           try {
             Double.parseDouble(args[2]);
-          } catch (NumberFormatException e) {
+          } catch (final NumberFormatException e) {
             player.sendMessage(Lang.ERROR_INVALID_PRICE);
             return true;
           }
@@ -105,8 +103,8 @@ public class CMD_shop implements CommandExecutor, TabCompleter {
   }
 
   @Override
-  public List<String> onTabComplete(CommandSender sender, Command cmd, String label,
-      String @NotNull [] args) {
+  public List<String> onTabComplete(final @NotNull CommandSender sender,
+      final @NotNull Command command, final @NotNull String alias, final String @NotNull [] args) {
     if (args.length < 2) {
       return CommandUtils.filterForTabCompleter(
           new ArrayList<>(Arrays.asList("create", "list", "reload", "help")), args[0]);
@@ -139,12 +137,6 @@ public class CMD_shop implements CommandExecutor, TabCompleter {
         return CommandUtils.filterForTabCompleter(
             new ArrayList<>(Collections.singletonList("[Seite]")), args[1]);
       }
-    }
-    if (args[0].equalsIgnoreCase("reload")) {
-      return Collections.emptyList();
-    }
-    if (args[0].equalsIgnoreCase("help")) {
-      return Collections.emptyList();
     }
     return Collections.emptyList();
   }

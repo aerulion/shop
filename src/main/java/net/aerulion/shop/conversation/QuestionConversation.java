@@ -10,23 +10,23 @@ import org.jetbrains.annotations.NotNull;
 public class QuestionConversation extends ValidatingPrompt {
 
   @Override
-  public @NotNull String getPromptText(ConversationContext con) {
+  public @NotNull String getPromptText(final @NotNull ConversationContext context) {
     return "Tippe die Frage in den Chat. Schreibe 'stop' um den Vorgang abzubrechen.";
   }
 
   @Override
-  protected boolean isInputValid(ConversationContext context, String input) {
+  protected boolean isInputValid(final @NotNull ConversationContext context, final @NotNull String input) {
     return true;
   }
 
   @Override
-  protected Prompt acceptValidatedInput(@NotNull ConversationContext con, String input) {
-    Util.setNewShopQuestion((Player) con.getForWhom(), input);
+  protected Prompt acceptValidatedInput(final @NotNull ConversationContext context, final @NotNull String input) {
+    Util.setNewShopQuestion((Player) context.getForWhom(), input);
     return null;
   }
 
   @Override
-  public String getFailedValidationText(ConversationContext con, String invalidInput) {
+  public String getFailedValidationText(final @NotNull ConversationContext context, final @NotNull String invalidInput) {
     return "Fehler: Ungültige Eingabe. Schreibe 'stop' um den Vorgang abzubrechen.";
   }
 }

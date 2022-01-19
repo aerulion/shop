@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import net.aerulion.nucleus.api.base64.Base64Utils;
 import net.aerulion.nucleus.api.console.ConsoleUtils;
 import net.aerulion.shop.Main;
@@ -19,9 +20,9 @@ import org.jetbrains.annotations.Nullable;
 
 public class FileManager {
 
-  public static void loadSpecificShopFromFile(@NotNull File shopToLoad) {
-    @NotNull FileConfiguration cfg = YamlConfiguration.loadConfiguration(shopToLoad);
-    Main.loadedShops.put(shopToLoad.getName().substring(0, shopToLoad.getName().length() - 4),
+  public static void loadSpecificShopFromFile(final @NotNull File shopToLoad) {
+    final @NotNull FileConfiguration cfg = YamlConfiguration.loadConfiguration(shopToLoad);
+    Main.LOADED_SHOPS.put(shopToLoad.getName().substring(0, shopToLoad.getName().length() - 4),
         new Shop(deserializeTransactionDates(cfg.getStringList("TransactionDates")),
             Base64Utils.decodeItemStackList(cfg.getStringList("ItemsForSale")),
             cfg.getDouble("Price"), cfg.getLong("Cooldown"), cfg.getBoolean("Virtual") ? null
@@ -34,84 +35,84 @@ public class FileManager {
             cfg.getBoolean("Virtual"), cfg.getString("Question"), cfg.getString("QuestionAnswer")));
   }
 
-  public static void saveSpecificShopToFile(String shopID) {
+  public static void saveSpecificShopToFile(final String shopID) {
     new ShopSaveTask(shopID);
   }
 
   public static void loadAllShopFiles() {
-    long start = System.currentTimeMillis();
-    @NotNull File folder = new File("plugins/Shop/Shops");
-    File @Nullable [] listOfFiles = folder.listFiles();
+    final long start = System.currentTimeMillis();
+    final @NotNull File folder = new File("plugins/Shop/Shops");
+    final File @Nullable [] listOfFiles = folder.listFiles();
     if (listOfFiles != null) {
-      for (@NotNull File file : listOfFiles) {
+      for (final @NotNull File file : listOfFiles) {
         if (file.isFile()) {
           loadSpecificShopFromFile(file);
         }
       }
     }
     ConsoleUtils.sendColoredConsoleMessage(
-        Lang.CHAT_PREFIX + "§e" + Main.loadedShops.size() + Lang.CONSOLE_SHOPS_LOADED + (
+        Lang.CHAT_PREFIX + "§e" + Main.LOADED_SHOPS.size() + Lang.CONSOLE_SHOPS_LOADED + (
             System.currentTimeMillis() - start) + "ms");
   }
 
   public static @NotNull List<String> serializeTransactionDates(
-      @NotNull Map<String, String> transactionDates) {
-    @NotNull List<String> serializedData = new ArrayList<>();
-    for (String s : transactionDates.keySet()) {
-      serializedData.add(s + "###" + transactionDates.get(s));
+      final @NotNull Map<String, String> transactionDates) {
+    final @NotNull List<String> serializedData = new ArrayList<>();
+    for (final Entry<String, String> entry : transactionDates.entrySet()) {
+      serializedData.add(entry.getKey() + "###" + entry.getValue());
     }
     return serializedData;
   }
 
   public static @NotNull Map<String, String> deserializeTransactionDates(
-      @NotNull List<String> serializedList) {
-    @NotNull HashMap<String, String> deSerializedData = new HashMap<>();
-    for (@NotNull String s : serializedList) {
-      String @NotNull [] split = s.split("###");
+      final @NotNull List<String> serializedList) {
+    final @NotNull HashMap<String, String> deSerializedData = new HashMap<>();
+    for (final @NotNull String s : serializedList) {
+      final String @NotNull [] split = s.split("###");
       deSerializedData.put(split[0], split[1]);
     }
     return deSerializedData;
   }
 
-  public static void deleteShopFile(String shopID) {
-    @NotNull File newShop = new File("plugins/Shop/Shops", shopID + ".yml");
+  public static void deleteShopFile(final String shopID) {
+    final @NotNull File newShop = new File("plugins/Shop/Shops", shopID + ".yml");
     newShop.delete();
   }
 
   public static void reloadAllData() {
     Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-      for (@NotNull Shop shop : Main.loadedShops.values()) {
+      for (final @NotNull Shop shop : Main.LOADED_SHOPS.values()) {
         shop.stopParticles();
       }
-      Main.loadedShops.clear();
-      Main.adminPanelUser.clear();
-      Main.buyingPlayers.clear();
-      Main.activeQuestionConversations.clear();
-      Main.loadedPrefixes.clear();
+      Main.LOADED_SHOPS.clear();
+      Main.ADMIN_PANEL_USER.clear();
+      Main.BUYING_PLAYERS.clear();
+      Main.ACTIVE_QUESTION_CONVERSATIONS.clear();
+      Main.LOADED_PREFIXES.clear();
       loadPrefixes();
       loadAllShopFiles();
     });
   }
 
   public static void copyDefaultPrefix() {
-    @NotNull File file = new File("plugins/Shop", "prefix.yml");
-    @NotNull FileConfiguration cfg = YamlConfiguration.loadConfiguration(file);
+    final @NotNull File file = new File("plugins/Shop", "prefix.yml");
+    final @NotNull FileConfiguration cfg = YamlConfiguration.loadConfiguration(file);
     cfg.options().copyDefaults(true);
     cfg.addDefault("%easteregg%", "§a§l\u2726 Easteregg abholen");
     cfg.addDefault("%halloween%", "§f\u2620 §6§lHalloween-Easteregg abholen");
     cfg.addDefault("%ak%", "§f\u2603 §2§lAdventskalender Türchen öffnen");
     try {
       cfg.save(file);
-    } catch (IOException e) {
+    } catch (final IOException e) {
       e.printStackTrace();
     }
   }
 
   public static void loadPrefixes() {
-    @NotNull File file = new File("plugins/Shop", "prefix.yml");
-    @NotNull FileConfiguration cfg = YamlConfiguration.loadConfiguration(file);
-    for (@NotNull String s : cfg.getKeys(false)) {
-      Main.loadedPrefixes.put(s, cfg.getString(s));
+    final @NotNull File file = new File("plugins/Shop", "prefix.yml");
+    final @NotNull FileConfiguration cfg = YamlConfiguration.loadConfiguration(file);
+    for (final @NotNull String s : cfg.getKeys(false)) {
+      Main.LOADED_PREFIXES.put(s, cfg.getString(s));
     }
   }
 }

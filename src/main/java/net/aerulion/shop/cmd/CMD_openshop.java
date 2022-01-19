@@ -20,8 +20,8 @@ import org.jetbrains.annotations.Nullable;
 public class CMD_openshop implements CommandExecutor, TabCompleter {
 
   @Override
-  public boolean onCommand(@NotNull CommandSender sender, Command cmd, String label,
-      String @NotNull [] args) {
+  public boolean onCommand(final @NotNull CommandSender sender, final @NotNull Command command, final @NotNull String label,
+      final String @NotNull [] args) {
     if (!sender.hasPermission("shop.admin")) {
       sender.sendMessage(Lang.ERROR_NO_COMMAND_PERMISSION);
       return true;
@@ -30,28 +30,28 @@ public class CMD_openshop implements CommandExecutor, TabCompleter {
       sender.sendMessage(Lang.ERROR_SYNTAX);
       return true;
     }
-    @Nullable Player player = Bukkit.getServer().getPlayer(args[0]);
+    final @Nullable Player player = Bukkit.getServer().getPlayer(args[0]);
     if (player == null) {
       sender.sendMessage(Lang.ERROR_PLAYER_NOT_FOUND);
       return true;
     }
-    if (!Main.loadedShops.containsKey(args[1])) {
+    if (!Main.LOADED_SHOPS.containsKey(args[1])) {
       sender.sendMessage(Lang.ERROR_SHOP_NOT_FOUND);
       return true;
     }
-    Shop shop = Main.loadedShops.get(args[1]);
+    final Shop shop = Main.LOADED_SHOPS.get(args[1]);
     Util.openShopToPlayer(player, shop);
     return true;
   }
 
   @Override
-  public List<String> onTabComplete(CommandSender sender, Command cmd, String label,
-      String @NotNull [] args) {
+  public List<String> onTabComplete(final @NotNull CommandSender sender, final @NotNull Command command, final @NotNull String alias,
+      final String @NotNull [] args) {
     if (args.length == 1) {
       return null;
     }
     if (args.length == 2) {
-      return CommandUtils.filterForTabCompleter(new ArrayList<>(Main.loadedShops.keySet()),
+      return CommandUtils.filterForTabCompleter(new ArrayList<>(Main.LOADED_SHOPS.keySet()),
           args[1]);
     }
     return Collections.emptyList();

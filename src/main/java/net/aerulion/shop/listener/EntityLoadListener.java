@@ -13,19 +13,19 @@ import org.jetbrains.annotations.NotNull;
 public class EntityLoadListener implements Listener {
 
   @EventHandler(priority = EventPriority.MONITOR)
-  public void listen(@NotNull EntityAddToWorldEvent event) {
-    if (event.getEntity().getType().equals(EntityType.ARMOR_STAND) && Main.loadedShops.containsKey(
+  public void listen(final @NotNull EntityAddToWorldEvent event) {
+    if (event.getEntity().getType() == EntityType.ARMOR_STAND && Main.LOADED_SHOPS.containsKey(
         event.getEntity().getCustomName())) {
-      Shop shop = Main.loadedShops.get(event.getEntity().getCustomName());
+      final Shop shop = Main.LOADED_SHOPS.get(event.getEntity().getCustomName());
       shop.startParticles();
     }
   }
 
   @EventHandler(priority = EventPriority.MONITOR)
-  public void listen(@NotNull EntityRemoveFromWorldEvent event) {
-    if (event.getEntity().getType().equals(EntityType.ARMOR_STAND) && Main.loadedShops.containsKey(
+  public void listen(final @NotNull EntityRemoveFromWorldEvent event) {
+    if (event.getEntity().getType() == EntityType.ARMOR_STAND && Main.LOADED_SHOPS.containsKey(
         event.getEntity().getCustomName())) {
-      Shop shop = Main.loadedShops.get(event.getEntity().getCustomName());
+      final Shop shop = Main.LOADED_SHOPS.get(event.getEntity().getCustomName());
       shop.stopParticles();
     }
   }

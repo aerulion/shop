@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map.Entry;
 import net.aerulion.nucleus.api.item.ItemUtils;
 import net.aerulion.nucleus.api.string.StringUtils;
 import net.aerulion.shop.Main;
@@ -70,7 +71,7 @@ public class ItemBuilder {
         Collections.singletonList("§7§oSetzt das Item in der Main-Hand als Kopf"), false);
   }
 
-  public static @NotNull ItemStack createToggleEnabledDye(@NotNull Shop shop) {
+  public static @NotNull ItemStack createToggleEnabledDye(final @NotNull Shop shop) {
     return ItemUtils.buildItemStack(shop.isEnabled() ? Material.RED_DYE : Material.LIME_DYE,
         shop.isEnabled() ? "§e§lShop deaktivieren" : "§e§lShop aktivieren",
         Collections.singletonList("§7§oAktviert/Deaktiviert den Shop"), false);
@@ -82,53 +83,53 @@ public class ItemBuilder {
             "§7§oItem Droppen: Passwortabfrage deaktivieren"), false);
   }
 
-  public static @NotNull ItemStack createStatisticItem(@NotNull Shop shop) {
-    @NotNull List<String> Lore = new ArrayList<>();
-    Lore.add("§eName: §7" + ChatColor.translateAlternateColorCodes('&', shop.getShopName()));
-    Lore.add("§eShop-UUID: §7" + shop.getID());
-    Lore.add("§ePermission: §7shop." + shop.getShopPermission());
-    Lore.add("§eAktiviert: §7" + (shop.isEnabled() ? "Ja" : "Nein"));
-    Lore.add("§ePreis: §7" + shop.getPrice());
-    Lore.add("§eLimit: §7" + shop.getCooldown());
-    Lore.add("§eWie oft gekauft: §7" + shop.getTimesUsed() + " Mal");
+  public static @NotNull ItemStack createStatisticItem(final @NotNull Shop shop) {
+    final @NotNull List<String> lore = new ArrayList<>();
+    lore.add("§eName: §7" + ChatColor.translateAlternateColorCodes('&', shop.getShopName()));
+    lore.add("§eShop-UUID: §7" + shop.getID());
+    lore.add("§ePermission: §7shop." + shop.getShopPermission());
+    lore.add("§eAktiviert: §7" + (shop.isEnabled() ? "Ja" : "Nein"));
+    lore.add("§ePreis: §7" + shop.getPrice());
+    lore.add("§eLimit: §7" + shop.getCooldown());
+    lore.add("§eWie oft gekauft: §7" + shop.getTimesUsed() + " Mal");
     if (shop.getQuestion() != null) {
-      Lore.add("§ePasswortabfrage:");
-      Lore.add(" §eF: §7" + shop.getQuestion());
-      Lore.add(" §eA: §7" + shop.getQuestionAnswer());
+      lore.add("§ePasswortabfrage:");
+      lore.add(" §eF: §7" + shop.getQuestion());
+      lore.add(" §eA: §7" + shop.getQuestionAnswer());
     } else {
-      Lore.add("§ePasswortabfrage: §7Deaktiviert");
+      lore.add("§ePasswortabfrage: §7Deaktiviert");
     }
     if (!shop.getExecutedCommands().isEmpty()) {
-      Lore.add("§eBefehle: §7");
-      for (String cmd : shop.getExecutedCommands()) {
+      lore.add("§eBefehle: §7");
+      for (final String cmd : shop.getExecutedCommands()) {
         boolean first = true;
-        for (String s : StringUtils.wrapString(cmd, 30)) {
+        for (final String s : StringUtils.wrapString(cmd, 30)) {
           if (first) {
-            Lore.add("§e- §7/" + s);
+            lore.add("§e- §7/" + s);
             first = false;
           } else {
-            Lore.add("§e   §7" + s);
+            lore.add("§e   §7" + s);
           }
         }
       }
     }
-    return ItemUtils.buildItemStack(Material.KNOWLEDGE_BOOK, "§a§lInfos & Statistik", Lore, false);
+    return ItemUtils.buildItemStack(Material.KNOWLEDGE_BOOK, "§a§lInfos & Statistik", lore, false);
   }
 
-  public static @NotNull ItemStack createBuyButton(@NotNull Shop shop, @NotNull Player player) {
+  public static @NotNull ItemStack createBuyButton(final @NotNull Shop shop, final @NotNull Player player) {
     if (shop.isAllowedToBuy(player.getUniqueId().toString())) {
       @NotNull String price = shop.getPrice() + "§7 CT";
-      String ItemName = "§a§l\u27A1 Kaufen";
+      String itemName = "§a§l\u27A1 Kaufen";
       if (shop.getPrice() == 0) {
         price = "§6§lGRATIS";
-        ItemName = "§a§l\u2726 Geschenk abholen";
-        for (@NotNull String s : Main.loadedPrefixes.keySet()) {
-          if (shop.getShopName().contains(s)) {
-            ItemName = Main.loadedPrefixes.get(s);
+        itemName = "§a§l\u2726 Geschenk abholen";
+        for (final Entry<String, String> entry : Main.LOADED_PREFIXES.entrySet()) {
+          if (shop.getShopName().contains(entry.getKey())) {
+            itemName = entry.getValue();
           }
         }
       }
-      return ItemUtils.buildItemStack(Material.LIME_DYE, ItemName,
+      return ItemUtils.buildItemStack(Material.LIME_DYE, itemName,
           Arrays.asList("§f§m                              ", "§fDie obigen Items kaufen",
               "§f§m                              ", "§6§lPreis§8: §6" + price,
               "§6§lLimit§8: " + Util.cooldownStringBuilder(shop.getCooldown(), "6", "7")

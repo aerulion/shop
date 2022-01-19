@@ -13,26 +13,26 @@ import org.jetbrains.annotations.NotNull;
 public class QuestionAskConversation extends ValidatingPrompt {
 
   @Override
-  public @NotNull String getPromptText(@NotNull ConversationContext con) {
-    Shop shop = Main.loadedShops.get(Main.buyingPlayers.get(((Player) con.getForWhom()).getName()));
+  public @NotNull String getPromptText(final @NotNull ConversationContext context) {
+    final Shop shop = Main.LOADED_SHOPS.get(Main.BUYING_PLAYERS.get(((Player) context.getForWhom()).getName()));
     return
         "Um diesen Shop nutzen zu können muss zuerst die untenstehende Frage richtig beantwortet werden. Schreibe die Antwort in den Chat. Groß- und Kleinschreibung wird nicht beachtet. Schreibe 'stop' um den Vorgang abzubrechen. §aFrage: "
             + ChatColor.translateAlternateColorCodes('&', shop.getQuestion());
   }
 
   @Override
-  protected boolean isInputValid(ConversationContext context, String input) {
+  protected boolean isInputValid(final @NotNull ConversationContext context, final @NotNull String input) {
     return true;
   }
 
   @Override
-  protected Prompt acceptValidatedInput(@NotNull ConversationContext con, @NotNull String input) {
-    Util.validateQuestion((Player) con.getForWhom(), input);
+  protected Prompt acceptValidatedInput(final @NotNull ConversationContext context, final @NotNull String input) {
+    Util.validateQuestion((Player) context.getForWhom(), input);
     return null;
   }
 
   @Override
-  public String getFailedValidationText(ConversationContext con, String invalidInput) {
+  public String getFailedValidationText(final @NotNull ConversationContext context, final @NotNull String invalidInput) {
     return "Fehler: Ungültige Eingabe. Schreibe 'stop' um den Vorgang abzubrechen.";
   }
 }

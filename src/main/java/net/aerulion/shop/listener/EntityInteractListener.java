@@ -14,13 +14,13 @@ import org.jetbrains.annotations.NotNull;
 public class EntityInteractListener implements Listener {
 
   @EventHandler
-  public void onEntityInteraction(@NotNull PlayerInteractAtEntityEvent e) {
-    if (Main.loadedShops.containsKey(e.getRightClicked().getCustomName())) {
+  public void onEntityInteraction(final @NotNull PlayerInteractAtEntityEvent e) {
+    if (Main.LOADED_SHOPS.containsKey(e.getRightClicked().getCustomName())) {
       e.setCancelled(true);
-      Shop shop = Main.loadedShops.get(e.getRightClicked().getCustomName());
-      @NotNull Player player = e.getPlayer();
+      final Shop shop = Main.LOADED_SHOPS.get(e.getRightClicked().getCustomName());
+      final @NotNull Player player = e.getPlayer();
       if (player.isSneaking() && player.hasPermission("shop.admin")) {
-        Main.adminPanelUser.put(player.getName(), shop.getID());
+        Main.ADMIN_PANEL_USER.put(player.getName(), shop.getID());
         player.openInventory(Inventories.getAdminPanel(shop));
         player.playSound(player.getLocation(), Sound.ITEM_ARMOR_EQUIP_GENERIC, 0.5F, 1.3F);
         return;

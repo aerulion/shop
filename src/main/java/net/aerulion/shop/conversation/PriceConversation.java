@@ -10,28 +10,28 @@ import org.jetbrains.annotations.NotNull;
 public class PriceConversation extends ValidatingPrompt {
 
   @Override
-  public @NotNull String getPromptText(ConversationContext con) {
+  public @NotNull String getPromptText(final @NotNull ConversationContext context) {
     return "Tippe den neuen Preis in den Chat. Schreibe 'stop' um den Vorgang abzubrechen.";
   }
 
   @Override
-  protected boolean isInputValid(ConversationContext context, @NotNull String input) {
+  protected boolean isInputValid(final @NotNull ConversationContext context, final @NotNull String input) {
     try {
       Double.parseDouble(input);
       return true;
-    } catch (NumberFormatException e) {
+    } catch (final NumberFormatException e) {
       return false;
     }
   }
 
   @Override
-  protected Prompt acceptValidatedInput(@NotNull ConversationContext con, @NotNull String input) {
-    Util.setNewShopPrice((Player) con.getForWhom(), Double.parseDouble(input));
+  protected Prompt acceptValidatedInput(final @NotNull ConversationContext context, final @NotNull String input) {
+    Util.setNewShopPrice((Player) context.getForWhom(), Double.parseDouble(input));
     return null;
   }
 
   @Override
-  public String getFailedValidationText(ConversationContext con, String invalidInput) {
+  public String getFailedValidationText(final @NotNull ConversationContext context, final @NotNull String invalidInput) {
     return "Fehler: Ungültige Eingabe. Schreibe 'stop' um den Vorgang abzubrechen.";
   }
 }

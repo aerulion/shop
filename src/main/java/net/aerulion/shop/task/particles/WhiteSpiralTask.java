@@ -16,7 +16,7 @@ public class WhiteSpiralTask extends BukkitRunnable {
   private final @NotNull List<Location> circleLocations;
   private int time;
 
-  public WhiteSpiralTask(@NotNull Location center) {
+  public WhiteSpiralTask(final @NotNull Location center) {
     this.circleLocations = ParticleUtils.getCircle(center.clone().add(0D, 2D, 0D), 0.45, 25);
     this.time = 0;
     this.runTaskTimer(Main.plugin, 0L, 2L);
@@ -27,7 +27,7 @@ public class WhiteSpiralTask extends BukkitRunnable {
     if (time > (circleLocations.size() - 1)) {
       time = 0;
     }
-    World world = circleLocations.get(time).getWorld();
+    final World world = circleLocations.get(time).getWorld();
     if (world == null) {
       ConsoleUtils.sendColoredConsoleMessage(
           Lang.ERROR_SPAWNING_PARTICLE + circleLocations.get(time).toString());
