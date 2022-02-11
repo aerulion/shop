@@ -15,7 +15,7 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-public class CMD_shop implements CommandExecutor, TabCompleter {
+public class CMD_particleshop implements CommandExecutor, TabCompleter {
 
   @Override
   public boolean onCommand(final @NotNull CommandSender sender, final @NotNull Command command,

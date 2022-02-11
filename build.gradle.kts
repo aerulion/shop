@@ -47,7 +47,7 @@ tasks {
 }
 
 group = "net.aerulion"
-version = "1.3.0"
+version = "1.4.0"
 
 bukkit {
     name = "Shop"
@@ -58,7 +58,7 @@ bukkit {
     depend = listOf("Nucleus", "Vault")
     softDepend = listOf("Multiverse-Core")
     commands {
-        register("shop") {
+        register("particleshop") {
             description = "Hiermit kann ein Shop erstellt werden."
         }
         register("openshop") {

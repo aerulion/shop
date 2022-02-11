@@ -415,7 +415,7 @@ public class Util {
       } else {
         final @NotNull TextComponent back = new TextComponent("§a<<<");
         back.setClickEvent(
-            new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/shop:shop list " + (currentPage - 1)));
+            new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/particleshop list " + (currentPage - 1)));
         back.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
             new ComponentBuilder("§e< Vorherige Seite").create()));
         pageButtons.addExtra(back);
@@ -427,7 +427,7 @@ public class Util {
       } else {
         final @NotNull TextComponent forward = new TextComponent("§a>>>");
         forward.setClickEvent(
-            new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/shop:shop list " + (currentPage + 1)));
+            new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/particleshop list " + (currentPage + 1)));
         forward.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
             new ComponentBuilder("§e> Nächste Seite").create()));
         pageButtons.addExtra(forward);
@@ -524,11 +524,11 @@ public class Util {
     player.sendMessage(Lang.CHAT_PREFIX + "Liste aller Commands:");
     player.sendMessage(
         "§9§m                                                                               ");
-    player.sendMessage(" §8§l>> §7/shop create <Name> <Preis> <Limit> <Permission>");
+    player.sendMessage(" §8§l>> §7/particleshop create <Name> <Preis> <Limit> <Permission>");
     player.sendMessage(" §8§l   §7Eingabeformat Limit: §7§oTage:Stunden §7ODER §c§l§o-§7§oAnzahl");
-    player.sendMessage(" §8§l>> §7/shop list");
-    player.sendMessage(" §8§l>> §7/shop reload");
-    player.sendMessage(" §8§l>> §7/shop help");
+    player.sendMessage(" §8§l>> §7/particleshop list");
+    player.sendMessage(" §8§l>> §7/particleshop reload");
+    player.sendMessage(" §8§l>> §7/particleshop help");
     player.sendMessage(
         "§9§m                                                                               ");
   }
