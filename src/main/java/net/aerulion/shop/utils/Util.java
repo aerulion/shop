@@ -322,8 +322,7 @@ public class Util {
       finishBuySession(player.getName());
       return;
     }
-    final EconomyResponse er = Main.economy.withdrawPlayer(player, shop.getPrice());
-    if (er.transactionSuccess()) {
+    if (shop.getPrice() == 0 || Main.economy.withdrawPlayer(player, shop.getPrice()).transactionSuccess()) {
       shop.addTransaction(player);
       shop.addTimesUsed();
       giveItemToPlayer(shop, player);
