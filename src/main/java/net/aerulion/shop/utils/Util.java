@@ -8,14 +8,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import net.aerulion.nucleus.api.chat.ChatUtils;
+import net.aerulion.erenos.Erenos;
+import net.aerulion.erenos.economy.TransactionResult;
+import net.aerulion.erenos.utils.chat.ChatUtils;
 import net.aerulion.shop.Main;
 import net.aerulion.shop.conversation.QuestionAskConversation;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
-import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -36,23 +38,23 @@ import org.jetbrains.annotations.Nullable;
 
 public class Util {
 
+  private static final Map<UUID, List<String>> COPIED_COMMANDS = new HashMap<>();
+
   public static void openShopToPlayer(final @NotNull Player player, final @NotNull Shop shop) {
     if (player.hasPermission("shop." + shop.getShopPermission())) {
       if (shop.isEnabled()) {
         if (shop.getQuestion() != null && shop.getQuestionAnswer() != null) {
           if (Main.ACTIVE_QUESTION_CONVERSATIONS.containsKey(player.getUniqueId().toString())) {
-            final Conversation conversation = Main.ACTIVE_QUESTION_CONVERSATIONS.get(
-                player.getUniqueId().toString());
+            final Conversation conversation = Main.ACTIVE_QUESTION_CONVERSATIONS.get(player.getUniqueId().toString());
             conversation.abandon();
           }
           Main.BUYING_PLAYERS.put(player.getName(), shop.getID());
           player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 0.5F, 1.3F);
-          final @NotNull ConversationFactory conversationFactory = new ConversationFactory(
-              Main.plugin);
+          final @NotNull ConversationFactory conversationFactory = new ConversationFactory(Main.plugin);
           final @NotNull ConversationPrefix conversationPrefix = prefix -> Lang.CHAT_PREFIX;
-          final @NotNull Conversation conversation = conversationFactory.withFirstPrompt(
-                  new QuestionAskConversation()).withModality(false).withLocalEcho(false)
-              .withPrefix(conversationPrefix).buildConversation(player);
+          final @NotNull Conversation conversation =
+              conversationFactory.withFirstPrompt(new QuestionAskConversation()).withModality(false)
+                  .withLocalEcho(false).withPrefix(conversationPrefix).buildConversation(player);
           conversation.begin();
           Main.ACTIVE_QUESTION_CONVERSATIONS.put(player.getUniqueId().toString(), conversation);
         } else {
@@ -70,9 +72,8 @@ public class Util {
     }
   }
 
-  public static void createNewShop(final @NotNull Player player, final double price,
-      final long cooldown, final String shopName, final String shopPermission,
-      final boolean virtual) {
+  public static void createNewShop(final @NotNull Player player, final double price, final long cooldown,
+      final String shopName, final String shopPermission, final boolean virtual) {
     final @NotNull List<ItemStack> items = new ArrayList<>();
     for (final ItemStack itemstack : player.getInventory().getStorageContents()) {
       if (itemstack != null) {
@@ -89,8 +90,7 @@ public class Util {
     @Nullable Location location = null;
     if (!virtual) {
       location = player.getLocation().subtract(new Vector(0F, 1.37F, 0F));
-      final @NotNull ArmorStand armorstand = player.getLocation().getWorld()
-          .spawn(location, ArmorStand.class);
+      final @NotNull ArmorStand armorstand = player.getLocation().getWorld().spawn(location, ArmorStand.class);
       armorstand.setSilent(true);
       armorstand.setSmall(false);
       armorstand.getEquipment().setHelmet(new ItemStack(Material.CHEST));
@@ -98,13 +98,12 @@ public class Util {
       armorstand.setVisible(false);
       armorstand.setCustomName(id);
       armorstand.setBasePlate(false);
-      armorstand.setHeadPose(
-          new EulerAngle(Math.toRadians(0), Math.toRadians(0), Math.toRadians(0)));
+      armorstand.setHeadPose(new EulerAngle(Math.toRadians(0), Math.toRadians(0), Math.toRadians(0)));
     }
     final @NotNull HashMap<String, String> transactionDates = new HashMap<>();
     Main.LOADED_SHOPS.put(id,
-        new Shop(transactionDates, items, price, cooldown, location, id, shopName, shopPermission,
-            0, new ArrayList<>(), true, virtual, null, null));
+        new Shop(transactionDates, items, price, cooldown, location, id, shopName, shopPermission, 0, new ArrayList<>(),
+            true, virtual, null, null));
     FileManager.saveSpecificShopToFile(id);
     Main.LOADED_SHOPS.get(id).startParticles();
     player.sendMessage(Lang.SHOP_ADDED);
@@ -116,8 +115,7 @@ public class Util {
     }
   }
 
-  public static boolean hasInventorySpaceToBuy(final @NotNull Player player,
-      final @NotNull Shop shop) {
+  public static boolean hasInventorySpaceToBuy(final @NotNull Player player, final @NotNull Shop shop) {
     int usedSlotCount = 0;
     for (final ItemStack is : player.getInventory().getStorageContents()) {
       if (is != null) {
@@ -211,14 +209,12 @@ public class Util {
     player.sendMessage(Lang.NEW_SHOP_ITEMS);
   }
 
-  public static void setNewShopCooldown(final @NotNull Player player,
-      final @NotNull String cooldown) {
+  public static void setNewShopCooldown(final @NotNull Player player, final @NotNull String cooldown) {
     final Shop shop = Main.LOADED_SHOPS.get(Main.ADMIN_PANEL_USER.get(player.getName()));
     shop.setCooldown(convertCooldownPattern(cooldown));
     FileManager.saveSpecificShopToFile(Main.ADMIN_PANEL_USER.get(player.getName()));
     finishAdminSession(player.getName());
-    player.sendMessage(
-        Lang.NEW_LIMIT + cooldownStringBuilder(convertCooldownPattern(cooldown), "e", "f"));
+    player.sendMessage(Lang.NEW_LIMIT + cooldownStringBuilder(convertCooldownPattern(cooldown), "e", "f"));
   }
 
   public static void setNewShopPermission(final @NotNull Player player, final String permission) {
@@ -253,6 +249,22 @@ public class Util {
     player.sendMessage(Lang.ALL_COMMANDS_DELETED);
   }
 
+  public static void copyShopCommands(final @NotNull Player player) {
+    final Shop shop = Main.LOADED_SHOPS.get(Main.ADMIN_PANEL_USER.get(player.getName()));
+    COPIED_COMMANDS.put(player.getUniqueId(), new ArrayList<>(shop.getExecutedCommands()));
+    finishAdminSession(player.getName());
+    player.sendMessage(Lang.ALL_COMMANDS_COPIED);
+  }
+
+  public static void pasteShopCommands(final @NotNull Player player) {
+    final Shop shop = Main.LOADED_SHOPS.get(Main.ADMIN_PANEL_USER.get(player.getName()));
+    shop.resetCommands();
+    shop.getExecutedCommands().addAll(COPIED_COMMANDS.getOrDefault(player.getUniqueId(), new ArrayList<>()));
+    FileManager.saveSpecificShopToFile(Main.ADMIN_PANEL_USER.get(player.getName()));
+    finishAdminSession(player.getName());
+    player.sendMessage(Lang.ALL_COMMANDS_PASTED);
+  }
+
   public static void resetShopQuestion(final @NotNull Player player) {
     final Shop shop = Main.LOADED_SHOPS.get(Main.ADMIN_PANEL_USER.get(player.getName()));
     shop.resetQuestion();
@@ -272,8 +284,8 @@ public class Util {
   public static void deleteShop(final String shopID) {
     final Shop shop = Main.LOADED_SHOPS.get(shopID);
     shop.stopParticles();
-    final @NotNull Collection<Entity> entities = shop.getShopLocation().getWorld()
-        .getNearbyEntities(shop.getShopLocation(), 2, 2, 2);
+    final @NotNull Collection<Entity> entities =
+        shop.getShopLocation().getWorld().getNearbyEntities(shop.getShopLocation(), 2, 2, 2);
     for (final @NotNull Entity e : entities) {
       if (e.getType() == EntityType.ARMOR_STAND && e.getName().equals(shopID)) {
         e.remove();
@@ -285,8 +297,8 @@ public class Util {
 
   public static void updateHead(final String shopID, final ItemStack head) {
     final Shop shop = Main.LOADED_SHOPS.get(shopID);
-    final @NotNull Collection<Entity> entities = shop.getShopLocation().getWorld()
-        .getNearbyEntities(shop.getShopLocation(), 2, 2, 2);
+    final @NotNull Collection<Entity> entities =
+        shop.getShopLocation().getWorld().getNearbyEntities(shop.getShopLocation(), 2, 2, 2);
     for (final @NotNull Entity e : entities) {
       if (e.getType() == EntityType.ARMOR_STAND && e.getName().equals(shop.getID())) {
         final @NotNull ArmorStand as = (ArmorStand) e;
@@ -298,8 +310,8 @@ public class Util {
   public static void updatePosition(final String shopID, final @NotNull Location playerLocation) {
     final Shop shop = Main.LOADED_SHOPS.get(shopID);
     shop.stopParticles();
-    final @NotNull Collection<Entity> entities = playerLocation.getWorld()
-        .getNearbyEntities(playerLocation, 10, 10, 10);
+    final @NotNull Collection<Entity> entities =
+        playerLocation.getWorld().getNearbyEntities(playerLocation, 10, 10, 10);
     for (final @NotNull Entity e : entities) {
       if (e.getType() == EntityType.ARMOR_STAND && e.getName().equals(shopID)) {
         shop.setLocation(e.getLocation());
@@ -322,7 +334,9 @@ public class Util {
       finishBuySession(player.getName());
       return;
     }
-    if (shop.getPrice() == 0 || Main.economy.withdrawPlayer(player, shop.getPrice()).transactionSuccess()) {
+    if (shop.getPrice() == 0 || Erenos.getInstance().getEconomyService()
+        .withdraw(player.getUniqueId(), shop.getPrice(), "Einkauf: " + shop.getShopName()) ==
+        TransactionResult.SUCCESS) {
       shop.addTransaction(player);
       shop.addTimesUsed();
       giveItemToPlayer(shop, player);
@@ -357,28 +371,27 @@ public class Util {
     int currentPage = page;
     int count = 0;
     player.sendMessage(Lang.CHAT_PREFIX + "Eine Liste aller aktuell geladenen Shops:");
-    player.sendMessage(
-        "§9§m                                                                               ");
+    player.sendMessage("§9§m                                                                               ");
     final @NotNull List<String> sortedNames = new ArrayList<>();
     final @NotNull Map<String, TextComponent> messages = new HashMap<>();
     for (final @NotNull Shop shop : Main.LOADED_SHOPS.values()) {
       count++;
       final @NotNull TextComponent message = new TextComponent(" §8§l>> ");
-      final @NotNull TextComponent shopName = new TextComponent(
-          "§7" + ChatColor.translateAlternateColorCodes('&', shop.getShopName()));
+      final @NotNull TextComponent shopName =
+          new TextComponent("§7" + ChatColor.translateAlternateColorCodes('&', shop.getShopName()));
       shopName.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, shop.getID()));
-      shopName.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-          new ComponentBuilder("§7" + shop.getID()).create()));
+      shopName.setHoverEvent(
+          new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§7" + shop.getID()).create()));
       message.addExtra(shopName);
       message.addExtra("§8:   ");
       if (!shop.isVirtual() && shop.getShopLocation().getWorld() != null) {
         final @NotNull TextComponent tp = new TextComponent("§a§l> TP <");
         tp.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,
-            "/tppos " + player.getName() + " " + shop.getShopLocation().getX() + " " + (
-                shop.getShopLocation().getY() + 2) + " " + shop.getShopLocation().getZ() + " "
-                + shop.getShopLocation().getWorld().getName()));
-        tp.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-            new ComponentBuilder("§eZum Shop teleportieren...").create()));
+            "/tppos " + player.getName() + " " + shop.getShopLocation().getX() + " " +
+                (shop.getShopLocation().getY() + 2) + " " + shop.getShopLocation().getZ() + " " +
+                shop.getShopLocation().getWorld().getName()));
+        tp.setHoverEvent(
+            new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§eZum Shop teleportieren...").create()));
         message.addExtra(tp);
       }
       if (!sortedNames.contains(shop.getShopName())) {
@@ -404,19 +417,19 @@ public class Util {
     }
 
     if (count > 10) {
-      ChatUtils.sendCenteredChatMessage(player, "§9§m                            ");
       ChatUtils.sendCenteredChatMessage(player,
-          "§7§lSeite §a§l" + currentPage + "§7/§a§l" + (int) Math.ceil(count / 10D));
+          LegacyComponentSerializer.legacyAmpersand().deserialize("&9&m                            "));
+      ChatUtils.sendCenteredChatMessage(player, LegacyComponentSerializer.legacyAmpersand()
+          .deserialize("&7&lSeite &a&l" + currentPage + "&7/&a&l" + (int) Math.ceil(count / 10D)));
       final @NotNull TextComponent pageButtons = new TextComponent("                           ");
       if (currentPage == 1) {
         final @NotNull TextComponent back = new TextComponent("    ");
         pageButtons.addExtra(back);
       } else {
         final @NotNull TextComponent back = new TextComponent("§a<<<");
-        back.setClickEvent(
-            new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/particleshop list " + (currentPage - 1)));
-        back.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-            new ComponentBuilder("§e< Vorherige Seite").create()));
+        back.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/particleshop list " + (currentPage - 1)));
+        back.setHoverEvent(
+            new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§e< Vorherige Seite").create()));
         pageButtons.addExtra(back);
       }
       pageButtons.addExtra("                ");
@@ -425,21 +438,20 @@ public class Util {
         pageButtons.addExtra(back);
       } else {
         final @NotNull TextComponent forward = new TextComponent("§a>>>");
-        forward.setClickEvent(
-            new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/particleshop list " + (currentPage + 1)));
-        forward.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-            new ComponentBuilder("§e> Nächste Seite").create()));
+        forward.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/particleshop list " + (currentPage + 1)));
+        forward.setHoverEvent(
+            new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§e> Nächste Seite").create()));
         pageButtons.addExtra(forward);
       }
       player.spigot().sendMessage(pageButtons);
-      ChatUtils.sendCenteredChatMessage(player, "§9§m                            ");
+      ChatUtils.sendCenteredChatMessage(player,
+          LegacyComponentSerializer.legacyAmpersand().deserialize("&9&m                            "));
       player.sendMessage("");
     }
     player.sendMessage("");
-    ChatUtils.sendCenteredChatMessage(player,
-        "§a§l>> §7Aktuell sind §a" + count + "§7 Shops geladen.");
-    player.sendMessage(
-        "§9§m                                                                               ");
+    ChatUtils.sendCenteredChatMessage(player, LegacyComponentSerializer.legacyAmpersand()
+        .deserialize("&a&l>> &7Aktuell sind &a" + count + "&7 Shops geladen."));
+    player.sendMessage("§9§m                                                                               ");
   }
 
   public static boolean checkCooldownPattern(final @NotNull String toBeChecked) {
@@ -454,13 +466,12 @@ public class Util {
     return (((Long.parseLong(split[0]) * 24L) + Long.parseLong(split[1])) * 60L * 60L * 1000L);
   }
 
-  public static @NotNull String remainingTransactionsString(final @NotNull Shop shop,
-      final @NotNull Player player, final String primary, final String secondary) {
+  public static @NotNull String remainingTransactionsString(final @NotNull Shop shop, final @NotNull Player player,
+      final String primary, final String secondary) {
     @NotNull String output = "";
     final int remaining = shop.getRemainingTransactions(player.getUniqueId().toString());
     if ((shop.getCooldown() < 0) && (remaining < Math.abs(shop.getCooldown()))) {
-      output = output + " §" + secondary + "[§" + primary + remaining + "§" + secondary
-          + "x verbleibend]";
+      output = output + " §" + secondary + "[§" + primary + remaining + "§" + secondary + "x verbleibend]";
     }
     return output;
   }
@@ -516,19 +527,18 @@ public class Util {
   }
 
   public static boolean hasEnoughMoney(final @NotNull Shop shop, final Player player) {
-    return Main.economy.getBalance(player) >= shop.getPrice();
+    return Erenos.getInstance().getEconomyService().hasBalance(player.getUniqueId(), shop.getPrice());
   }
 
   public static void sendHelpMenu(final @NotNull Player player) {
     player.sendMessage(Lang.CHAT_PREFIX + "Liste aller Commands:");
-    player.sendMessage(
-        "§9§m                                                                               ");
+    player.sendMessage("§9§m                                                                               ");
     player.sendMessage(" §8§l>> §7/particleshop create <Name> <Preis> <Limit> <Permission>");
     player.sendMessage(" §8§l   §7Eingabeformat Limit: §7§oTage:Stunden §7ODER §c§l§o-§7§oAnzahl");
     player.sendMessage(" §8§l>> §7/particleshop list");
     player.sendMessage(" §8§l>> §7/particleshop reload");
     player.sendMessage(" §8§l>> §7/particleshop help");
-    player.sendMessage(
-        "§9§m                                                                               ");
+    player.sendMessage("§9§m                                                                               ");
   }
+
 }

@@ -28,4 +28,5 @@ public class EntityInteractListener implements Listener {
       Util.openShopToPlayer(player, shop);
     }
   }
+
 }

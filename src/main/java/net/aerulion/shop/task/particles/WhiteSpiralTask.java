@@ -1,10 +1,10 @@
 package net.aerulion.shop.task.particles;
 
 import java.util.List;
-import net.aerulion.nucleus.api.console.ConsoleUtils;
-import net.aerulion.nucleus.api.particle.ParticleUtils;
+import net.aerulion.erenos.utils.particle.ParticleUtils;
 import net.aerulion.shop.Main;
 import net.aerulion.shop.utils.Lang;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.World;
@@ -29,8 +29,8 @@ public class WhiteSpiralTask extends BukkitRunnable {
     }
     final World world = circleLocations.get(time).getWorld();
     if (world == null) {
-      ConsoleUtils.sendColoredConsoleMessage(
-          Lang.ERROR_SPAWNING_PARTICLE + circleLocations.get(time).toString());
+      Main.plugin.getComponentLogger().warn(LegacyComponentSerializer.legacySection()
+          .deserialize(Lang.ERROR_SPAWNING_PARTICLE + circleLocations.get(time).toString()));
       this.cancel();
       return;
     }
@@ -41,4 +41,5 @@ public class WhiteSpiralTask extends BukkitRunnable {
   public void stop() {
     this.cancel();
   }
+
 }

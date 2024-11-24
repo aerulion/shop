@@ -3,7 +3,7 @@ package net.aerulion.shop.cmd;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import net.aerulion.nucleus.api.command.CommandUtils;
+import net.aerulion.erenos.utils.string.StringUtils;
 import net.aerulion.shop.Main;
 import net.aerulion.shop.utils.Lang;
 import net.aerulion.shop.utils.Shop;
@@ -20,8 +20,8 @@ import org.jetbrains.annotations.Nullable;
 public class CMD_openshop implements CommandExecutor, TabCompleter {
 
   @Override
-  public boolean onCommand(final @NotNull CommandSender sender, final @NotNull Command command, final @NotNull String label,
-      final String @NotNull [] args) {
+  public boolean onCommand(final @NotNull CommandSender sender, final @NotNull Command command,
+      final @NotNull String label, final String @NotNull [] args) {
     if (!sender.hasPermission("shop.admin")) {
       sender.sendMessage(Lang.ERROR_NO_COMMAND_PERMISSION);
       return true;
@@ -45,15 +45,15 @@ public class CMD_openshop implements CommandExecutor, TabCompleter {
   }
 
   @Override
-  public List<String> onTabComplete(final @NotNull CommandSender sender, final @NotNull Command command, final @NotNull String alias,
-      final String @NotNull [] args) {
+  public List<String> onTabComplete(final @NotNull CommandSender sender, final @NotNull Command command,
+      final @NotNull String alias, final String @NotNull [] args) {
     if (args.length == 1) {
       return null;
     }
     if (args.length == 2) {
-      return CommandUtils.filterForTabCompleter(new ArrayList<>(Main.LOADED_SHOPS.keySet()),
-          args[1]);
+      return StringUtils.filterList(new ArrayList<>(Main.LOADED_SHOPS.keySet()), args[1], true);
     }
     return Collections.emptyList();
   }
+
 }

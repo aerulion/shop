@@ -5,9 +5,10 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map.Entry;
-import net.aerulion.nucleus.api.item.ItemUtils;
-import net.aerulion.nucleus.api.string.StringUtils;
+import java.util.stream.Collectors;
+import net.aerulion.erenos.utils.string.StringUtils;
 import net.aerulion.shop.Main;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -16,69 +17,73 @@ import org.jetbrains.annotations.NotNull;
 
 public class ItemBuilder {
 
+  private static ItemStack buildItemStack(final Material material, final String name, final List<String> lore, final boolean glow) {
+    return net.aerulion.erenos.utils.item.ItemBuilder.of(material)
+        .withDisplayName(LegacyComponentSerializer.legacySection().deserialize(name)).withLore(
+            lore.stream().map(s -> LegacyComponentSerializer.legacySection().deserialize(s))
+                .collect(Collectors.toList())).asItemStack();
+  }
+
   public static @NotNull ItemStack createDeleteShopBarrier() {
-    return ItemUtils.buildItemStack(Material.BARRIER, "§c§l\u2716 Löschen",
+    return buildItemStack(Material.BARRIER, "§c§l\u2716 Löschen",
         Collections.singletonList("§7§oLöscht den gesamten Shop"), false);
   }
 
   public static @NotNull ItemStack createResetTransactionsStructureVoid() {
-    return ItemUtils.buildItemStack(Material.STRUCTURE_VOID, "§e§lSpielerdaten zurücksetzen",
-        Arrays.asList("§7§oErmöglicht es allen Spielern, erneut",
-            "§7§oetwas im Shop kaufen zu können"), false);
+    return buildItemStack(Material.STRUCTURE_VOID, "§e§lSpielerdaten zurücksetzen",
+        Arrays.asList("§7§oErmöglicht es allen Spielern, erneut", "§7§oetwas im Shop kaufen zu können"), false);
   }
 
   public static @NotNull ItemStack createChangePriceGoldIngot() {
-    return ItemUtils.buildItemStack(Material.GOLD_INGOT, "§e§lPreis ändern",
+    return buildItemStack(Material.GOLD_INGOT, "§e§lPreis ändern",
         Collections.singletonList("§7§oÄndert den Preis des Shops"), false);
   }
 
   public static @NotNull ItemStack createNewItemSetChest() {
-    return ItemUtils.buildItemStack(Material.CHEST, "§e§lNeue Items",
-        Arrays.asList("§7§oSetzt den Inhalt des aktuellen Inventars",
-            "§7§oals zu kaufende Items des Shops"), false);
+    return buildItemStack(Material.CHEST, "§e§lNeue Items",
+        Arrays.asList("§7§oSetzt den Inhalt des aktuellen Inventars", "§7§oals zu kaufende Items des Shops"), false);
   }
 
   public static @NotNull ItemStack createNewCooldownClock() {
-    return ItemUtils.buildItemStack(Material.CLOCK, "§e§lLimit ändern",
+    return buildItemStack(Material.CLOCK, "§e§lLimit ändern",
         Collections.singletonList("§7§oändert das Limit des Shops"), false);
   }
 
   public static @NotNull ItemStack createUpdatePositionTripwireHook() {
-    return ItemUtils.buildItemStack(Material.TRIPWIRE_HOOK, "§e§lPosition updaten",
-        Arrays.asList("§7§oSucht im Umkreis von 10 Blöcken",
-            "§7§onach der neuen Armorstand Position"), false);
+    return buildItemStack(Material.TRIPWIRE_HOOK, "§e§lPosition updaten",
+        Arrays.asList("§7§oSucht im Umkreis von 10 Blöcken", "§7§onach der neuen Armorstand Position"), false);
   }
 
   public static @NotNull ItemStack createNewPermissionEnchantedBook() {
-    return ItemUtils.buildItemStack(Material.ENCHANTED_BOOK, "§e§lPermission ändern",
+    return buildItemStack(Material.ENCHANTED_BOOK, "§e§lPermission ändern",
         Collections.singletonList("§7§oÄndert die Permission des Shops"), false);
   }
 
   public static @NotNull ItemStack createNewNameSign() {
-    return ItemUtils.buildItemStack(Material.OAK_SIGN, "§e§lNamen ändern",
+    return buildItemStack(Material.OAK_SIGN, "§e§lNamen ändern",
         Collections.singletonList("§7§oÄndert den Namen des Shops"), false);
   }
 
   public static @NotNull ItemStack createNewCommandCommandBlock() {
-    return ItemUtils.buildItemStack(Material.COMMAND_BLOCK, "§e§lBefehl hinzufügen",
-        Arrays.asList("§7§oLinksklick: Befehl hinzufügen",
-            "§7§oRechtsklick: Befehle testen/ausführen", "§7§oItem Droppen: Alle Befehle löschen"),
-        false);
+    return buildItemStack(Material.COMMAND_BLOCK, "§e§lBefehl hinzufügen",
+        Arrays.asList("§7§oLinksklick: Befehl hinzufügen", "§7§oShift Linksklick: Befehle einfügen",
+            "§7§oShift Rechtsklick: Befehle kopieren", "§7§oRechtsklick: Befehle testen/ausführen",
+            "§7§oItem Droppen: Alle Befehle löschen"), false);
   }
 
   public static @NotNull ItemStack createNewHeadPlayerHead() {
-    return ItemUtils.buildItemStack(Material.PLAYER_HEAD, "§e§lKopf ändern",
+    return buildItemStack(Material.PLAYER_HEAD, "§e§lKopf ändern",
         Collections.singletonList("§7§oSetzt das Item in der Main-Hand als Kopf"), false);
   }
 
   public static @NotNull ItemStack createToggleEnabledDye(final @NotNull Shop shop) {
-    return ItemUtils.buildItemStack(shop.isEnabled() ? Material.RED_DYE : Material.LIME_DYE,
+    return buildItemStack(shop.isEnabled() ? Material.RED_DYE : Material.LIME_DYE,
         shop.isEnabled() ? "§e§lShop deaktivieren" : "§e§lShop aktivieren",
         Collections.singletonList("§7§oAktviert/Deaktiviert den Shop"), false);
   }
 
   public static @NotNull ItemStack createQuestionBook() {
-    return ItemUtils.buildItemStack(Material.BOOK, "§e§lPasswort-Frage ändern",
+    return buildItemStack(Material.BOOK, "§e§lPasswort-Frage ändern",
         Arrays.asList("§7§oLinksklick: Frage ändern", "§7§oRechtsklick: Antwort ändern",
             "§7§oItem Droppen: Passwortabfrage deaktivieren"), false);
   }
@@ -113,7 +118,7 @@ public class ItemBuilder {
         }
       }
     }
-    return ItemUtils.buildItemStack(Material.KNOWLEDGE_BOOK, "§a§lInfos & Statistik", lore, false);
+    return buildItemStack(Material.KNOWLEDGE_BOOK, "§a§lInfos & Statistik", lore, false);
   }
 
   public static @NotNull ItemStack createBuyButton(final @NotNull Shop shop, final @NotNull Player player) {
@@ -129,22 +134,21 @@ public class ItemBuilder {
           }
         }
       }
-      return ItemUtils.buildItemStack(Material.LIME_DYE, itemName,
+      return buildItemStack(Material.LIME_DYE, itemName,
           Arrays.asList("§f§m                              ", "§fDie obigen Items kaufen",
               "§f§m                              ", "§6§lPreis§8: §6" + price,
-              "§6§lLimit§8: " + Util.cooldownStringBuilder(shop.getCooldown(), "6", "7")
-                  + Util.remainingTransactionsString(shop, player, "7", "7"),
-              "§f§m                              "), false);
+              "§6§lLimit§8: " + Util.cooldownStringBuilder(shop.getCooldown(), "6", "7") +
+                  Util.remainingTransactionsString(shop, player, "7", "7"), "§f§m                              "),
+          false);
     } else {
-      @NotNull List<String> reason = Collections.singletonList(
-          "§7Du kannst diesen Shop nur " + Math.abs(shop.getCooldown()) + "x benutzen");
+      @NotNull List<String> reason =
+          Collections.singletonList("§7Du kannst diesen Shop nur " + Math.abs(shop.getCooldown()) + "x benutzen");
       if (shop.getCooldown() > 0) {
         reason = Arrays.asList("§7Du kannst diesen Shop erst wieder in",
-            Util.cooldownStringBuilder(shop.getTimeRemaining(player.getUniqueId().toString()), "c",
-                "7"), "§7benutzen");
+            Util.cooldownStringBuilder(shop.getTimeRemaining(player.getUniqueId().toString()), "c", "7"), "§7benutzen");
       }
-      return ItemUtils.buildItemStack(Material.BARRIER, "§c§l\u2716 Bereits genutzt", reason,
-          false);
+      return buildItemStack(Material.BARRIER, "§c§l\u2716 Bereits genutzt", reason, false);
     }
   }
+
 }

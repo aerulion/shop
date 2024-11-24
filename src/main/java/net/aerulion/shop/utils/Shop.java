@@ -30,9 +30,9 @@ public class Shop {
   private boolean enabled;
 
   public Shop(final Map<String, String> transactionDates, final List<ItemStack> items, final double price,
-      final long cooldown, final Location location, final String shopID, final String shopName, final String shopPermission,
-      final int timesUsed, final List<String> commands, final boolean enabled, final boolean virtual, final @Nullable String question,
-      final @Nullable String questionAnswer) {
+      final long cooldown, final Location location, final String shopID, final String shopName,
+      final String shopPermission, final int timesUsed, final List<String> commands, final boolean enabled,
+      final boolean virtual, final @Nullable String question, final @Nullable String questionAnswer) {
     this.transactionDates = transactionDates;
     this.itemsForSale = items;
     this.price = price;
@@ -80,11 +80,11 @@ public class Shop {
   public boolean isAllowedToBuy(final String uuid) {
     if (this.transactionDates.containsKey(uuid)) {
       if (this.cooldown > -1) {
-        return (Long.parseLong(Util.splitTransactionDates(this.transactionDates.get(uuid))[1])
-            + this.cooldown) < System.currentTimeMillis();
+        return (Long.parseLong(Util.splitTransactionDates(this.transactionDates.get(uuid))[1]) + this.cooldown) <
+            System.currentTimeMillis();
       } else {
-        return (Integer.parseInt(Util.splitTransactionDates(this.transactionDates.get(uuid))[0]))
-            < Math.abs(this.cooldown);
+        return (Integer.parseInt(Util.splitTransactionDates(this.transactionDates.get(uuid))[0])) <
+            Math.abs(this.cooldown);
       }
     } else {
       return true;
@@ -92,15 +92,14 @@ public class Shop {
   }
 
   public long getTimeRemaining(final String uuid) {
-    return ((Long.parseLong(Util.splitTransactionDates(this.transactionDates.get(uuid))[1]))
-        + this.cooldown) - System.currentTimeMillis();
+    return ((Long.parseLong(Util.splitTransactionDates(this.transactionDates.get(uuid))[1])) + this.cooldown) -
+        System.currentTimeMillis();
   }
 
   public int getRemainingTransactions(final String uuid) {
     final int max = (int) Math.abs(this.cooldown);
     if (this.transactionDates.containsKey(uuid)) {
-      return max - (Integer.parseInt(
-          Util.splitTransactionDates(this.transactionDates.get(uuid))[0]));
+      return max - (Integer.parseInt(Util.splitTransactionDates(this.transactionDates.get(uuid))[0]));
     } else {
       return max;
     }
@@ -140,12 +139,11 @@ public class Shop {
 
   public void addTransaction(final @NotNull Player player) {
     if (this.transactionDates.containsKey(player.getUniqueId().toString())) {
-      this.transactionDates.put(player.getUniqueId().toString(), (Integer.parseInt(
-          Util.splitTransactionDates(this.transactionDates.get(player.getUniqueId().toString()))[0])
-          + 1) + "@@@" + System.currentTimeMillis());
-    } else {
       this.transactionDates.put(player.getUniqueId().toString(),
-          "1" + "@@@" + System.currentTimeMillis());
+          (Integer.parseInt(Util.splitTransactionDates(this.transactionDates.get(player.getUniqueId().toString()))[0]) +
+              1) + "@@@" + System.currentTimeMillis());
+    } else {
+      this.transactionDates.put(player.getUniqueId().toString(), "1" + "@@@" + System.currentTimeMillis());
     }
 
   }
@@ -218,4 +216,5 @@ public class Shop {
     this.question = null;
     this.questionAnswer = null;
   }
+
 }

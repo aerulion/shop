@@ -7,10 +7,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import net.aerulion.nucleus.api.base64.Base64Utils;
-import net.aerulion.nucleus.api.console.ConsoleUtils;
+import net.aerulion.erenos.utils.base64.Base64Utils;
+import net.aerulion.erenos.utils.console.ConsoleUtils;
 import net.aerulion.shop.Main;
 import net.aerulion.shop.task.ShopSaveTask;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -24,15 +25,14 @@ public class FileManager {
     final @NotNull FileConfiguration cfg = YamlConfiguration.loadConfiguration(shopToLoad);
     Main.LOADED_SHOPS.put(shopToLoad.getName().substring(0, shopToLoad.getName().length() - 4),
         new Shop(deserializeTransactionDates(cfg.getStringList("TransactionDates")),
-            Base64Utils.decodeItemStackList(cfg.getStringList("ItemsForSale")),
-            cfg.getDouble("Price"), cfg.getLong("Cooldown"), cfg.getBoolean("Virtual") ? null
-            : new Location(Bukkit.getWorld(cfg.getString("Location.World")),
-                cfg.getDouble("Location.X"), cfg.getDouble("Location.Y"),
-                cfg.getDouble("Location.Z")),
-            shopToLoad.getName().substring(0, shopToLoad.getName().length() - 4),
-            cfg.getString("ShopName"), cfg.getString("ShopPermission"), cfg.getInt("timesUsed"),
-            cfg.getStringList("ExecutedCommands"), cfg.getBoolean("Enabled"),
-            cfg.getBoolean("Virtual"), cfg.getString("Question"), cfg.getString("QuestionAnswer")));
+            Base64Utils.decodeItemStackList(cfg.getStringList("ItemsForSale")), cfg.getDouble("Price"),
+            cfg.getLong("Cooldown"), cfg.getBoolean("Virtual") ? null :
+            new Location(Bukkit.getWorld(cfg.getString("Location.World")), cfg.getDouble("Location.X"),
+                cfg.getDouble("Location.Y"), cfg.getDouble("Location.Z")),
+            shopToLoad.getName().substring(0, shopToLoad.getName().length() - 4), cfg.getString("ShopName"),
+            cfg.getString("ShopPermission"), cfg.getInt("timesUsed"), cfg.getStringList("ExecutedCommands"),
+            cfg.getBoolean("Enabled"), cfg.getBoolean("Virtual"), cfg.getString("Question"),
+            cfg.getString("QuestionAnswer")));
   }
 
   public static void saveSpecificShopToFile(final String shopID) {
@@ -50,13 +50,12 @@ public class FileManager {
         }
       }
     }
-    ConsoleUtils.sendColoredConsoleMessage(
-        Lang.CHAT_PREFIX + "§e" + Main.LOADED_SHOPS.size() + Lang.CONSOLE_SHOPS_LOADED + (
-            System.currentTimeMillis() - start) + "ms");
+    ConsoleUtils.sendColoredConsoleMessage(LegacyComponentSerializer.legacySection().deserialize(
+        Lang.CHAT_PREFIX + "§e" + Main.LOADED_SHOPS.size() + Lang.CONSOLE_SHOPS_LOADED +
+            (System.currentTimeMillis() - start) + "ms"));
   }
 
-  public static @NotNull List<String> serializeTransactionDates(
-      final @NotNull Map<String, String> transactionDates) {
+  public static @NotNull List<String> serializeTransactionDates(final @NotNull Map<String, String> transactionDates) {
     final @NotNull List<String> serializedData = new ArrayList<>();
     for (final Entry<String, String> entry : transactionDates.entrySet()) {
       serializedData.add(entry.getKey() + "###" + entry.getValue());
@@ -64,8 +63,7 @@ public class FileManager {
     return serializedData;
   }
 
-  public static @NotNull Map<String, String> deserializeTransactionDates(
-      final @NotNull List<String> serializedList) {
+  public static @NotNull Map<String, String> deserializeTransactionDates(final @NotNull List<String> serializedList) {
     final @NotNull HashMap<String, String> deSerializedData = new HashMap<>();
     for (final @NotNull String s : serializedList) {
       final String @NotNull [] split = s.split("###");
@@ -115,4 +113,5 @@ public class FileManager {
       Main.LOADED_PREFIXES.put(s, cfg.getString(s));
     }
   }
+
 }

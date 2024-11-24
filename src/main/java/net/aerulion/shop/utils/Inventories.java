@@ -1,7 +1,7 @@
 package net.aerulion.shop.utils;
 
-import net.aerulion.nucleus.api.item.ItemUtils;
 import net.aerulion.shop.Main;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -32,10 +32,11 @@ public class Inventories {
 
   public static @NotNull Inventory getUserPanel(final @NotNull Shop shop, final @NotNull Player player) {
     final int size = Util.calculateInventorySlotSize(shop);
-    final int @NotNull [] lineSlots = {size - 18, size - 17, size - 16, size - 15, size - 14, size - 13,
-        size - 12, size - 11, size - 10};
-    final @NotNull ItemStack line = ItemUtils.buildItemStack(Material.LIGHT_BLUE_STAINED_GLASS_PANE,
-        "§9§m          ", null, false);
+    final int @NotNull [] lineSlots =
+        {size - 18, size - 17, size - 16, size - 15, size - 14, size - 13, size - 12, size - 11, size - 10};
+    final @NotNull ItemStack line =
+        net.aerulion.erenos.utils.item.ItemBuilder.of(Material.LIGHT_BLUE_STAINED_GLASS_PANE)
+            .withDisplayName(LegacyComponentSerializer.legacySection().deserialize("§9§m          ")).asItemStack();
     String shopName = shop.getShopName();
     for (final @NotNull String s : Main.LOADED_PREFIXES.keySet()) {
       shopName = shopName.replaceAll(s, "");
@@ -53,4 +54,5 @@ public class Inventories {
     inv.setItem(size - 5, ItemBuilder.createBuyButton(shop, player));
     return inv;
   }
+
 }

@@ -2,7 +2,7 @@ package net.aerulion.shop.task;
 
 import java.io.File;
 import java.io.IOException;
-import net.aerulion.nucleus.api.base64.Base64Utils;
+import net.aerulion.erenos.utils.base64.Base64Utils;
 import net.aerulion.shop.Main;
 import net.aerulion.shop.utils.FileManager;
 import net.aerulion.shop.utils.Shop;
@@ -48,4 +48,5 @@ public class ShopSaveTask extends BukkitRunnable {
     } catch (final IOException ignored) {
     }
   }
+
 }

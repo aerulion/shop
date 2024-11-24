@@ -31,7 +31,9 @@ public class PriceConversation extends ValidatingPrompt {
   }
 
   @Override
-  public String getFailedValidationText(final @NotNull ConversationContext context, final @NotNull String invalidInput) {
+  public String getFailedValidationText(final @NotNull ConversationContext context,
+      final @NotNull String invalidInput) {
     return "Fehler: Ungültige Eingabe. Schreibe 'stop' um den Vorgang abzubrechen.";
   }
+
 }

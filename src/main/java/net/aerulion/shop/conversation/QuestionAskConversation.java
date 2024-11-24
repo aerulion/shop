@@ -16,8 +16,8 @@ public class QuestionAskConversation extends ValidatingPrompt {
   public @NotNull String getPromptText(final @NotNull ConversationContext context) {
     final Shop shop = Main.LOADED_SHOPS.get(Main.BUYING_PLAYERS.get(((Player) context.getForWhom()).getName()));
     return
-        "Um diesen Shop nutzen zu können muss zuerst die untenstehende Frage richtig beantwortet werden. Schreibe die Antwort in den Chat. Groß- und Kleinschreibung wird nicht beachtet. Schreibe 'stop' um den Vorgang abzubrechen. §aFrage: "
-            + ChatColor.translateAlternateColorCodes('&', shop.getQuestion());
+        "Um diesen Shop nutzen zu können muss zuerst die untenstehende Frage richtig beantwortet werden. Schreibe die Antwort in den Chat. Groß- und Kleinschreibung wird nicht beachtet. Schreibe 'stop' um den Vorgang abzubrechen. §aFrage: " +
+            ChatColor.translateAlternateColorCodes('&', shop.getQuestion());
   }
 
   @Override
@@ -32,7 +32,9 @@ public class QuestionAskConversation extends ValidatingPrompt {
   }
 
   @Override
-  public String getFailedValidationText(final @NotNull ConversationContext context, final @NotNull String invalidInput) {
+  public String getFailedValidationText(final @NotNull ConversationContext context,
+      final @NotNull String invalidInput) {
     return "Fehler: Ungültige Eingabe. Schreibe 'stop' um den Vorgang abzubrechen.";
   }
+
 }

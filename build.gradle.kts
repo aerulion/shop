@@ -4,7 +4,7 @@ plugins {
 }
 
 java {
-    toolchain.languageVersion.set(JavaLanguageVersion.of(17))
+    toolchain.languageVersion.set(JavaLanguageVersion.of(21))
     withSourcesJar()
     withJavadocJar()
 }
@@ -12,31 +12,23 @@ java {
 repositories {
     mavenLocal()
     mavenCentral()
+    maven("https://papermc.io/repo/repository/maven-public/")
+    maven("https://jitpack.io")
     maven {
-        url = uri("https://maven.pkg.github.com/aerulion/nucleus")
-        credentials {
-            username = project.findProperty("gpr.user") as String? ?: System.getenv("GITHUB_ACTOR")
-            password = project.findProperty("gpr.token") as String? ?: System.getenv("GITHUB_TOKEN")
-        }
-    }
-    maven {
-        url = uri("https://papermc.io/repo/repository/maven-public/")
-    }
-    maven {
-        url = uri("https://jitpack.io")
+        url = uri("https://maven.pkg.github.com/aerulion/erenos")
+        name = "github-packages"
     }
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:1.18.2-R0.1-SNAPSHOT")
-    compileOnly("net.aerulion:nucleus:2.0.1")
-    compileOnly("com.github.MilkBowl:VaultAPI:1.7")
+    compileOnly("io.papermc.paper:paper-api:1.20.4-R0.1-SNAPSHOT")
+    compileOnly("net.aerulion:erenos:3.0.2:dev")
 }
 
 tasks {
     compileJava {
         options.encoding = Charsets.UTF_8.name()
-        options.release.set(17)
+        options.release.set(21)
     }
     javadoc {
         options.encoding = Charsets.UTF_8.name()
@@ -47,15 +39,15 @@ tasks {
 }
 
 group = "net.aerulion"
-version = "1.4.0"
+version = "1.5.0"
 
 bukkit {
     name = "Shop"
     main = "net.aerulion.shop.Main"
     version = getVersion().toString()
     author = "aerulion"
-    apiVersion = "1.18"
-    depend = listOf("Nucleus", "Vault")
+    apiVersion = "1.20"
+    depend = listOf("Erenos")
     softDepend = listOf("Multiverse-Core")
     commands {
         register("particleshop") {
