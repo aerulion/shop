@@ -159,7 +159,7 @@ public class Util {
   }
 
   public static void validateQuestion(final @NotNull Player player, final @NotNull String input) {
-    if (input.equalsIgnoreCase("stop")) {
+    if (input.equalsIgnoreCase("ende")) {
       player.sendMessage(Lang.ACTION_ESCAPED);
       finishQuestionSession(player.getName());
       return;
