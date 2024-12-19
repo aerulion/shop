@@ -36,7 +36,7 @@ public class Inventories {
         {size - 18, size - 17, size - 16, size - 15, size - 14, size - 13, size - 12, size - 11, size - 10};
     final @NotNull ItemStack line =
         net.aerulion.erenos.utils.item.ItemBuilder.of(Material.LIGHT_BLUE_STAINED_GLASS_PANE)
-            .withDisplayName(LegacyComponentSerializer.legacySection().deserialize("§9§m          ")).asItemStack();
+            .withItemName(LegacyComponentSerializer.legacySection().deserialize("§9§m          ")).asItemStack();
     String shopName = shop.getShopName();
     for (final @NotNull String s : Main.LOADED_PREFIXES.keySet()) {
       shopName = shopName.replaceAll(s, "");

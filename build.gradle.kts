@@ -21,8 +21,8 @@ repositories {
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:1.20.4-R0.1-SNAPSHOT")
-    compileOnly("net.aerulion:erenos:3.0.2:dev")
+    compileOnly("io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT")
+    compileOnly("net.aerulion:erenos:3.4.0-SNAPSHOT")
 }
 
 tasks {

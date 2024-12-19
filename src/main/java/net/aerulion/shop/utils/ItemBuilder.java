@@ -19,7 +19,7 @@ public class ItemBuilder {
 
   private static ItemStack buildItemStack(final Material material, final String name, final List<String> lore, final boolean glow) {
     return net.aerulion.erenos.utils.item.ItemBuilder.of(material)
-        .withDisplayName(LegacyComponentSerializer.legacySection().deserialize(name)).withLore(
+        .withItemName(LegacyComponentSerializer.legacySection().deserialize(name)).withLore(
             lore.stream().map(s -> LegacyComponentSerializer.legacySection().deserialize(s))
                 .collect(Collectors.toList())).asItemStack();
   }

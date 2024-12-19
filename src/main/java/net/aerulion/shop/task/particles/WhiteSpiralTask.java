@@ -34,7 +34,7 @@ public class WhiteSpiralTask extends BukkitRunnable {
       this.cancel();
       return;
     }
-    world.spawnParticle(Particle.FIREWORKS_SPARK, circleLocations.get(time), 1, 0, 0, 0, 0);
+    world.spawnParticle(Particle.FIREWORK, circleLocations.get(time), 1, 0, 0, 0, 0);
     this.time++;
   }
 
