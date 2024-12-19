@@ -41,7 +41,7 @@ public class FileManager {
 
   public static void loadAllShopFiles() {
     final long start = System.currentTimeMillis();
-    final @NotNull File folder = new File("plugins/Shop/Shops");
+    final @NotNull File folder = new File(Main.plugin.getDataFolder().getPath() + "/Shops");
     final File @Nullable [] listOfFiles = folder.listFiles();
     if (listOfFiles != null) {
       for (final @NotNull File file : listOfFiles) {
@@ -73,7 +73,7 @@ public class FileManager {
   }
 
   public static void deleteShopFile(final String shopID) {
-    final @NotNull File newShop = new File("plugins/Shop/Shops", shopID + ".yml");
+    final @NotNull File newShop = new File(Main.plugin.getDataFolder().getPath() + "/Shops", shopID + ".yml");
     newShop.delete();
   }
 
@@ -93,7 +93,7 @@ public class FileManager {
   }
 
   public static void copyDefaultPrefix() {
-    final @NotNull File file = new File("plugins/Shop", "prefix.yml");
+    final @NotNull File file = new File(Main.plugin.getDataFolder(), "prefix.yml");
     final @NotNull FileConfiguration cfg = YamlConfiguration.loadConfiguration(file);
     cfg.options().copyDefaults(true);
     cfg.addDefault("%easteregg%", "§a§l\u2726 Easteregg abholen");
@@ -107,7 +107,7 @@ public class FileManager {
   }
 
   public static void loadPrefixes() {
-    final @NotNull File file = new File("plugins/Shop", "prefix.yml");
+    final @NotNull File file = new File(Main.plugin.getDataFolder(), "prefix.yml");
     final @NotNull FileConfiguration cfg = YamlConfiguration.loadConfiguration(file);
     for (final @NotNull String s : cfg.getKeys(false)) {
       Main.LOADED_PREFIXES.put(s, cfg.getString(s));

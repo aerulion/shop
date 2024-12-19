@@ -23,7 +23,7 @@ public class ShopSaveTask extends BukkitRunnable {
   @Override
   public void run() {
     final Shop shop = Main.LOADED_SHOPS.get(uuid);
-    final @NotNull File shopFile = new File("plugins/Shop/Shops", uuid + ".yml");
+    final @NotNull File shopFile = new File(Main.plugin.getDataFolder().getPath() + "/Shops", uuid + ".yml");
     final @NotNull FileConfiguration cfg = YamlConfiguration.loadConfiguration(shopFile);
     cfg.set("ShopName", shop.getShopName());
     cfg.set("ShopPermission", shop.getShopPermission());
