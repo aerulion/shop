@@ -48,6 +48,11 @@ public class CMD_particleshop implements CommandExecutor, TabCompleter {
           Util.sendHelpMenu(player);
           return true;
         }
+
+        if (args[0].equalsIgnoreCase("update")) {
+          Util.updateAllShops(player);
+          return true;
+        }
       }
 
       if (args.length == 2) {
@@ -103,9 +108,9 @@ public class CMD_particleshop implements CommandExecutor, TabCompleter {
 
   @Override
   public List<String> onTabComplete(final @NotNull CommandSender sender, final @NotNull Command command,
-      final @NotNull String alias, final String @NotNull [] args) {
+      final @NotNull String label, final String @NotNull [] args) {
     if (args.length < 2) {
-      return StringUtils.filterList(new ArrayList<>(Arrays.asList("create", "list", "reload", "help")), args[0], true);
+      return StringUtils.filterList(new ArrayList<>(Arrays.asList("create", "list", "reload", "help", "update")), args[0], true);
     }
     if (args[0].equalsIgnoreCase("create")) {
       if (args.length == 2) {

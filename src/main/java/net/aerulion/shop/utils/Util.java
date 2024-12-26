@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.UUID;
 import net.aerulion.erenos.Erenos;
 import net.aerulion.erenos.economy.TransactionResult;
+import net.aerulion.erenos.item.stack.ErenosItemStack;
 import net.aerulion.erenos.utils.chat.ChatUtils;
 import net.aerulion.shop.Main;
 import net.aerulion.shop.conversation.QuestionAskConversation;
@@ -539,6 +540,28 @@ public class Util {
     player.sendMessage(" §8§l>> §7/particleshop reload");
     player.sendMessage(" §8§l>> §7/particleshop help");
     player.sendMessage("§9§m                                                                               ");
+  }
+
+  public static void updateAllShops(final @NotNull Player player) {
+    Main.LOADED_SHOPS.values().forEach(Util::updateShop);
+    player.sendMessage(Lang.SHOPS_UPDATED);
+  }
+
+  public static void updateShop(final @NotNull Shop shop) {
+    final @NotNull List<ItemStack> soldItems = shop.getSoldItems();
+    final @NotNull List<ItemStack> updatedSoldItems = new ArrayList<>();
+
+    for (final @NotNull ItemStack itemStack : soldItems) {
+      final @Nullable ErenosItemStack erenosItemStack = ErenosItemStack.of(itemStack);
+      if (erenosItemStack != null) {
+        updatedSoldItems.add(erenosItemStack.asItemStack());
+      } else {
+        updatedSoldItems.add(itemStack);
+      }
+    }
+
+    shop.setSoldItem(updatedSoldItems);
+    FileManager.saveSpecificShopToFile(shop.getID());
   }
 
 }

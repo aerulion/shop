@@ -2,7 +2,6 @@ package net.aerulion.shop;
 
 import java.util.HashMap;
 import java.util.Map;
-import net.aerulion.erenos.utils.console.ConsoleUtils;
 import net.aerulion.shop.cmd.CMD_openshop;
 import net.aerulion.shop.cmd.CMD_particleshop;
 import net.aerulion.shop.listener.EntityInteractListener;
@@ -27,16 +26,13 @@ public class Main extends JavaPlugin {
 
   @Override
   public void onDisable() {
-    ConsoleUtils.sendColoredConsoleMessage(
-        LegacyComponentSerializer.legacySection().deserialize(Lang.CONSOLE_DISABLING));
-    ConsoleUtils.sendColoredConsoleMessage(
-        LegacyComponentSerializer.legacySection().deserialize(Lang.CONSOLE_PLUGIN_DISABLED));
+    getComponentLogger().info(LegacyComponentSerializer.legacySection().deserialize(Lang.CONSOLE_DISABLING));
+    getComponentLogger().info(LegacyComponentSerializer.legacySection().deserialize(Lang.CONSOLE_PLUGIN_DISABLED));
   }
 
   @Override
   public void onEnable() {
-    ConsoleUtils.sendColoredConsoleMessage(
-        LegacyComponentSerializer.legacySection().deserialize(Lang.CONSOLE_ENABLING));
+    getComponentLogger().info(LegacyComponentSerializer.legacySection().deserialize(Lang.CONSOLE_ENABLING));
     plugin = this;
     getServer().getPluginManager().registerEvents(new EntityInteractListener(), this);
     getServer().getPluginManager().registerEvents(new EntityLoadListener(), this);
@@ -48,8 +44,7 @@ public class Main extends JavaPlugin {
     FileManager.loadAllShopFiles();
     FileManager.copyDefaultPrefix();
     FileManager.loadPrefixes();
-    ConsoleUtils.sendColoredConsoleMessage(
-        LegacyComponentSerializer.legacySection().deserialize(Lang.CONSOLE_PLUGIN_ENABLED));
+    getComponentLogger().info(LegacyComponentSerializer.legacySection().deserialize(Lang.CONSOLE_PLUGIN_ENABLED));
   }
 
 }

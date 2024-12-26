@@ -36,7 +36,7 @@ public class ShopSaveTask extends BukkitRunnable {
     cfg.set("TransactionDates", FileManager.serializeTransactionDates(shop.getTransactionDates()));
     cfg.set("Cooldown", shop.getCooldown());
     cfg.set("Price", shop.getPrice());
-    cfg.set("ItemsForSale", Base64Utils.encodeItemStackList(shop.getSoldItems()));
+    cfg.set("ItemsForSale", Base64Utils.encodeItemStackListNBT(shop.getSoldItems()));
     cfg.set("timesUsed", shop.getTimesUsed());
     cfg.set("Enabled", shop.isEnabled());
     cfg.set("Virtual", shop.isVirtual());

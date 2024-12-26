@@ -7,8 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.logging.Level;
 import net.aerulion.erenos.utils.base64.Base64Utils;
-import net.aerulion.erenos.utils.console.ConsoleUtils;
 import net.aerulion.shop.Main;
 import net.aerulion.shop.task.ShopSaveTask;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
@@ -25,7 +25,7 @@ public class FileManager {
     final @NotNull FileConfiguration cfg = YamlConfiguration.loadConfiguration(shopToLoad);
     Main.LOADED_SHOPS.put(shopToLoad.getName().substring(0, shopToLoad.getName().length() - 4),
         new Shop(deserializeTransactionDates(cfg.getStringList("TransactionDates")),
-            Base64Utils.decodeItemStackList(cfg.getStringList("ItemsForSale")), cfg.getDouble("Price"),
+            Base64Utils.decodeItemStackListNBT(cfg.getStringList("ItemsForSale")), cfg.getDouble("Price"),
             cfg.getLong("Cooldown"), cfg.getBoolean("Virtual") ? null :
             new Location(Bukkit.getWorld(cfg.getString("Location.World")), cfg.getDouble("Location.X"),
                 cfg.getDouble("Location.Y"), cfg.getDouble("Location.Z")),
@@ -46,11 +46,15 @@ public class FileManager {
     if (listOfFiles != null) {
       for (final @NotNull File file : listOfFiles) {
         if (file.isFile()) {
-          loadSpecificShopFromFile(file);
+          try {
+            loadSpecificShopFromFile(file);
+          } catch (final @NotNull Exception exception) {
+            Main.plugin.getLogger().log(Level.SEVERE, "Failed to load shop from " + file.getName(), exception);
+          }
         }
       }
     }
-    ConsoleUtils.sendColoredConsoleMessage(LegacyComponentSerializer.legacySection().deserialize(
+    Main.plugin.getComponentLogger().info(LegacyComponentSerializer.legacySection().deserialize(
         Lang.CHAT_PREFIX + "§e" + Main.LOADED_SHOPS.size() + Lang.CONSOLE_SHOPS_LOADED +
             (System.currentTimeMillis() - start) + "ms"));
   }

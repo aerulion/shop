@@ -54,6 +54,7 @@ public class Lang {
   public static final @NotNull String NEW_QUESTION_ANSWER = CHAT_PREFIX + "Die neue Antwort lautet: ";
   public static final @NotNull String QUESTION_RESET = CHAT_PREFIX + "Die Passwortabfrage wurde deaktiviert.";
   public static final @NotNull String ACTION_ESCAPED = CHAT_PREFIX + "Vorgang abgebrochen.";
+  public static final @NotNull String SHOPS_UPDATED = CHAT_PREFIX + "Alle geladenen Shops wurden aktualisiert.";
 
   public static final @NotNull String CONSOLE_ENABLING = CHAT_PREFIX + "§bAktiviere Plugin...";
   public static final @NotNull String CONSOLE_PLUGIN_ENABLED = CHAT_PREFIX + "§bDas Plugin wurde aktiviert.";
