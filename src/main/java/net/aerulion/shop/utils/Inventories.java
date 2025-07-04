@@ -8,6 +8,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.NotNull;
 
 public class Inventories {
@@ -35,7 +36,7 @@ public class Inventories {
     final int @NotNull [] lineSlots =
         {size - 18, size - 17, size - 16, size - 15, size - 14, size - 13, size - 12, size - 11, size - 10};
     final @NotNull ItemStack line =
-        net.aerulion.erenos.utils.item.ItemBuilder.of(Material.LIGHT_BLUE_STAINED_GLASS_PANE)
+        net.aerulion.erenos.utils.item.ItemBuilder.of(ItemType.LIGHT_BLUE_STAINED_GLASS_PANE)
             .withItemName(LegacyComponentSerializer.legacySection().deserialize("§9§m          ")).asItemStack();
     String shopName = shop.getShopName();
     for (final @NotNull String s : Main.LOADED_PREFIXES.keySet()) {
