@@ -1,13 +1,7 @@
 package net.aerulion.shop.listener;
 
+import net.aerulion.erenos.menu.input.ErenosInput;
 import net.aerulion.shop.Main;
-import net.aerulion.shop.conversation.CommandConversation;
-import net.aerulion.shop.conversation.CooldownConversation;
-import net.aerulion.shop.conversation.NameConversation;
-import net.aerulion.shop.conversation.PermissionConversation;
-import net.aerulion.shop.conversation.PriceConversation;
-import net.aerulion.shop.conversation.QuestionAnswerConversation;
-import net.aerulion.shop.conversation.QuestionConversation;
 import net.aerulion.shop.utils.Lang;
 import net.aerulion.shop.utils.Shop;
 import net.aerulion.shop.utils.Util;
@@ -15,9 +9,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.conversations.Conversation;
-import org.bukkit.conversations.ConversationFactory;
-import org.bukkit.conversations.ConversationPrefix;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -73,13 +64,14 @@ public class ShopGUIListener implements Listener {
             e.setCancelled(true);
             if (e.getCurrentItem().getType() == Material.GOLD_INGOT) {
               e.getWhoClicked().closeInventory();
-              final @NotNull ConversationFactory conversationFactory = new ConversationFactory(Main.plugin);
-              final @NotNull ConversationPrefix conversationPrefix = prefix -> Lang.CHAT_PREFIX;
-              final @NotNull Conversation conversation =
-                  conversationFactory.withFirstPrompt(new PriceConversation()).withEscapeSequence("stop")
-                      .withModality(false).withLocalEcho(false).withPrefix(conversationPrefix)
-                      .buildConversation((Player) e.getWhoClicked());
-              conversation.begin();
+              ErenosInput.menu((Player) e.getWhoClicked(), "Gib den neuen Preis ein:").validate(s -> {
+                try {
+                  Double.parseDouble(s);
+                  return true;
+                } catch (final NumberFormatException exception) {
+                  return false;
+                }
+              }).onSubmit((player, s) -> Util.setNewShopPrice(player, Double.parseDouble(s))).request();
             }
             if (e.getCurrentItem().getType() == Material.CHEST) {
               e.getWhoClicked().closeInventory();
@@ -87,13 +79,9 @@ public class ShopGUIListener implements Listener {
             }
             if (e.getCurrentItem().getType() == Material.CLOCK) {
               e.getWhoClicked().closeInventory();
-              final @NotNull ConversationFactory conversationFactory = new ConversationFactory(Main.plugin);
-              final @NotNull ConversationPrefix conversationPrefix = prefix -> Lang.CHAT_PREFIX;
-              final @NotNull Conversation conversation =
-                  conversationFactory.withFirstPrompt(new CooldownConversation()).withEscapeSequence("stop")
-                      .withModality(false).withLocalEcho(false).withPrefix(conversationPrefix)
-                      .buildConversation((Player) e.getWhoClicked());
-              conversation.begin();
+              ErenosInput.menu((Player) e.getWhoClicked(),
+                      "Gib das neue Limit ein. Nutze das Format Tage:Stunden oder -Anzahl:")
+                  .validate(Util::checkCooldownPattern).onSubmit(Util::setNewShopCooldown).request();
             }
             if (e.getCurrentItem().getType() == Material.STRUCTURE_VOID) {
               e.getWhoClicked().closeInventory();
@@ -112,23 +100,14 @@ public class ShopGUIListener implements Listener {
             }
             if (e.getCurrentItem().getType() == Material.ENCHANTED_BOOK) {
               e.getWhoClicked().closeInventory();
-              final @NotNull ConversationFactory conversationFactory = new ConversationFactory(Main.plugin);
-              final @NotNull ConversationPrefix conversationPrefix = prefix -> Lang.CHAT_PREFIX;
-              final @NotNull Conversation conversation =
-                  conversationFactory.withFirstPrompt(new PermissionConversation()).withEscapeSequence("stop")
-                      .withModality(false).withLocalEcho(false).withPrefix(conversationPrefix)
-                      .buildConversation((Player) e.getWhoClicked());
-              conversation.begin();
+              ErenosInput.menu((Player) e.getWhoClicked(),
+                      "Gib die neue Permission ein. Das 'shop.' wird automatisch an den Anfang hinzugefügt:")
+                  .validate(s -> !s.contains(" ")).onSubmit(Util::setNewShopPermission).request();
             }
             if (e.getCurrentItem().getType() == Material.OAK_SIGN) {
               e.getWhoClicked().closeInventory();
-              final @NotNull ConversationFactory conversationFactory = new ConversationFactory(Main.plugin);
-              final @NotNull ConversationPrefix conversationPrefix = prefix -> Lang.CHAT_PREFIX;
-              final @NotNull Conversation conversation =
-                  conversationFactory.withFirstPrompt(new NameConversation()).withEscapeSequence("stop")
-                      .withModality(false).withLocalEcho(false).withPrefix(conversationPrefix)
-                      .buildConversation((Player) e.getWhoClicked());
-              conversation.begin();
+              ErenosInput.menu((Player) e.getWhoClicked(), "Gib den neuen Namen ein:").onSubmit(Util::setNewShopName)
+                  .request();
             }
             if (e.getCurrentItem().getType() == Material.COMMAND_BLOCK) {
               e.getWhoClicked().closeInventory();
@@ -150,13 +129,9 @@ public class ShopGUIListener implements Listener {
                 }
                 Util.finishAdminSession(e.getWhoClicked().getName());
               } else {
-                final @NotNull ConversationFactory conversationFactory = new ConversationFactory(Main.plugin);
-                final @NotNull ConversationPrefix conversationPrefix = prefix -> Lang.CHAT_PREFIX;
-                final @NotNull Conversation conversation =
-                    conversationFactory.withFirstPrompt(new CommandConversation()).withEscapeSequence("stop")
-                        .withModality(false).withLocalEcho(false).withPrefix(conversationPrefix)
-                        .buildConversation((Player) e.getWhoClicked());
-                conversation.begin();
+                ErenosInput.menu((Player) e.getWhoClicked(),
+                        "Gib den zu hinzufügenden Befehl ein. Das / wird automatisch hinzugefügt. Folgende Variablen sind verfügbar: %player% %shopname%:")
+                    .onSubmit(Util::setNewShopCommands).request();
               }
             }
             if (e.getCurrentItem().getType() == Material.PLAYER_HEAD) {
@@ -179,21 +154,11 @@ public class ShopGUIListener implements Listener {
               if (e.getClick() == ClickType.DROP) {
                 Util.resetShopQuestion((Player) e.getWhoClicked());
               } else if (e.getClick() == ClickType.RIGHT) {
-                final @NotNull ConversationFactory conversationFactory = new ConversationFactory(Main.plugin);
-                final @NotNull ConversationPrefix conversationPrefix = prefix -> Lang.CHAT_PREFIX;
-                final @NotNull Conversation conversation =
-                    conversationFactory.withFirstPrompt(new QuestionAnswerConversation()).withEscapeSequence("stop")
-                        .withModality(false).withLocalEcho(false).withPrefix(conversationPrefix)
-                        .buildConversation((Player) e.getWhoClicked());
-                conversation.begin();
+                ErenosInput.menu((Player) e.getWhoClicked(), "Gib die neue Antwort ein:")
+                    .onSubmit(Util::setNewShopQuestionAnswer).request();
               } else {
-                final @NotNull ConversationFactory conversationFactory = new ConversationFactory(Main.plugin);
-                final @NotNull ConversationPrefix conversationPrefix = prefix -> Lang.CHAT_PREFIX;
-                final @NotNull Conversation conversation =
-                    conversationFactory.withFirstPrompt(new QuestionConversation()).withEscapeSequence("stop")
-                        .withModality(false).withLocalEcho(false).withPrefix(conversationPrefix)
-                        .buildConversation((Player) e.getWhoClicked());
-                conversation.begin();
+                ErenosInput.menu((Player) e.getWhoClicked(), "Gib die neue Frage ein:")
+                    .onSubmit(Util::setNewShopQuestion).request();
               }
             }
           }

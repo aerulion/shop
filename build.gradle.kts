@@ -1,6 +1,6 @@
 plugins {
     `java-library`
-    id("net.minecrell.plugin-yml.bukkit") version "0.5.1"
+    id("de.eldoria.plugin-yml.bukkit") version "0.8.0"
 }
 
 java {
@@ -18,8 +18,8 @@ repositories {
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:1.21.7-R0.1-SNAPSHOT")
-    compileOnly("net.aerulion:erenos:3.9.0")
+    compileOnly("io.papermc.paper:paper-api:1.21.10-R0.1-SNAPSHOT")
+    compileOnly("net.aerulion:erenos:3.10.0")
 }
 
 tasks {
@@ -36,14 +36,14 @@ tasks {
 }
 
 group = "net.aerulion"
-version = "1.6.0"
+version = "1.7.0"
 
 bukkit {
     name = "Shop"
     main = "net.aerulion.shop.Main"
     version = getVersion().toString()
     author = "aerulion"
-    apiVersion = "1.21.7"
+    apiVersion = "1.21.10"
     depend = listOf("Erenos")
     softDepend = listOf("Multiverse-Core")
     commands {

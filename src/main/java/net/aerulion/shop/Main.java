@@ -11,7 +11,6 @@ import net.aerulion.shop.utils.FileManager;
 import net.aerulion.shop.utils.Lang;
 import net.aerulion.shop.utils.Shop;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
-import org.bukkit.conversations.Conversation;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
@@ -21,7 +20,6 @@ public class Main extends JavaPlugin {
   public static final @NotNull Map<String, String> BUYING_PLAYERS = new HashMap<>();
   public static final @NotNull Map<String, String> ADMIN_PANEL_USER = new HashMap<>();
   public static final @NotNull Map<String, String> LOADED_PREFIXES = new HashMap<>();
-  public static final @NotNull Map<String, Conversation> ACTIVE_QUESTION_CONVERSATIONS = new HashMap<>();
   public static Main plugin;
 
   @Override

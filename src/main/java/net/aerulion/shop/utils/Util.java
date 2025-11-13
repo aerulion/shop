@@ -11,9 +11,9 @@ import java.util.UUID;
 import net.aerulion.erenos.Erenos;
 import net.aerulion.erenos.economy.TransactionResult;
 import net.aerulion.erenos.item.stack.ErenosItemStack;
+import net.aerulion.erenos.menu.input.ErenosInput;
 import net.aerulion.erenos.utils.chat.ChatUtils;
 import net.aerulion.shop.Main;
-import net.aerulion.shop.conversation.QuestionAskConversation;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
@@ -24,9 +24,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.conversations.Conversation;
-import org.bukkit.conversations.ConversationFactory;
-import org.bukkit.conversations.ConversationPrefix;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -45,19 +42,9 @@ public class Util {
     if (player.hasPermission("shop." + shop.getShopPermission())) {
       if (shop.isEnabled()) {
         if (shop.getQuestion() != null && shop.getQuestionAnswer() != null) {
-          if (Main.ACTIVE_QUESTION_CONVERSATIONS.containsKey(player.getUniqueId().toString())) {
-            final Conversation conversation = Main.ACTIVE_QUESTION_CONVERSATIONS.get(player.getUniqueId().toString());
-            conversation.abandon();
-          }
           Main.BUYING_PLAYERS.put(player.getName(), shop.getID());
           player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 0.5F, 1.3F);
-          final @NotNull ConversationFactory conversationFactory = new ConversationFactory(Main.plugin);
-          final @NotNull ConversationPrefix conversationPrefix = prefix -> Lang.CHAT_PREFIX;
-          final @NotNull Conversation conversation =
-              conversationFactory.withFirstPrompt(new QuestionAskConversation()).withModality(false)
-                  .withLocalEcho(false).withPrefix(conversationPrefix).buildConversation(player);
-          conversation.begin();
-          Main.ACTIVE_QUESTION_CONVERSATIONS.put(player.getUniqueId().toString(), conversation);
+          ErenosInput.menu(player, shop.getQuestion()).onSubmit(Util::validateQuestion).request();
         } else {
           player.openInventory(Inventories.getUserPanel(shop, player));
           Main.BUYING_PLAYERS.put(player.getName(), shop.getID());
@@ -138,10 +125,6 @@ public class Util {
     Main.BUYING_PLAYERS.remove(name);
   }
 
-  public static void finishQuestionSession(final String name) {
-    Main.ACTIVE_QUESTION_CONVERSATIONS.remove(name);
-  }
-
   public static void setNewShopPrice(final @NotNull Player player, final double price) {
     final double roundedprice = round(price);
     final Shop shop = Main.LOADED_SHOPS.get(Main.ADMIN_PANEL_USER.get(player.getName()));
@@ -151,7 +134,7 @@ public class Util {
     player.sendMessage(Lang.NEW_PRICE + roundedprice);
   }
 
-  public static void setNewShopQuestion(final @NotNull Player player, final String question) {
+  public static void setNewShopQuestion(final @NotNull Player player, final @Nullable String question) {
     final Shop shop = Main.LOADED_SHOPS.get(Main.ADMIN_PANEL_USER.get(player.getName()));
     shop.setQuestion(question);
     FileManager.saveSpecificShopToFile(Main.ADMIN_PANEL_USER.get(player.getName()));
@@ -159,24 +142,18 @@ public class Util {
     player.sendMessage(Lang.NEW_QUESTION + question);
   }
 
-  public static void validateQuestion(final @NotNull Player player, final @NotNull String input) {
-    if (input.equalsIgnoreCase("ende")) {
-      player.sendMessage(Lang.ACTION_ESCAPED);
-      finishQuestionSession(player.getName());
-      return;
-    }
+  public static void validateQuestion(final @NotNull Player player, final @Nullable String input) {
     final Shop shop = Main.LOADED_SHOPS.get(Main.BUYING_PLAYERS.get(player.getName()));
-    if (input.equalsIgnoreCase(shop.getQuestionAnswer())) {
+    if (input != null && input.equalsIgnoreCase(shop.getQuestionAnswer())) {
       player.openInventory(Inventories.getUserPanel(shop, player));
       player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 0.5F, 1.3F);
     } else {
       player.sendMessage(Lang.ERROR_WRONG_QUESTION_ANSWER);
       player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 0.5F, 0.8F);
     }
-    finishQuestionSession(player.getName());
   }
 
-  public static void setNewShopQuestionAnswer(final @NotNull Player player, final String answer) {
+  public static void setNewShopQuestionAnswer(final @NotNull Player player, final @Nullable String answer) {
     final Shop shop = Main.LOADED_SHOPS.get(Main.ADMIN_PANEL_USER.get(player.getName()));
     shop.setQuestionAnswer(answer);
     FileManager.saveSpecificShopToFile(Main.ADMIN_PANEL_USER.get(player.getName()));
@@ -335,7 +312,7 @@ public class Util {
       finishBuySession(player.getName());
       return;
     }
-    if (shop.getPrice() == 0 || Erenos.getInstance().getEconomyService()
+    if (shop.getPrice() == 0 || Erenos.instance().economyService()
         .withdraw(player.getUniqueId(), shop.getPrice(), "Einkauf: " + shop.getShopName()) ==
         TransactionResult.SUCCESS) {
       shop.addTransaction(player);
@@ -528,7 +505,7 @@ public class Util {
   }
 
   public static boolean hasEnoughMoney(final @NotNull Shop shop, final Player player) {
-    return Erenos.getInstance().getEconomyService().hasBalance(player.getUniqueId(), shop.getPrice());
+    return Erenos.instance().economyService().hasBalance(player.getUniqueId(), shop.getPrice());
   }
 
   public static void sendHelpMenu(final @NotNull Player player) {

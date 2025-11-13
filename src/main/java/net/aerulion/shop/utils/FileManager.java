@@ -89,7 +89,6 @@ public class FileManager {
       Main.LOADED_SHOPS.clear();
       Main.ADMIN_PANEL_USER.clear();
       Main.BUYING_PLAYERS.clear();
-      Main.ACTIVE_QUESTION_CONVERSATIONS.clear();
       Main.LOADED_PREFIXES.clear();
       loadPrefixes();
       loadAllShopFiles();
