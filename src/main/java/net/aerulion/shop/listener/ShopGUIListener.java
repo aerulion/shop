@@ -106,8 +106,8 @@ public class ShopGUIListener implements Listener {
             }
             if (e.getCurrentItem().getType() == Material.OAK_SIGN) {
               e.getWhoClicked().closeInventory();
-              ErenosInput.menu((Player) e.getWhoClicked(), "Gib den neuen Namen ein:").onSubmit(Util::setNewShopName)
-                  .request();
+              ErenosInput.menu((Player) e.getWhoClicked(), "Gib den neuen Namen ein:").maxLength(256)
+                  .onSubmit(Util::setNewShopName).request();
             }
             if (e.getCurrentItem().getType() == Material.COMMAND_BLOCK) {
               e.getWhoClicked().closeInventory();
@@ -154,10 +154,10 @@ public class ShopGUIListener implements Listener {
               if (e.getClick() == ClickType.DROP) {
                 Util.resetShopQuestion((Player) e.getWhoClicked());
               } else if (e.getClick() == ClickType.RIGHT) {
-                ErenosInput.menu((Player) e.getWhoClicked(), "Gib die neue Antwort ein:")
+                ErenosInput.menu((Player) e.getWhoClicked(), "Gib die neue Antwort ein:").maxLength(512)
                     .onSubmit(Util::setNewShopQuestionAnswer).request();
               } else {
-                ErenosInput.menu((Player) e.getWhoClicked(), "Gib die neue Frage ein:")
+                ErenosInput.menu((Player) e.getWhoClicked(), "Gib die neue Frage ein:").maxLength(512)
                     .onSubmit(Util::setNewShopQuestion).request();
               }
             }
