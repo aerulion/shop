@@ -36,7 +36,7 @@ tasks {
 }
 
 group = "net.aerulion"
-version = "1.7.1"
+version = "1.7.2"
 
 bukkit {
     name = "Shop"

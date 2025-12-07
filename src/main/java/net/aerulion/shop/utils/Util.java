@@ -44,7 +44,7 @@ public class Util {
         if (shop.getQuestion() != null && shop.getQuestionAnswer() != null) {
           Main.BUYING_PLAYERS.put(player.getName(), shop.getID());
           player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 0.5F, 1.3F);
-          ErenosInput.menu(player, shop.getQuestion()).onSubmit(Util::validateQuestion).request();
+          ErenosInput.menu(player, shop.getQuestion()).maxLength(512).onSubmit(Util::validateQuestion).request();
         } else {
           player.openInventory(Inventories.getUserPanel(shop, player));
           Main.BUYING_PLAYERS.put(player.getName(), shop.getID());

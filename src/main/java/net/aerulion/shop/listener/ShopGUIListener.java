@@ -101,7 +101,7 @@ public class ShopGUIListener implements Listener {
             if (e.getCurrentItem().getType() == Material.ENCHANTED_BOOK) {
               e.getWhoClicked().closeInventory();
               ErenosInput.menu((Player) e.getWhoClicked(),
-                      "Gib die neue Permission ein. Das 'shop.' wird automatisch an den Anfang hinzugefügt:")
+                      "Gib die neue Permission ein. Das 'shop.' wird automatisch an den Anfang hinzugefügt:").maxLength(128)
                   .validate(s -> !s.contains(" ")).onSubmit(Util::setNewShopPermission).request();
             }
             if (e.getCurrentItem().getType() == Material.OAK_SIGN) {
