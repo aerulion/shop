@@ -10,6 +10,7 @@ java {
 }
 
 repositories {
+    mavenLocal()
     maven("https://repo.papermc.io/repository/maven-public/")
     maven {
         url = uri("https://maven.pkg.github.com/aerulion/erenos")
@@ -19,7 +20,7 @@ repositories {
 
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.21.10-R0.1-SNAPSHOT")
-    compileOnly("net.aerulion:erenos:3.10.0")
+    compileOnly("net.aerulion:erenos:3.11.4")
 }
 
 tasks {
@@ -36,7 +37,7 @@ tasks {
 }
 
 group = "net.aerulion"
-version = "1.7.2"
+version = "1.7.3"
 
 bukkit {
     name = "Shop"

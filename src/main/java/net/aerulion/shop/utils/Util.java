@@ -14,6 +14,7 @@ import net.aerulion.erenos.item.stack.ErenosItemStack;
 import net.aerulion.erenos.menu.input.ErenosInput;
 import net.aerulion.erenos.utils.chat.ChatUtils;
 import net.aerulion.shop.Main;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
@@ -313,7 +314,7 @@ public class Util {
       return;
     }
     if (shop.getPrice() == 0 || Erenos.instance().economyService()
-        .withdraw(player.getUniqueId(), shop.getPrice(), "Einkauf: " + shop.getShopName()) ==
+        .withdraw(player.getUniqueId(), shop.getPrice(), Component.text("Einkauf: " + shop.getShopName())) ==
         TransactionResult.SUCCESS) {
       shop.addTransaction(player);
       shop.addTimesUsed();
