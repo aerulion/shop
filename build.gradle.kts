@@ -1,10 +1,11 @@
 plugins {
     `java-library`
+    id("io.papermc.paperweight.userdev") version "2.0.0-SNAPSHOT"
     id("de.eldoria.plugin-yml.bukkit") version "0.8.0"
 }
 
 java {
-    toolchain.languageVersion.set(JavaLanguageVersion.of(21))
+    toolchain.languageVersion.set(JavaLanguageVersion.of(25))
     withSourcesJar()
     withJavadocJar()
 }
@@ -14,19 +15,24 @@ repositories {
     maven("https://repo.papermc.io/repository/maven-public/")
     maven {
         url = uri("https://maven.pkg.github.com/aerulion/erenos")
-        name = "github-packages"
+        credentials {
+            username = project.findProperty("gpr.user") as String? ?: "aerulion"
+            password = project.findProperty("gpr.key") as String? ?: System.getenv("token_erenos")
+        }
     }
 }
 
+paperweight.reobfArtifactConfiguration = io.papermc.paperweight.userdev.ReobfArtifactConfiguration.MOJANG_PRODUCTION
+
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:1.21.10-R0.1-SNAPSHOT")
-    compileOnly("net.aerulion:erenos:3.11.4")
+    paperweight.paperDevBundle("1.21.11-R0.1-SNAPSHOT")
+    compileOnly("net.aerulion:erenos:3.15.0")
 }
 
 tasks {
     compileJava {
         options.encoding = Charsets.UTF_8.name()
-        options.release.set(21)
+        options.release.set(25)
     }
     javadoc {
         options.encoding = Charsets.UTF_8.name()
@@ -37,14 +43,14 @@ tasks {
 }
 
 group = "net.aerulion"
-version = "1.7.3"
+version = "1.7.4"
 
 bukkit {
     name = "Shop"
     main = "net.aerulion.shop.Main"
     version = getVersion().toString()
     author = "aerulion"
-    apiVersion = "1.21.10"
+    apiVersion = "1.21.11"
     depend = listOf("Erenos")
     softDepend = listOf("Multiverse-Core")
     commands {

@@ -396,9 +396,9 @@ public class Util {
     }
 
     if (count > 10) {
-      ChatUtils.sendCenteredChatMessage(player,
+      ChatUtils.sendCenteredMessage(player,
           LegacyComponentSerializer.legacyAmpersand().deserialize("&9&m                            "));
-      ChatUtils.sendCenteredChatMessage(player, LegacyComponentSerializer.legacyAmpersand()
+      ChatUtils.sendCenteredMessage(player, LegacyComponentSerializer.legacyAmpersand()
           .deserialize("&7&lSeite &a&l" + currentPage + "&7/&a&l" + (int) Math.ceil(count / 10D)));
       final @NotNull TextComponent pageButtons = new TextComponent("                           ");
       if (currentPage == 1) {
@@ -423,12 +423,12 @@ public class Util {
         pageButtons.addExtra(forward);
       }
       player.spigot().sendMessage(pageButtons);
-      ChatUtils.sendCenteredChatMessage(player,
+      ChatUtils.sendCenteredMessage(player,
           LegacyComponentSerializer.legacyAmpersand().deserialize("&9&m                            "));
       player.sendMessage("");
     }
     player.sendMessage("");
-    ChatUtils.sendCenteredChatMessage(player, LegacyComponentSerializer.legacyAmpersand()
+    ChatUtils.sendCenteredMessage(player, LegacyComponentSerializer.legacyAmpersand()
         .deserialize("&a&l>> &7Aktuell sind &a" + count + "&7 Shops geladen."));
     player.sendMessage("§9§m                                                                               ");
   }

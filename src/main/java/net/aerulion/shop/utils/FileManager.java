@@ -25,7 +25,7 @@ public class FileManager {
     final @NotNull FileConfiguration cfg = YamlConfiguration.loadConfiguration(shopToLoad);
     Main.LOADED_SHOPS.put(shopToLoad.getName().substring(0, shopToLoad.getName().length() - 4),
         new Shop(deserializeTransactionDates(cfg.getStringList("TransactionDates")),
-            Base64Utils.decodeItemStackListNBT(cfg.getStringList("ItemsForSale")), cfg.getDouble("Price"),
+            Base64Utils.decodeItemStacks(cfg.getStringList("ItemsForSale")), cfg.getDouble("Price"),
             cfg.getLong("Cooldown"), cfg.getBoolean("Virtual") ? null :
             new Location(Bukkit.getWorld(cfg.getString("Location.World")), cfg.getDouble("Location.X"),
                 cfg.getDouble("Location.Y"), cfg.getDouble("Location.Z")),
