@@ -5,6 +5,7 @@ import net.aerulion.shop.Main;
 import net.aerulion.shop.utils.Lang;
 import net.aerulion.shop.utils.Shop;
 import net.aerulion.shop.utils.Util;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -64,7 +65,7 @@ public class ShopGUIListener implements Listener {
             e.setCancelled(true);
             if (e.getCurrentItem().getType() == Material.GOLD_INGOT) {
               e.getWhoClicked().closeInventory();
-              ErenosInput.menu((Player) e.getWhoClicked(), "Gib den neuen Preis ein:").validate(s -> {
+              ErenosInput.menu((Player) e.getWhoClicked(), Component.text("Gib den neuen Preis ein:")).validate(s -> {
                 try {
                   Double.parseDouble(s);
                   return true;
@@ -80,7 +81,7 @@ public class ShopGUIListener implements Listener {
             if (e.getCurrentItem().getType() == Material.CLOCK) {
               e.getWhoClicked().closeInventory();
               ErenosInput.menu((Player) e.getWhoClicked(),
-                      "Gib das neue Limit ein. Nutze das Format Tage:Stunden oder -Anzahl:")
+                      Component.text("Gib das neue Limit ein. Nutze das Format Tage:Stunden oder -Anzahl:"))
                   .validate(Util::checkCooldownPattern).onSubmit(Util::setNewShopCooldown).request();
             }
             if (e.getCurrentItem().getType() == Material.STRUCTURE_VOID) {
@@ -100,13 +101,13 @@ public class ShopGUIListener implements Listener {
             }
             if (e.getCurrentItem().getType() == Material.ENCHANTED_BOOK) {
               e.getWhoClicked().closeInventory();
-              ErenosInput.menu((Player) e.getWhoClicked(),
-                      "Gib die neue Permission ein. Das 'shop.' wird automatisch an den Anfang hinzugefügt:").maxLength(128)
-                  .validate(s -> !s.contains(" ")).onSubmit(Util::setNewShopPermission).request();
+              ErenosInput.menu((Player) e.getWhoClicked(), Component.text(
+                      "Gib die neue Permission ein. Das 'shop.' wird automatisch an den Anfang hinzugefügt:"))
+                  .maxLength(128).validate(s -> !s.contains(" ")).onSubmit(Util::setNewShopPermission).request();
             }
             if (e.getCurrentItem().getType() == Material.OAK_SIGN) {
               e.getWhoClicked().closeInventory();
-              ErenosInput.menu((Player) e.getWhoClicked(), "Gib den neuen Namen ein:").maxLength(256)
+              ErenosInput.menu((Player) e.getWhoClicked(), Component.text("Gib den neuen Namen ein:")).maxLength(256)
                   .onSubmit(Util::setNewShopName).request();
             }
             if (e.getCurrentItem().getType() == Material.COMMAND_BLOCK) {
@@ -129,8 +130,8 @@ public class ShopGUIListener implements Listener {
                 }
                 Util.finishAdminSession(e.getWhoClicked().getName());
               } else {
-                ErenosInput.menu((Player) e.getWhoClicked(),
-                        "Gib den zu hinzufügenden Befehl ein. Das / wird automatisch hinzugefügt. Folgende Variablen sind verfügbar: %player% %shopname%:")
+                ErenosInput.menu((Player) e.getWhoClicked(), Component.text(
+                        "Gib den zu hinzufügenden Befehl ein. Das / wird automatisch hinzugefügt. Folgende Variablen sind verfügbar: %player% %shopname%:"))
                     .onSubmit(Util::setNewShopCommands).request();
               }
             }
@@ -154,10 +155,10 @@ public class ShopGUIListener implements Listener {
               if (e.getClick() == ClickType.DROP) {
                 Util.resetShopQuestion((Player) e.getWhoClicked());
               } else if (e.getClick() == ClickType.RIGHT) {
-                ErenosInput.menu((Player) e.getWhoClicked(), "Gib die neue Antwort ein:").maxLength(512)
+                ErenosInput.menu((Player) e.getWhoClicked(), Component.text("Gib die neue Antwort ein:")).maxLength(512)
                     .onSubmit(Util::setNewShopQuestionAnswer).request();
               } else {
-                ErenosInput.menu((Player) e.getWhoClicked(), "Gib die neue Frage ein:").maxLength(512)
+                ErenosInput.menu((Player) e.getWhoClicked(), Component.text("Gib die neue Frage ein:")).maxLength(512)
                     .onSubmit(Util::setNewShopQuestion).request();
               }
             }

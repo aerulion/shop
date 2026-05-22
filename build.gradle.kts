@@ -26,7 +26,7 @@ paperweight.reobfArtifactConfiguration = io.papermc.paperweight.userdev.ReobfArt
 
 dependencies {
     paperweight.paperDevBundle("1.21.11-R0.1-SNAPSHOT")
-    compileOnly("net.aerulion:erenos:3.15.0")
+    compileOnly("net.aerulion:erenos:3.17.2")
 }
 
 tasks {
@@ -43,7 +43,7 @@ tasks {
 }
 
 group = "net.aerulion"
-version = "1.7.4"
+version = "1.7.5"
 
 bukkit {
     name = "Shop"
