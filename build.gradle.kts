@@ -1,7 +1,7 @@
 plugins {
     `java-library`
     id("io.papermc.paperweight.userdev") version "2.0.0-SNAPSHOT"
-    id("de.eldoria.plugin-yml.bukkit") version "0.8.0"
+    id("de.eldoria.plugin-yml.bukkit") version "0.9.0"
 }
 
 java {
@@ -22,11 +22,9 @@ repositories {
     }
 }
 
-paperweight.reobfArtifactConfiguration = io.papermc.paperweight.userdev.ReobfArtifactConfiguration.MOJANG_PRODUCTION
-
 dependencies {
-    paperweight.paperDevBundle("1.21.11-R0.1-SNAPSHOT")
-    compileOnly("net.aerulion:erenos:3.17.2")
+    paperweight.paperDevBundle("26.2.build.+")
+    compileOnly("net.aerulion:erenos:4.+")
 }
 
 tasks {
@@ -43,14 +41,14 @@ tasks {
 }
 
 group = "net.aerulion"
-version = "1.7.5"
+version = "1.7.6"
 
 bukkit {
     name = "Shop"
     main = "net.aerulion.shop.Main"
     version = getVersion().toString()
     author = "aerulion"
-    apiVersion = "1.21.11"
+    apiVersion = "26.2"
     depend = listOf("Erenos")
     softDepend = listOf("Multiverse-Core")
     commands {

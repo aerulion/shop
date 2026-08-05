@@ -9,7 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import net.aerulion.erenos.Erenos;
-import net.aerulion.erenos.economy.TransactionResult;
+import net.aerulion.erenos.economy.EconomyAmount;
+import net.aerulion.erenos.economy.transaction.result.TransactionResult;
 import net.aerulion.erenos.item.stack.ErenosItemStack;
 import net.aerulion.erenos.menu.input.ErenosInput;
 import net.aerulion.erenos.utils.chat.ChatUtils;
@@ -315,8 +316,8 @@ public class Util {
       return;
     }
     if (shop.getPrice() == 0 || Erenos.instance().economyService()
-        .withdraw(player.getUniqueId(), shop.getPrice(), Component.text("Einkauf: " + shop.getShopName())) ==
-        TransactionResult.SUCCESS) {
+        .withdraw(player.getUniqueId(), EconomyAmount.of(shop.getPrice()),
+            Component.text("Einkauf: " + shop.getShopName())) == TransactionResult.SUCCESS) {
       shop.addTransaction(player);
       shop.addTimesUsed();
       giveItemToPlayer(shop, player);
@@ -507,7 +508,7 @@ public class Util {
   }
 
   public static boolean hasEnoughMoney(final @NotNull Shop shop, final Player player) {
-    return Erenos.instance().economyService().hasBalance(player.getUniqueId(), shop.getPrice());
+    return Erenos.instance().economyService().hasBalance(player.getUniqueId(), EconomyAmount.of(shop.getPrice()));
   }
 
   public static void sendHelpMenu(final @NotNull Player player) {
