@@ -508,7 +508,8 @@ public class Util {
   }
 
   public static boolean hasEnoughMoney(final @NotNull Shop shop, final Player player) {
-    return Erenos.instance().economyService().hasBalance(player.getUniqueId(), EconomyAmount.of(shop.getPrice()));
+    return Erenos.instance().economyService().checkBalance(player.getUniqueId(), EconomyAmount.of(shop.getPrice()))
+        .sufficient();
   }
 
   public static void sendHelpMenu(final @NotNull Player player) {
